@@ -1,25 +1,85 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
+import { Route, Switch } from 'react-router-dom';
+import { ConnectedRouter as Router } from 'connected-react-router';
+import { ToastContainer } from 'react-toastify';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { history } from './redux';
+import { userIsAuthenticated, userIsNotAuthenticated } from './hoc/authentication';
+import { path } from './utils';
+import Home from './routes/Home';
+import Login from './Auth/Login';
+import HomePage from './pages/home';
+import CustomScrollbars from './components/CustomScrollbars';
+import Layout from './layout/defaultLayout';
+
+class App extends Component {
+    handlePersistorState = () => {
+        const { persistor } = this.props;
+        let { bootstrapped } = persistor.getState();
+        if (bootstrapped) {
+            if (this.props.onBeforeLift) {
+                Promise.resolve(this.props.onBeforeLift())
+                    .then(() => this.setState({ bootstrapped: true }))
+                    .catch(() => this.setState({ bootstrapped: true }));
+            } else {
+                this.setState({ bootstrapped: true });
+            }
+        }
+    };
+
+    componentDidMount() {
+        this.handlePersistorState();
+    }
+
+    render() {
+        return (
+            <Fragment>
+                <Router history={history}>
+                    <div className="main-container">
+                        <div className="content-container">
+                            <CustomScrollbars style={{ height: '100vh', width: '100%' }}>
+                                <Switch>
+                                    <Route path={path.LOGIN} component={userIsNotAuthenticated(Login)} />
+                                    <Route
+                                        path={path.HOMEPAGE}
+                                        render={(props) => (
+                                            <Layout>
+                                                <HomePage {...props} />
+                                            </Layout>
+                                        )}
+                                    />
+                                </Switch>
+                            </CustomScrollbars>
+                        </div>
+                        <ToastContainer
+                            position="bottom-right"
+                            autoClose={5000}
+                            hideProgressBar={false}
+                            newestOnTop={false}
+                            closeOnClick
+                            rtl={false}
+                            pauseOnFocusLoss
+                            draggable
+                            pauseOnHover
+                            theme="light"
+                        />
+                    </div>
+                </Router>
+            </Fragment>
+        );
+    }
 }
 
-export default App;
+const mapStateToProps = (state) => {
+    return {
+        started: state.app.started,
+        isLoggedIn: state.user.isLoggedIn,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -1,0 +1,23 @@
+
+.p-dialog{
+    overflow: hidden;
+    margin-top: 20px;
+    background-color: white;
+    .p-dialog-header{
+        padding: 20px;
+    }
+    .p-dialog-content{
+        padding: 0 20px 28px;
+        .p-confirm-dialog-message{
+            padding-left: 14px;
+        }
+    }
+    .p-dialog-footer {
+        padding: 0 20px 28px;
+        .p-confirm-dialog-reject,.p-confirm-dialog-accept{
+            padding: 10px 18px;
+            margin-right: 8px;
+            border-radius: 6px;
+        }
+    }
+}

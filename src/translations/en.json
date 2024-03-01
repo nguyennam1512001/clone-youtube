@@ -1,0 +1,221 @@
+{
+    "home-header": {
+        "speciality": "Specialties",
+        "searchdoctor": "Find doctors by specialty",
+        "health-facility": "Medical facility",
+        "choose-hospital": "Choose a hospital or clinic",
+        "doctor": "Doctor",
+        "choose-doctor": "Choose a qualified doctor",
+        "examination-package": "Check-up Package",
+        "general-check": "General Health Check",
+        "help": "Support",
+        "welcome": "Welcome, "
+    },
+    "banner":{
+        "title": "MEDICAL FOUNDATION",
+        "sub-title": "COMPREHENSIVE HEALTHCARE",
+        "child1": "Specialized Examination",
+        "child2": "Remote Examination",
+        "child3": "General Examination",
+        "child4": "Medical Tests",
+        "child5": "Mental Health",
+        "child6": "Dental Examination"
+    },
+    "specialty":{
+        "specialist": "Specialist",
+        "musculoskeletal": "Musculoskeletal",
+        "nerve": "Nerve",
+        "digestion":"Digestion",
+        "heart":"Heart",
+        "ear-nose-throat":"Ear, nose and throat",
+        "spine":"Spine",
+        "traditional-medicine":"Traditional medicine"
+    },
+    "healthFacility":{
+        "healthFacility":"Health facilities",
+        "viet-duc":"Viet Duc Friendship Hospital",
+        "cho-ray":"Cho Ray Hospital",
+        "doctor-check":"Doctor Check - Screening for Diseases to Live Longer",
+        "dai-hoc-y":"Clinic of University of Medicine and Pharmacy Hospital 1",
+        "108":"Center for Periodic Health Examination, 108 Central Military Hospital",
+        "hung-viet":"Hung Viet Oncology Hospital",
+        "MEDLATEC":"MEDLATEC medical system"
+    },
+    "outstandingDoctor":{
+        "title":"Outstanding Doctor"
+    },
+    "handBook":{
+        "handBook": "Handbook",
+        "description1":"Answer: Current IVF success rate",
+        "description2":"Should I be examined at Ngan Phuong Dental Clinic? Service strengths? Expense?",
+        "description3":"Methods of rehabilitation of hemiplegia due to stroke",
+        "description4":"Detailed review of Ngoc Lan Obstetrics and Gynecology Clinic",
+        "description5":"",
+        "description6":"",
+        "description7":""
+    },
+    "about":{
+        "title":"Media talks about BookingCare"
+    },
+    "common": {
+        "add": "Add",
+        "edit": "Edit",
+        "delete": "Delete",
+        "decentralize": "Decentralize",
+        "close": "Close",
+        "save": "Save",
+        "refresh": "Refresh",
+        "accept": "Accept",
+        "confirm": "Confirm",
+        "confirm-this-task": "Are you sure to process this task?",
+        "fail-to-load-data": "Fail to load data",
+        "unknown-error": "There was an error",
+        "internal-server-error": "Internal server error",
+        "bad-request": "Bad request",
+        "forbiden-request": "Invalid input data",
+        "fail-to-load-all-code": "Fail to load data from allcode",
+        "sum": "Sum",
+        "date-range-invalid": "Date range invalid",
+        "see-more": "See more"
+    },
+    "login": {
+        "login": "Login",
+        "username": "Username",
+        "password": "Password",
+        "userpass-wrong": "Invalid username or password!"
+    },
+    "menu": {
+        "system": {
+            "header": "System",
+            "system-administrator": {
+                "header": "System Administrator",
+                "user-manage": "User manage",
+                "user-redux": "Package manage using redux",
+                "register-package-group-or-account": "Register service package for group/account"
+            },
+            "system-parameter": {
+                "header": "System-parameter"
+            }
+        },
+        "admin":{
+            "manage-user":"User",
+            "manage-doctor":"Doctor management",
+            "manage-admin":"Admin management",
+            "crud": "CRUD user",
+            "crud-redux": "CRUD redux",
+            "clinic": "Clinic",
+            "manage-clinic":"Clinic management",
+            "specialty":"specialty",
+            "manage-specialty": "specialty management",
+            "handbook":"Handbook",
+            "manage-handbook": "Handbook management"
+        },
+        "doctor":{
+            "manage-schedule": "Manage Doctor's schedule"
+        }
+    },
+    "manage-user":{
+        "add":"Add a new user",
+        "email":"Email",
+        "password":"Password",
+        "firstName":"First name",
+        "lastName":"Last name",
+        "mobile": "Phone number",
+        "address":"Address",
+        "gender":"Gender",
+        "position":"Position",
+        "role": "Role",
+        "image": "Avatar",
+        "upload-file":"Upload file",
+        "save":"Save user",
+        "save-changes":"Save changes",
+        "edit":"Edit",
+        "delete":"Delete",
+        "confirmDelete":"Are you sure you want to delete this user?",
+        "cancel":"Cancel"
+    },
+    "system": {
+        "user-manage": {
+            "fail-to-load-fouser": "Fail to load system users list",
+            "user-id": "User ID",
+            "usertype": "User type",
+            "username": "Username",
+            "fullname": "Fullname",
+            "mobile": "Phone",
+            "email": "Email",
+            "status": "Status",
+            "add-user": "Add user",
+            "edit-user": "Edit user information",
+            "password": "Password",
+            "retype-password": "Retype password",
+            "add-user-success": "Add user successfully",
+            "edit-user-success": "Change user information successfully",
+            "add-user-fail": "Fail to add user",
+            "edit-user-fail": "Fail to change user information",
+            "del-user-success": "Delete user successfully",
+            "del-user-fail": "Fail to delete user",
+            "invalid-input": {
+                "username": "Please fill in username",
+                "fullname": "Please fill in fullname",
+                "password": "Please fill in password"
+            },
+            "sure-delete-user": "Are you sure to delete this user?"
+        },
+        "product-manage": {
+            "fail-to-load-foprtype": "Fail to load packages list",
+            "prid": "Package ID",
+            "prname": "Package name",
+            "prtype": "Package type",
+            "status": "Status",
+            "description": "Description",
+            "effective-date": "Effective date",
+            "expiration-date": "Expiration date",
+            "add-product": "Add package",
+            "add-product-success": "Add package successfully",
+            "add-product-fail": "Fail to add package",
+            "edit-product": "Edit package information",
+            "package-decentralize": "Package decentralize",
+            "edit-product-success": "Edit package information successfully",
+            "edit-product-fail": "Fail to edit package information",
+            "delete-product-success": "Delete package successfully",
+            "delete-product-fail": "Fail to delete package",
+            "invalid-input": {
+                "prid": "Please fill in package ID",
+                "prname": "Please fill in package name"
+            },
+            "fail-to-load-decentralize-info": "Fail to load decentralize info",
+            "save-decentralize-success": "Save decentralization successfully",
+            "save-decentralize-fail": "Fail to save decentralization",
+            "sure-delete-package": "Are you sure to delete this package?"
+        },
+        "register-package-group-or-acc": {
+            "assign-service-package-to-customer": "Assign service package to customer",
+            "package-name": "Package name",
+            "assign-type": "Assign type",
+            "cust-acc-group": "Customer/account group",
+            "effective-date": "Effective date",
+            "expiration-date": "Expiration date",
+            "assign": "Assign",
+            "manage-assign-groups": "Manage assign groups",
+            "group-cust-acc-name": "Group/customer account name",
+            "del-assign": "Del assign",
+            "fail-to-load-manage-assign-groups-list": "Fail to load manage assign groups list",
+            "invalid-selected": {
+                "currentfoProduct": "Invalid package",
+                "currentAssignType": "Invalid assign type",
+                "currentFoUser": "Invalid customer/account group"
+            },
+            "assign-service-package-to-customer-success": "Assign service package to customer successfully",
+            "assign-service-package-to-customer-fail": "Fail to assign service package to customer",
+            "remove-assign-success": "Unassign service package to customer successfully",
+            "remove-assign-fail": "Fail to unassign service package to customer",
+            "sure-delete-assign": "Are you sure to unassign service package to customer?"
+        }
+    },
+    "manage-schedule":{
+        "title": "Manage Doctor's schedule",
+        "choose-doctor":"Choose a doctor",
+        "choose-day": "Select date",
+        "save": "Save information"
+    }
+}

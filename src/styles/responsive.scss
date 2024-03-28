@@ -1,0 +1,17 @@
+@media (min-width:875px) and (max-width:1023px) {
+    .hidden_tablet_l {
+        display: none !important;
+    }
+}
+
+@media (min-width:589px) and (max-width:874px) {
+    .hidden_tablet {
+        display: none !important;
+    }
+}
+
+@media (max-width:588px) {
+    .hidden_mobile {
+        display: none !important;
+    }
+}

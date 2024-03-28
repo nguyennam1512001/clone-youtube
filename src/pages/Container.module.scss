@@ -1,0 +1,20 @@
+@import '../styles/styles.scss';
+
+.page_manager {
+    margin-top : $header-height;
+    margin-left: $--sidebar-width;
+}
+
+.page_manager.sidebar_mini {
+    margin-left: $--sidebar-mini-width;
+}
+
+.page_manager.sidebar_modal {
+    margin-left: $--sidebar-mini-width;
+
+}
+
+.page_manager.sidebar_mini_hiden {
+    margin-left: 0 !important;
+
+}

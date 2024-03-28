@@ -1,0 +1,17 @@
+@import'../styles/styles.scss';
+
+.popup {
+    position: absolute;
+    top     : calc(100% + 2px);
+    z-index : 2021;
+
+    .wrap {
+        background-color  : $--yt-spec-base-background;
+        border-radius     : 12px;
+        border            : 1px solid #cccc;
+        -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        cursor            : default;
+        overflow-y        : auto;
+
+    }
+}

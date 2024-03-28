@@ -1,5 +1,221 @@
 @import "../../../styles/styles.scss";
 
-.sidebar_bg {
-    width: $sidebar-bg-width;
+.active {
+    background-color: #f2f2f2;
+}
+
+.sidebar_lg.scrim {
+    z-index: 2025;
+}
+
+.sidebar_lg.not_modal.is_mini {
+    display: none;
+}
+
+.sidebar_lg.is_mini {
+    left: -$--sidebar-width;
+}
+
+.sidebar_lg {
+    position        : fixed;
+    z-index         : 2005;
+    top             : 0%;
+    left            : 0;
+    background-color: white;
+    transition      : left linear .2s;
+
+    .scrim {
+        position        : fixed;
+        z-index         : -1;
+        top             : 0;
+        right           : 0;
+        bottom          : 0;
+        left            : 0;
+        transform       : translateZ(0);
+        opacity         : 1;
+        background-color: rgba(0, 0, 0, 0.5);
+        transition      : opacity linear 0.2s;
+        height          : 100vh;
+    }
+
+    .scrim.is_lg {
+        opacity : 0;
+        position: absolute;
+    }
+
+    .contentContainer {
+        width           : $--sidebar-width;
+        background-color: white;
+
+        .wrap {
+
+            .space {
+                margin-top: $header-height;
+            }
+
+            .header {
+                padding-left: 16px;
+                height      : $header-height;
+            }
+
+            .content {
+                height: calc(100vh - $header-height);
+
+
+                .inner_content {
+
+                    .renderer {
+
+                        .sections {
+                            .login_renderer {
+                                display: inline-block;
+                                padding: 16px 32px;
+
+                                .login_desc {
+                                    display    : block;
+                                    color      : $--yt-spec-text-primary;
+                                    font-family: "Roboto", "Arial", sans-serif;
+                                    font-size  : 1.4rem;
+                                    line-height: 2rem;
+                                    font-weight: 400;
+                                }
+
+                                .login_button {
+                                    margin-top   : 12px;
+                                    display      : inline-block;
+                                    border-radius: 100px;
+                                    border       : 1px solid #E5E5E5;
+
+                                    &:hover {
+                                        background-color: #def1ff;
+                                    }
+                                }
+                            }
+
+                            .section_renderer {
+                                &.none {
+                                    display: none;
+                                }
+
+                                padding      : 12px;
+                                border-bottom: 1px solid #e5e5e5;
+
+                                h3 {
+                                    display    : flex;
+                                    align-items: center;
+                                    padding    : 0 12px;
+
+                                    .section_title {
+                                        font-size         : 1.6rem;
+                                        line-height       : 2.2rem;
+                                        font-weight       : 500;
+                                        overflow          : hidden;
+                                        max-height        : 2.2rem;
+                                        -webkit-line-clamp: 1;
+                                        display           : -webkit-box;
+                                        -webkit-box-orient: vertical;
+                                        text-overflow     : ellipsis;
+                                        white-space       : normal;
+                                    }
+
+                                    .title_icon_shape {
+                                        margin-left: 8px;
+                                        width      : 16px;
+                                        height     : 16px;
+                                    }
+                                }
+
+                                .items {
+
+                                    .entry_renderer {
+                                        width        : calc(100% - 12px);
+                                        border-radius: 10px;
+                                        overflow     : hidden;
+
+                                        &:hover {
+                                            background-color: #f2f2f2;
+                                        }
+
+                                        .link {
+                                            cursor                : pointer;
+                                            display               : flex;
+                                            align-items           : center;
+                                            white-space           : nowrap;
+                                            -webkit-font-smoothing: antialiased;
+                                            font-size             : 16px;
+                                            font-weight           : 400;
+                                            line-height           : 24px;
+                                            min-height            : 40px;
+                                            padding               : 0 12px;
+                                            text-decoration       : none;
+                                        }
+
+                                        &.active {
+                                            &:hover {
+                                                background-color: #e6e6e6;
+                                            }
+                                        }
+
+                                        .icon {
+                                            margin-right: 24px;
+
+                                            .icon_shape {
+                                                width : 24px;
+                                                height: 24px;
+                                                color : $--yt-spec-brand-icon-active;
+                                            }
+                                        }
+
+                                        .text {
+                                            color        : $--yt-spec-text-primary;
+                                            overflow     : hidden;
+                                            white-space  : nowrap;
+                                            text-overflow: ellipsis;
+                                            font-size    : 14px;
+                                            line-height  : 32px;
+                                            font-weight  : 400;
+                                            flex         : 1;
+                                            flex-basis   : 1e-9px;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    .footer {
+
+                        .links_primary,
+                        .links_secondary {
+                            padding: 16px 24px 0;
+
+                            a {
+                                margin-right   : 8px;
+                                display        : inline-block !important;
+                                text-decoration: none;
+                                color          : #606060;
+                                font-size      : 1.3rem;
+                                font-weight    : 500;
+                                line-height    : 1.8rem;
+                            }
+                        }
+
+                        .copyright {
+                            padding: 16px 24px;
+
+                            span {
+                                color      : #909090;
+                                font-family: "Roboto", "Arial", sans-serif;
+                                font-size  : 1.2rem;
+                                line-height: 1.8rem;
+                                font-weight: 400;
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+    }
+
 }

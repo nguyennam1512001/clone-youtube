@@ -1,0 +1,48 @@
+@import'../../../../styles/styles.scss';
+
+.wrap {
+    padding: 0 24px 24px;
+
+    .title {
+        color         : $--yt-spec-text-primary;
+        font-size     : 2.4rem;
+        line-height   : 3.2rem;
+        font-weight   : 400;
+        padding-bottom: 24px;
+    }
+
+    .content {
+        .desc {
+            color         : $--yt-spec-text-secondary;
+            font-size     : 1.4rem;
+            line-height   : 2rem;
+            font-weight   : 400;
+            padding-bottom: 24px;
+
+        }
+
+        .microphone {
+            display        : flex;
+            align-items    : center;
+            justify-content: center;
+
+            .icon {
+                width           : 68px;
+                height          : 68px;
+                background-color: $--yt-spec-10-percent-layer;
+                display         : flex;
+                align-items     : center;
+                justify-content : center;
+                border-radius   : 50%;
+                cursor          : pointer;
+
+                .icon_shape {
+                    width : 40px;
+                    height: 40px;
+                    color : $--yt-spec-text-primary;
+                }
+            }
+        }
+
+    }
+}

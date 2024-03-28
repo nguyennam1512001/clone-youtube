@@ -13,48 +13,34 @@ sans-serif,
 "Segoe UI Emoji",
 "Segoe UI Symbol",
 "Noto Color Emoji";
-$colormain         :#0071ba;
-$colorsub          :#bb8d09;
-$common-text-color :white;
-$common-btn-confirm: #185ba8;
-$common-btn-deny   : #bb8d09;
-$common-error      : #ff9600;
-$common-notify     : greenyellow;
-$common-green      : #00C087;
-$common-red        : #d01a1d;
-$common-white      : #fff;
-$common-orange     : #FFAC42;
-$border            : #ccc;
-$text-in-light     : #181818;
+$--ytd-rich-grid-items-per-row : 3;
 
-$input-focus: #FFAC42;
+// size
+$--app-min-width-pc                : 980px;
+$header-height                     : 56px;
+$--sidebar-width                   : 240px;
+$--sidebar-mini-width              : 72px;
+$--ytd-rich-grid-item-margin       : 16px;
+$--ytd-rich-grid-item-max-width    : 500px;
+$--ytd-chips-bar-width             : calc(100vw - $--sidebar-width);
+$--ytd-chips-bar-mini-width        : calc(100vw - $--sidebar-mini-width);
+$--ytd-rich-grid-content-max-width : calc($--ytd-rich-grid-items-per-row*($--ytd-rich-grid-item-max-width + $--ytd-rich-grid-item-margin) - $--ytd-rich-grid-item-margin);
 
-$footer-container   : #f5f5f5;
-$footer-text        : #262626;
-$footer-next-disable: #ccc;
+// watch-page
+$--ytd-watch-flexy-sidebar-width    : 402px;
+$--ytd-watch-flexy-sidebar-min-width: 300px;
 
-$bg-menu-color   : #f5f5f5;
-$bg-scrollbar    : #000;
-$bg-table-color  : #f5f5f5;
-$box-shadow-color: #0000004d;
-
-
-
-//date picker
-$date-picker-bg             : $common-white;
-$date-picker-border         : darken(#3f4458, 50%);
-$date-picker-arrow-hover    : $common-orange;
-$date-picker-month-fg       : #000;
-$date-picker-month-bg       : $common-white;
-$date-picker-weekdays-fg    : #000;
-$date-picker-weekdays-bg    : transparent;
-$date-picker-day-fg         : #000;
-$date-picker-day-hover-bg   : darken($common-white, 25%);
-$date-picker-today-border   : $common-orange;
-$date-picker-today-bg       : $common-orange;
-$date-picker-today-fg       : #000;
-$date-picker-day-selected-fg: $common-white;
-
-
-$header-height: 56px;
-$sidebar-bg-width: 240px;
+// color
+$--yt-spec-text-primary                   : #0f0f0f;
+$--yt-spec-text-secondary                 :#606060;
+$--yt-spec-text-primary-inverse           : #ffff;
+$--yt-spec-base-background                : #fff;
+$--yt-bg-color-btn-login                  : #def1ff;
+$--yt-spec-badge-chip-background          : rgba(0, 0, 0, 0.05);
+$--yt-spec-static-overlay-background-heavy:rgba(0, 0, 0, 0.8);
+$--yt-spec-base-background                : #ffff;
+$--yt-spec-static-brand-white             : #ffff;
+$--yt-spec-brand-icon-active              : #030303;
+$--yt-spec-icon-inactive                  : #030303;
+$--yt-spec-10-percent-layer               : rgba(0, 0, 0, 0.1);
+$--yt-spec-text-disabled                  : #909090;

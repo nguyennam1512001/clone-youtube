@@ -1,0 +1,91 @@
+@import'../../styles/styles.scss';
+
+
+.channel_icon_tooltips {
+    background-color: #606060;
+    font-size       : 11px;
+    font-weight     : 200;
+    padding         : 8px;
+}
+
+.page_container {
+
+    .browse_results_renderer {
+        display        : flex;
+        justify-content: flex-start;
+        width          : 100%;
+
+        .primary {
+            flex: 1;
+
+            .avatar_link {
+                height         : 36px;
+                margin-top     : 12px;
+                margin-right   : 12px;
+                display        : inline-block;
+                cursor         : pointer;
+                text-decoration: none;
+                color          : $--yt-spec-text-primary;
+
+                .avatar {
+                    background-color    : $--yt-spec-10-percent-layer;
+                    width               : 36px;
+                    height              : 36px;
+                    border-radius       : 50%;
+                    overflow            : hidden;
+                    overflow-clip-margin: content-box;
+                    overflow            : clip;
+
+                    .avatar_img {}
+                }
+            }
+        }
+
+        .secondary {
+            padding   : 24px 24px 0 0;
+            width     : $--ytd-watch-flexy-sidebar-width;
+            min-width : $--ytd-watch-flexy-sidebar-min-width;
+            box-sizing: content-box;
+
+            .grid_renderer {
+                position: relative;
+
+                .header {
+                    .chat_container {
+                        margin-bottom: 24px;
+
+                        .chat {
+
+                            .show_hide_button {
+                                border       : 1px solid #E5E5E5;
+                                border-radius: 50px;
+
+                                &:hover {
+                                    background-color: #E5E5E5;
+                                }
+                            }
+                        }
+                    }
+
+                    .chips_bar {
+                        position: relative;
+
+                        .chips_wrapper {
+                            .chips_content {
+                                height: 50px;
+
+                            }
+                        }
+                    }
+                }
+
+                .contents {
+                    width          : 100%;
+                    display        : flex;
+                    flex-wrap      : wrap;
+                    justify-content: flex-start;
+                }
+            }
+        }
+    }
+}

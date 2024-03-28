@@ -1,0 +1,115 @@
+@import'../../styles/styles.scss';
+
+.showArrow {
+    display: block !important;
+}
+
+.left_arrow_wrap {
+    display: none;
+
+    .left_arrow {
+        position: absolute;
+        left    : 0;
+        top     : 0;
+        height  : 100%;
+        display : flex;
+
+        &::after {
+            background    : linear-gradient(to right, $--yt-spec-base-background 20%, rgba(255, 255, 255, 0) 80%);
+            height        : 100%;
+            width         : 50px;
+            content       : "";
+            pointer-events: none;
+        }
+
+    }
+}
+
+.arrow {
+    display         : flex;
+    align-items     : center;
+    height          : 100%;
+    background-color: $--yt-spec-base-background;
+
+    .arrow_btn {
+        display        : inline-flex;
+        align-items    : center;
+        justify-content: center;
+        width          : 40px;
+        height         : 40px;
+        border-radius  : 50%;
+        cursor         : pointer;
+
+        &:hover {
+            background-color: #e5e5e5;
+        }
+
+        .btn_arrow_shape {
+            width : 24px;
+            height: 24px;
+            color : $--yt-spec-text-primary;
+        }
+    }
+}
+
+
+
+.scroll_container {
+
+    .chips {
+        flex-wrap      : nowrap;
+        display        : flex;
+        padding-left   : 0;
+        margin-bottom  : 0;
+        list-style     : none;
+        scrollbar-width: none;
+
+        li {
+            flex-direction  : row;
+            align-items     : center;
+            justify-content : center;
+            display         : inline-flex;
+            background-color: $--yt-spec-badge-chip-background;
+            margin          : 12px 12px 12px 0;
+            border-radius   : 8px;
+            height          : 32px;
+
+            button {
+                white-space: nowrap;
+                font-size  : 1.4rem;
+                line-height: 2rem;
+                font-weight: 500;
+                color      : $--yt-spec-text-primary;
+
+            }
+        }
+
+        li.selected {
+            background-color: $--yt-spec-text-primary;
+
+            button {
+                color: $--yt-spec-text-primary-inverse;
+            }
+        }
+    }
+}
+
+.right_arrow_wrap {
+    display: none;
+
+    .right_arrow {
+        position: absolute;
+        right   : -1px;
+        top     : 0;
+        height  : 100%;
+        display : flex;
+
+        &::before {
+            background    : linear-gradient(to left, $--yt-spec-base-background 20%, rgba(255, 255, 255, 0) 80%);
+            height        : 100%;
+            width         : 50px;
+            content       : "";
+            pointer-events: none;
+        }
+    }
+}

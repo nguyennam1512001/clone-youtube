@@ -1,0 +1,348 @@
+@import'../../styles/styles.scss';
+
+.channel_icon_tooltips {
+    background-color: #606060;
+    font-size       : 11px;
+    font-weight     : 200;
+    padding         : 8px;
+}
+
+.page_container {
+
+    .browse_results_renderer {
+        display        : flex;
+        flex-direction : row;
+        justify-content: flex-start;
+        width          : 100%;
+
+        .primary {
+            flex: auto;
+
+            .grid_renderer {
+                .header {
+
+                    .chips_bar {
+                        height: 56px;
+
+                        .chips_wrapper {
+                            position        : fixed;
+                            top             : $header-height;
+                            background-color: $--yt-spec-base-background;
+                            z-index         : 2000;
+                            display         : flexbox;
+                            display         : flex;
+                            justify-content : center;
+
+
+                            .chips_content.sibar_mini {
+                                width: $--ytd-chips-bar-mini-width;
+                            }
+
+                            .chips_content.sibar_modal {
+                                width: $--ytd-chips-bar-mini-width;
+                            }
+
+                            .chips_content {
+                                padding: 0 24px;
+                                width  : $--ytd-chips-bar-width;
+                            }
+                        }
+                    }
+                }
+
+                .contents {
+                    width          : 100%;
+                    padding-top    : 24px;
+                    display        : flex;
+                    flex-wrap      : wrap;
+                    justify-content: flex-start;
+
+                    .grid_row {
+                        width          : 100%;
+                        display        : flex;
+                        justify-content: center;
+
+                        .list {
+                            width    : 100%;
+                            max-width: calc($--ytd-rich-grid-content-max-width + $--ytd-rich-grid-item-margin);
+                            margin   : 0 16px;
+                            display  : flex;
+
+                            .item.per_row_1 {
+                                width: calc(100% - $--ytd-rich-grid-item-margin - 0.01px);
+                            }
+
+                            .item.per_row_2 {
+                                width: calc(100% / 2 - $--ytd-rich-grid-item-margin - 0.01px);
+                            }
+
+                            .item.per_row_3 {
+                                width: calc(100% / 3 - $--ytd-rich-grid-item-margin - 0.01px);
+                            }
+
+                            .item.per_row_4 {
+                                width: calc(100% / 4 - $--ytd-rich-grid-item-margin - 0.01px);
+                            }
+
+                            .item {
+                                position     : relative;
+                                margin-left  : $--ytd-rich-grid-item-margin / 2;
+                                margin-right : $--ytd-rich-grid-item-margin / 2;
+                                margin-bottom: 40px;
+                                width        : calc(100% / $--ytd-rich-grid-items-per-row - $--ytd-rich-grid-item-margin - 0.01px);
+
+                                .content {
+                                    height         : 100%;
+                                    display        : flex;
+                                    align-items    : flex-start;
+                                    justify-content: center;
+
+                                    &:hover .thumbnail_link {
+                                        border-radius: 0 !important;
+                                        transition   : border-radius ease-out 0.2s;
+                                    }
+
+
+                                    .grid_media {
+                                        width    : 100%;
+                                        margin   : 0;
+                                        display  : block;
+                                        max-width: var(--ytd-rich-grid-item-max-width);
+                                        position : relative;
+                                        height   : 100%;
+
+                                        .thumbnail {
+
+                                            .thumbnail_link {
+                                                position       : relative;
+                                                margin-left    : auto;
+                                                margin-right   : auto;
+                                                overflow       : hidden;
+                                                display        : block;
+                                                border-radius  : 12px;
+                                                cursor         : pointer;
+                                                text-decoration: none;
+                                                color          : $--yt-spec-text-primary;
+                                                transition     : border-radius ease-in 0.1s;
+
+                                                .img {
+                                                    cursor: pointer;
+                                                    color : $--yt-spec-text-primary;
+
+                                                    img {
+                                                        background-color    : transparent;
+                                                        object-fit          : cover;
+                                                        visibility          : inherit;
+                                                        width               : 100%;
+                                                        height              : 100%;
+                                                        display             : inline-block;
+                                                        min-height          : 1px;
+                                                        min-width           : 1px;
+                                                        overflow-clip-margin: content-box;
+                                                        overflow            : clip;
+                                                    }
+                                                }
+
+                                                .overlays {
+                                                    display: block;
+
+                                                    .overlay_time {
+
+                                                        position      : absolute;
+                                                        bottom        : 0;
+                                                        right         : 0;
+                                                        margin        : 4px;
+                                                        display       : flex;
+                                                        flex-direction: row;
+                                                        cursor        : pointer;
+
+                                                        .time_status {
+                                                            flex-direction  : row;
+                                                            align-items     : center;
+                                                            display         : inline-flex;
+                                                            color           : $--yt-spec-static-brand-white;
+                                                            background-color: $--yt-spec-static-overlay-background-heavy;
+                                                            padding         : 3px 4px;
+                                                            height          : 12px;
+                                                            border-radius   : 4px;
+                                                            font-size       : 1.2rem;
+                                                            font-weight     : 500;
+                                                            line-height     : 1.2rem;
+                                                            letter-spacing  : 0.5px;
+
+                                                            .text {
+                                                                max-height: 1.2rem;
+                                                                overflow  : hidden;
+                                                                color     : $--yt-spec-static-brand-white;
+                                                                background: transparent;
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        .details {
+                                            position      : relative;
+                                            cursor        : pointer;
+                                            flex          : auto;
+                                            display       : flex;
+                                            flex-direction: row;
+
+                                            .avatar_link {
+                                                height         : 36px;
+                                                margin-top     : 12px;
+                                                margin-right   : 12px;
+                                                display        : inline-block;
+                                                cursor         : pointer;
+                                                text-decoration: none;
+                                                color          : $--yt-spec-text-primary;
+
+                                                .avatar {
+                                                    background-color    : $--yt-spec-10-percent-layer;
+                                                    width               : 36px;
+                                                    height              : 36px;
+                                                    border-radius       : 50%;
+                                                    overflow            : hidden;
+                                                    overflow-clip-margin: content-box;
+                                                    overflow            : clip;
+
+                                                    .avatar_img {}
+                                                }
+                                            }
+
+                                            .meta {
+                                                overflow-x   : hidden;
+                                                padding-right: 24px;
+
+                                                .video_name {
+                                                    color : $--yt-spec-text-primary;
+                                                    margin: 12px 0 4px 0;
+
+                                                    .video_title_link {
+
+                                                        .video_title {
+                                                            color             : $--yt-spec-text-primary;
+                                                            font-size         : 1.6rem;
+                                                            line-height       : 2.2rem;
+                                                            font-weight       : 500;
+                                                            overflow          : hidden;
+                                                            max-height        : 4.4rem;
+                                                            -webkit-line-clamp: 2;
+                                                            display           : -webkit-box;
+                                                            -webkit-box-orient: vertical;
+                                                            text-overflow     : ellipsis;
+                                                            white-space       : normal;
+                                                        }
+                                                    }
+                                                }
+
+                                                .meta_block {
+
+                                                    .metadata {
+                                                        display       : flex;
+                                                        flex-direction: column;
+                                                        max-width     : 100%;
+
+                                                        .byline_container {
+                                                            font-size  : 1.4rem;
+                                                            line-height: 2rem;
+                                                            font-weight: 400;
+
+                                                            .channel_name {
+                                                                color         : $--yt-spec-text-secondary;
+                                                                max-width     : 100%;
+                                                                display       : flex;
+                                                                flex-direction: row;
+                                                                align-items   : center;
+                                                                align-self    : flex-start;
+                                                                font-size     : 1.4rem;
+                                                                line-height   : 2rem;
+                                                                font-weight   : 400;
+
+
+                                                                .text {
+                                                                    display      : inline-block;
+                                                                    overflow     : hidden;
+                                                                    max-width    : 100%;
+                                                                    white-space  : pre;
+                                                                    text-overflow: ellipsis;
+                                                                    overflow     : hidden;
+
+                                                                    .channel_link {
+                                                                        white-space    : pre;
+                                                                        text-overflow  : ellipsis;
+                                                                        overflow       : hidden;
+                                                                        color          : $--yt-spec-text-secondary;
+                                                                        text-decoration: none;
+                                                                    }
+                                                                }
+
+                                                                .channel_icon {
+                                                                    margin: 0 8px;
+
+                                                                    .icon_shape {
+                                                                        width : 14px;
+                                                                        height: 14px;
+                                                                    }
+                                                                }
+
+                                                            }
+                                                        }
+
+                                                        .metadata_line {
+                                                            font-size         : 1.4rem;
+                                                            line-height       : 2rem;
+                                                            font-weight       : 400;
+                                                            overflow          : hidden;
+                                                            max-height        : 4rem;
+                                                            -webkit-line-clamp: 2;
+                                                            -webkit-box-orient: vertical;
+                                                            text-overflow     : ellipsis;
+                                                            white-space       : normal;
+                                                            display           : flex;
+
+                                                            .inline_metadata_item {
+                                                                color: $--yt-spec-text-secondary;
+                                                            }
+                                                        }
+                                                    }
+
+                                                }
+                                            }
+
+                                            .menu {
+                                                position: relative;
+
+                                                .button_icon {
+                                                    position        : absolute;
+                                                    top             : 4px;
+                                                    right           : -12px;
+                                                    background-color: transparent;
+                                                    margin          : 8px;
+                                                    color           : $--yt-spec-icon-inactive;
+                                                    opacity         : 0;
+
+                                                    &:hover {
+                                                        opacity: 1;
+                                                    }
+
+                                                    .icon_shape {
+                                                        width : 24px;
+                                                        height: 24px;
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .secondary {}
+    }
+}

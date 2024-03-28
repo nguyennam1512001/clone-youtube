@@ -1,0 +1,66 @@
+@import '../../../styles/styles.scss';
+
+.sidebar_mini.is_mini {
+    display: none;
+}
+
+.sidebar_mini {
+    position        : fixed;
+    left            : 0;
+    top             : $header-height;
+    bottom          : 0;
+    width           : $--sidebar-mini-width;
+    display         : inline-block;
+    background-color: $--yt-spec-base-background;
+    z-index         : 2019;
+    padding         : 0 4px;
+
+    .items {
+        margin-top    : 4px;
+        display       : flex;
+        flex-direction: column;
+
+        .item {
+            border-radius: 10px;
+
+            &:hover {
+                background-color: $--yt-spec-badge-chip-background;
+            }
+
+            .link {
+                padding        : 16px 0 14px;
+                outline        : 0;
+                width          : 64px;
+                display        : flex;
+                flex-direction : column;
+                align-items    : center;
+                justify-content: center;
+                text-decoration: none;
+                cursor         : pointer;
+                color          : $--yt-spec-text-primary;
+
+                .icon {
+                    margin-bottom: 6px;
+
+                    .icon_shape {
+                        width : 24px;
+                        height: 24px;
+                    }
+                }
+
+                .text {
+                    max-width    : 100%;
+                    display      : block;
+                    max-height   : 1.4rem;
+                    overflow     : hidden;
+                    text-overflow: ellipsis;
+                    white-space  : nowrap;
+                    font-size    : 1rem;
+                    font-weight  : 400;
+                    line-height  : 1.4rem;
+                }
+            }
+
+        }
+    }
+}

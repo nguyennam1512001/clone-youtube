@@ -1,5 +1,4 @@
 @import "variables";
+@import "./base";
+@import "./responsive.scss";
 @import "../../node_modules/bootstrap/scss/bootstrap";
-@import "base";
-@import "form";
-@import "configPrimereact";

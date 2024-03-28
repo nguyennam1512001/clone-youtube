@@ -1,0 +1,38 @@
+@import'../styles/styles.scss';
+
+.item_link {
+    padding                : 0 36px 0 16px;
+    display                : flex;
+    align-items            : center;
+    --paper-item-min-height: 40px;
+    height                 : var(--paper-item-min-height, 48px);
+    cursor                 : pointer;
+
+    &:hover {
+        background-color: $--yt-spec-badge-chip-background;
+    }
+
+    .left_icon {
+        margin-right: 16px;
+
+    }
+
+    .text {
+        display      : block;
+        text-overflow: ellipsis;
+        overflow     : hidden;
+        white-space  : nowrap;
+        line-height  : 2rem;
+        font-weight  : 400;
+        flex         : 1;
+        text-align   : start;
+    }
+
+    .right_icon {}
+
+    .icon_shape {
+        color : $--yt-spec-text-primary;
+        width : 24px;
+        height: 24px;
+    }
+}

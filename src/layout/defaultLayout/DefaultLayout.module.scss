@@ -1,5 +1,11 @@
 @import "../../styles/styles.scss";
 
-.body {
-    display: flex;
+.app {
+    width   : 100%;
+    display : flex;
+    position: relative;
+
+    .contain {
+        width: 100%;
+    }
 }

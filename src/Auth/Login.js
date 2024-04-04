@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { push } from 'connected-react-router';
 import * as actions from '~/store/actions';
@@ -8,7 +7,7 @@ import { googleKey } from '~/utils';
 const YOUR_CLIENT_ID = googleKey.CLIENT_ID;
 const YOUR_REDIRECT_URI = googleKey.REDIRECT_URI_LOGIN;
 
-function Login({ navigateToHomePage, userLoginSuccess, access_token, fetchUserStart, oauth2Data }) {
+function Login({ navigateToHomePage, userLoginSuccess, access_token, getUserInfoStart, oauth2Data }) {
   useEffect(() => {
     const fragmentString = window.location.hash.substring(1);
     const params = {};
@@ -23,7 +22,7 @@ function Login({ navigateToHomePage, userLoginSuccess, access_token, fetchUserSt
       oauth2Data(params);
       userLoginSuccess(params['access_token']);
       if (params['state'] && params['state'] === 'oauth2_signIn') {
-        fetchUserStart(params['access_token']);
+        getUserInfoStart(params['access_token']);
         navigateToHomePage();
       }
     } else {
@@ -36,8 +35,9 @@ function Login({ navigateToHomePage, userLoginSuccess, access_token, fetchUserSt
     const params = {
       client_id: YOUR_CLIENT_ID,
       redirect_uri: YOUR_REDIRECT_URI,
-      scope: 'https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/youtube',
+      scope: 'https://www.googleapis.com/auth/youtube',
       state: 'oauth2_signIn',
+      // state: 'oauth2_register', đăng kí
       include_granted_scopes: 'true',
       response_type: 'token',
     };
@@ -65,7 +65,7 @@ const mapDispatchToProps = (dispatch) => {
     navigate: (path) => dispatch(push(path)),
     userLoginFail: () => dispatch(actions.userLoginFail()),
     userLoginSuccess: (userInfo) => dispatch(actions.userLoginSuccess(userInfo)),
-    fetchUserStart: (access_token) => dispatch(actions.fetchUserStart(access_token)),
+    getUserInfoStart: (access_token) => dispatch(actions.getUserInfoStart(access_token)),
     oauth2Data: (data) => dispatch(actions.oauth2Data(data)),
   };
 };

@@ -5,13 +5,20 @@ const initialState = {
   userInfo: null,
   access_token: null,
   oauth2Data: null,
-  is_sidebar_mini: false,
-  is_sidebar_modal: true,
-  isHidenSibarMini: true,
 };
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.FETCH_USER_SUCCESS:
+      return {
+        ...state,
+        userInfo: action.data,
+      };
+    case actionTypes.FETCH_USER_FAIL:
+      return {
+        ...state,
+        userInfo: [],
+      };
     case actionTypes.USER_LOGIN_SUCCESS:
       return {
         ...state,
@@ -36,21 +43,6 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         oauth2Data: action.oauth2Data,
-      };
-    case actionTypes.CHANGE_SIDEBAR_LG:
-      return {
-        ...state,
-        is_sidebar_mini: action.isShow,
-      };
-    case actionTypes.CHANGE_SIDEBAR_MODAL:
-      return {
-        ...state,
-        is_sidebar_modal: action.isShow,
-      };
-    case actionTypes.HIDEN_SIBAR_MINI:
-      return {
-        ...state,
-        isHidenSibarMini: action.isShow,
       };
     default:
       return state;

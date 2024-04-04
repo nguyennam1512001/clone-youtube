@@ -1,7 +1,7 @@
 import clsx from 'clsx';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Route, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
 import * as actions from '~/store/actions';
 import style from './Container.module.scss';
@@ -29,11 +29,33 @@ const views = [
   },
 ];
 
-function Container({ is_sidebar_mini, is_sidebar_modal, isHidenSibarMini, hidenSidebarMini }) {
+function Container({ is_sidebar_mini, is_sidebar_modal, isHidenSibarMini, hidenSidebarMini, changeSideBarMini }) {
+  const [reloadState, setReloadState] = useState(false);
   const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const videoId = queryParams.get('v');
+
+  useEffect(() => {
+    const targetElement = document.getElementById('watch-video-play');
+    if (targetElement) {
+      const topOffset = targetElement.getBoundingClientRect().top - 56;
+      window.scrollTo({
+        top: topOffset,
+        behavior: 'smooth',
+      });
+    }
+  }, [location, reloadState]);
+
+  // Scroll to top of the page when browser back/forward button is clicked
+  useEffect(() => {
+    window.onload = () => {
+      setReloadState(true);
+    };
+  }, []);
 
   useEffect(() => {
     if ('/' + location.pathname.split('/')[1] === '/watch') {
+      changeSideBarMini(true);
       hidenSidebarMini(false);
     } else {
       hidenSidebarMini(true);
@@ -63,15 +85,16 @@ function Container({ is_sidebar_mini, is_sidebar_modal, isHidenSibarMini, hidenS
 const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.user.isLoggedIn,
-    is_sidebar_mini: state.user.is_sidebar_mini,
-    is_sidebar_modal: state.user.is_sidebar_modal,
-    isHidenSibarMini: state.user.isHidenSibarMini,
+    is_sidebar_mini: state.app.is_sidebar_mini,
+    is_sidebar_modal: state.app.is_sidebar_modal,
+    isHidenSibarMini: state.app.isHidenSibarMini,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     hidenSidebarMini: (value) => dispatch(actions.hidenSidebarMini(value)),
+    changeSideBarMini: (value) => dispatch(actions.changeSideBarMini(value)),
   };
 };
 

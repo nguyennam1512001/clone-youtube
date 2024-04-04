@@ -6,10 +6,10 @@ import { Tooltip } from 'react-tooltip';
 
 import style from './Search.module.scss';
 import * as actions from '~/store/actions';
-import { Filter, Menu } from '~/assets/icons';
+import { Filter, Menu } from '../../public/assets/icons';
 import FilterModal from './component/FilterModal';
 import MenuPopup from './component/MenuPopup';
-import Popup from '~/components/Popup';
+import Popup from '~/components/popup/Popup';
 import EndOfListObserver from '~/components/EndOfListObserver';
 import { convertDuration, convertViewCount, calculateTimeDifference } from '~/utils';
 import Spinner from '~/components/Spinner';
@@ -28,6 +28,17 @@ function Search({ videosSearch, searchVideoStart, isSpinner, setIsSpinner, setIs
 
   const handleClickThumbnail = (url) => {
     history.push(url);
+  };
+  function containsShorts(str) {
+    // Kiểm tra xem chuỗi có chứa "#Short" hoặc "#Shorts" không
+    return /#Short(s)?\b/i.test(str);
+  }
+  const handleClickItem = (item) => {
+    if (containsShorts(item.snippet.title)) {
+      history.push('/shorts?v=' + item.id);
+    } else {
+      history.push('/watch?v=' + item.id);
+    }
   };
 
   useEffect(() => {
@@ -81,7 +92,7 @@ function Search({ videosSearch, searchVideoStart, isSpinner, setIsSpinner, setIs
         <div className={clsx(style.header)}>
           <div className={clsx(style.filter_button)}>
             <div
-              className={clsx(style.button_shape)}
+              className={clsx('flex-align-center cursor-pointer', style.button_shape)}
               onClick={() => {
                 setIsShow(!isShow);
               }}
@@ -94,16 +105,22 @@ function Search({ videosSearch, searchVideoStart, isSpinner, setIsSpinner, setIs
             <FilterModal isShow={isShow} setIsShow={setIsShow} />
           </div>
         </div>
-        <div className={clsx(style.contents)}>
-          <div className={clsx(style.list)} ref={listRef}>
+        <div className={clsx('cursor-pointer w-100', style.contents)}>
+          <div className={clsx('w-100', style.list)} ref={listRef}>
             {videosSearch &&
               videosSearch.map((item, index) => {
                 return (
                   <div className={clsx(style.item)} key={index}>
-                    <div className={clsx(style.content)}>
-                      <div className={clsx(style.grid_media)}>
+                    <div
+                      className={clsx('flex-justify-center h-100', style.content)}
+                      onClick={() => handleClickItem(item)}
+                    >
+                      <div className={clsx('w-100 h-100', style.grid_media)}>
                         <div className={clsx(style.thumbnail)}>
-                          <div className={clsx(style.thumbnail_link)} onClick={() => handleClickThumbnail()}>
+                          <div
+                            className={clsx('cursor-pointer', style.thumbnail_link)}
+                            onClick={() => handleClickThumbnail()}
+                          >
                             <div className={clsx(style.img)}>
                               <img src={item.snippet.thumbnails.medium.url} alt="anh" />
                             </div>
@@ -118,18 +135,18 @@ function Search({ videosSearch, searchVideoStart, isSpinner, setIsSpinner, setIs
                             </div>
                           </div>
                         </div>
-                        <div className={clsx(style.details)}>
+                        <div className={clsx('cursor-pointer', style.details)}>
                           <div className={clsx(style.meta)}>
                             <div className={clsx(style.video_name)}>
                               <a
                                 href={'/watch?v=' + item.id}
-                                className={clsx(style.video_title_link, 'yt-simple-endpoint')}
+                                className={clsx('simple-endpoint', style.video_title_link)}
                                 title={item.snippet.title}
                               >
-                                <div className={clsx(style.video_title)}>{item.snippet.title}</div>
+                                <div className={clsx('text-two-line', style.video_title)}>{item.snippet.title}</div>
                               </a>
                             </div>
-                            <div className={clsx(style.metadata_line)}>
+                            <div className={clsx('text-md-4 text-two-line d-flex', style.metadata_line)}>
                               <span className={clsx(style.inline_metadata_item)}>
                                 {convertViewCount(item.statistics.viewCount)} lượt xem&nbsp;
                               </span>
@@ -138,20 +155,23 @@ function Search({ videosSearch, searchVideoStart, isSpinner, setIsSpinner, setIs
                               </span>
                             </div>
                             <div className={clsx(style.meta_block)}>
-                              <div className={clsx(style.metadata)}>
-                                <div className={clsx(style.byline_container)}>
-                                  <div className={clsx(style.avatar_link)}>
-                                    <div className={clsx(style.avatar)}>
+                              <div className={clsx('mw-100', style.metadata)}>
+                                <div className={clsx('text-md-4 d-flex', style.byline_container)}>
+                                  <div className={clsx('simple-endpoint', style.avatar_link)}>
+                                    <div className={clsx('img-24-round', style.avatar)}>
                                       <img className={clsx(style.avatar_img)} alt="" width="24" src={item.avatar} />
                                     </div>
                                   </div>
-                                  <div className={clsx(style.channel_name)}>
+                                  <div className={clsx('flex-align-center flex-row mw-100', style.channel_name)}>
                                     <div
                                       data-tooltip-id="channel_name_tooltip"
                                       data-tooltip-content={item.snippet.channelTitle}
-                                      className={clsx(style.text)}
+                                      className={clsx('mw-100', style.text)}
                                     >
-                                      <a href="/@nhacremixvn" className={clsx(style.channel_link)}>
+                                      <a
+                                        href="/@nhacremixvn"
+                                        className={clsx(style.channel_link, 'simple-endpoint', 'text-one-line')}
+                                      >
                                         {item.snippet.channelTitle}
                                       </a>
                                       <Tooltip
@@ -164,8 +184,8 @@ function Search({ videosSearch, searchVideoStart, isSpinner, setIsSpinner, setIs
                                 </div>
                               </div>
                             </div>
-                            <div className={clsx(style.desc)}>
-                              <div className={clsx(style.desx_text, 'ellipsis')}>{item.snippet.description}</div>
+                            <div className={clsx('text-sm-4', style.desc)}>
+                              <div className={clsx('text-one-line', style.desc_text)}>{item.snippet.description}</div>
                             </div>
                           </div>
                           <div className={clsx(style.menu)}>

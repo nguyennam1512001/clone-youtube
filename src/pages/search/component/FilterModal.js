@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import style from './FilterModal.module.scss';
 import * as actions from '~/store/actions';
 import C_Modal from '~/components/Modal';
-import { Close } from '~/assets/icons';
+import { Close } from '../../../public/assets/icons';
 
 const filterArr = [
   {
@@ -109,7 +109,10 @@ function FilterModal({ isShow, setIsShow }) {
                   <span className={clsx(style.text)}>{group.groupName}</span>
                 </h4>
                 {group.searchFilter.map((item, index) => (
-                  <div className={clsx(style.search_filter)} key={index + 'item'}>
+                  <div
+                    className={clsx('text-md-4-secon flex-align-center cursor-pointer', style.search_filter)}
+                    key={index + 'item'}
+                  >
                     <span
                       className={clsx(
                         style.text,

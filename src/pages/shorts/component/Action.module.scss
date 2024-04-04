@@ -6,9 +6,6 @@
     right   : -72px;
 
     .actions {
-        display       : flex;
-        align-items   : center;
-        flex-direction: column;
         pointer-events: auto;
         width         : 48px;
         margin        : 12px 12px 0;
@@ -21,19 +18,14 @@
             padding-top: 16px;
 
             .btn_shape {
-
                 .icon_shape {
                     width           : 48px;
                     height          : 48px;
+                    border-radius   : 24px;
                     font-size       : 18px;
                     line-height     : 48px;
-                    border-radius   : 24px;
                     color           : $--yt-spec-text-primary;
                     background-color: rgba(0, 0, 0, 0.05);
-                    display         : flex;
-                    align-items     : center;
-                    justify-content : center;
-                    cursor          : pointer;
 
                     &:hover {
                         background-color: rgba(0, 0, 0, 0.1);
@@ -45,7 +37,6 @@
 
                         &:hover {
                             background-color: #272727;
-
                         }
                     }
 
@@ -56,18 +47,13 @@
                 }
 
                 .text {
-                    margin            : 4px -8px 0;
-                    color             : $--yt-spec-text-primary;
-                    font-size         : 1.4rem;
-                    line-height       : 2rem;
-                    font-weight       : 400;
-                    max-height        : 2rem;
-                    -webkit-line-clamp: 1;
-                    display           : -webkit-box;
-                    -webkit-box-orient: vertical;
-                    white-space       : normal;
-                    text-align        : center;
-                    pointer-events    : none;
+                    margin        : 4px -8px 0;
+                    color         : $--yt-spec-text-primary;
+                    font-size     : 1.4rem;
+                    line-height   : 2rem;
+                    font-weight   : 400;
+                    max-height    : 2rem;
+                    pointer-events: none;
                 }
             }
         }

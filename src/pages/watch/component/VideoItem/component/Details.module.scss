@@ -1,0 +1,60 @@
+@import'../../../../../styles/styles.scss';
+
+.meta {
+    overflow-x   : hidden;
+    padding-right: 24px;
+
+    .video_name {
+        .video_title_link {
+            .video_title {
+                margin-bottom: 4px;
+                max-height   : 4rem;
+            }
+        }
+    }
+
+    .meta_block {
+        .metadata {
+            .byline_container {
+                .avatar_link {
+                    height      : 24px;
+                    margin-right: 8px;
+
+
+                    .avatar {
+                        background-color: $--yt-spec-10-percent-layer;
+
+                        .avatar_img {}
+                    }
+                }
+
+                .channel_name {
+                    align-self: flex-start;
+
+                    .text {
+                        display: inline-block;
+
+                        .channel_link {}
+                    }
+
+                    .channel_icon {
+                        margin: 0 8px;
+
+                        .icon_shape {
+                            width : 14px;
+                            height: 14px;
+                        }
+                    }
+
+                }
+            }
+
+            .metadata_line {
+                max-height: 4rem;
+
+                .inline_metadata_item {}
+            }
+        }
+
+    }
+}

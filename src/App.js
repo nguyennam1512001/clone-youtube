@@ -95,7 +95,7 @@ const mapStateToProps = (state) => {
   return {
     started: state.app.started,
     isLoggedIn: state.user.isLoggedIn,
-    isHidenSibarMini: state.user.isHidenSibarMini,
+    isHidenSibarMini: state.app.isHidenSibarMini,
   };
 };
 

@@ -7,36 +7,25 @@
 .options {
     padding: 0 20px;
 
-
     .filter_group {
         padding      : 0;
         padding-right: 16px;
 
         .filter_group_name {
-            color                 : $--yt-spec-text-primary;
-            border-bottom         : 1px solid $--yt-spec-10-percent-layer;
-            margin                : 5px 0;
-            padding               : 15px 0;
-            text-transform        : uppercase;
-            font-size             : 1.2rem;
-            line-height           : 1.8rem;
-            font-weight           : 500;
-            -webkit-font-smoothing: auto;
-
-            .text {}
+            color         : $--yt-spec-text-primary;
+            border-bottom : 1px solid $--yt-spec-10-percent-layer;
+            margin        : 5px 0;
+            padding       : 15px 0;
+            text-transform: uppercase;
+            font-size     : 1.2rem;
+            line-height   : 1.8rem;
+            font-weight   : 500;
         }
     }
 
     .search_filter {
         padding    : 15px 0 0;
         font-family: var(--font-family);
-        cursor     : pointer;
-        font-size  : 14px;
-        color      : $--yt-spec-text-secondary;
-        font-weight: 400;
-        line-height: 20px;
-        display    : flex;
-        align-items: center;
 
         .text {
             &.active {
@@ -58,7 +47,6 @@
             display    : none;
             width      : 16px;
             height     : 16px;
-            cursor     : pointer;
             margin-left: 10px;
         }
     }

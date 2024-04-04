@@ -4,9 +4,10 @@ import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Tooltip } from 'react-tooltip';
 
-import { Menu, Tick } from '~/assets/icons';
+import { Menu, Tick } from '../../public/assets/icons';
 import ChipBar from '~/components/chipbar/ChipBar';
 import style from './Home.module.scss';
+
 import * as actions from '~/store/actions';
 import { convertDuration, convertViewCount, calculateTimeDifference } from '~/utils';
 import EndOfListObserver from '~/components/EndOfListObserver';
@@ -73,14 +74,19 @@ function Home({ is_sidebar_mini, is_sidebar_modal, videosInfo, getVideoStart, se
   const handleEndOfListReached = () => {
     setMaxResult((prevMaxResult) => prevMaxResult + 10);
   };
+
+  const handleWatchVideo = (id) => {
+    history.push('/watch?v=' + id);
+  };
+  console.log(videosInfo);
   return (
     <div className={clsx(style.page_container)}>
-      <div className={clsx(style.browse_results_renderer)}>
+      <div className={clsx('w-100', style.browse_results_renderer)}>
         <div className={clsx(style.primary)}>
           <div className={clsx(style.grid_renderer)}>
             <div className={clsx(style.header)}>
               <div className={clsx(style.chips_bar)}>
-                <div className={clsx(style.chips_wrapper)}>
+                <div className={clsx('flex-justify-center', style.chips_wrapper)}>
                   <div
                     className={clsx(
                       style.chips_content,
@@ -93,16 +99,17 @@ function Home({ is_sidebar_mini, is_sidebar_modal, videosInfo, getVideoStart, se
                 </div>
               </div>
             </div>
-            <div className={clsx(style.contents)}>
+            <div className={clsx('w-100', style.contents)}>
               {groups &&
                 groups.map((group, index) => {
                   return (
-                    <div className={clsx(style.grid_row)} key={index}>
-                      <div className={clsx(style.list)}>
+                    <div className={clsx('flex-justify-center w-100', style.grid_row)} key={index}>
+                      <div className={clsx('w-100', style.list)}>
                         {group.map((item, index) => {
                           return (
                             <div
                               className={clsx(
+                                'position-relative',
                                 style.item,
                                 { [style.per_row_1]: itemPerRow === 1 },
                                 { [style.per_row_2]: itemPerRow === 2 },
@@ -111,17 +118,36 @@ function Home({ is_sidebar_mini, is_sidebar_modal, videosInfo, getVideoStart, se
                               )}
                               key={index + 'item'}
                             >
-                              <div className={clsx(style.content)}>
-                                <div className={clsx(style.grid_media)}>
+                              <div className={clsx('flex-justify-center h-100 ', style.content)}>
+                                <div
+                                  className={clsx('w-100 h-100 m-0 position-relative', style.grid_media)}
+                                  onClick={() => handleWatchVideo(item.id)}
+                                >
                                   <div className={clsx(style.thumbnail)}>
-                                    <div className={clsx(style.thumbnail_link)} onClick={() => handleClickThumbnail()}>
+                                    <div
+                                      className={clsx(
+                                        'simple-endpoint radius-12 position-relative',
+                                        style.thumbnail_link,
+                                      )}
+                                      onClick={() => handleClickThumbnail()}
+                                    >
                                       <div className={clsx(style.img)}>
                                         <img src={item.snippet.thumbnails.medium.url} alt="anh" />
                                       </div>
                                       <div className={clsx(style.overlays)}>
-                                        <div className={clsx(style.overlay_time)}>
-                                          <div className={clsx(style.time_status)}>
-                                            <span className={clsx(style.text)}>
+                                        <div
+                                          className={clsx(
+                                            'd-flex flex-row position-absolute bottom-0 end-0',
+                                            style.overlay_time,
+                                          )}
+                                        >
+                                          <div
+                                            className={clsx(
+                                              'd-inline-flex align-items-center flex-row',
+                                              style.time_status,
+                                            )}
+                                          >
+                                            <span className={clsx('overflow-hidden', style.text)}>
                                               {convertDuration(item.contentDetails.duration)}
                                             </span>
                                           </div>
@@ -129,32 +155,48 @@ function Home({ is_sidebar_mini, is_sidebar_modal, videosInfo, getVideoStart, se
                                       </div>
                                     </div>
                                   </div>
-                                  <div className={clsx(style.details)}>
-                                    <div className={clsx(style.avatar_link)}>
-                                      <div className={clsx(style.avatar)}>
+                                  <div
+                                    className={clsx('d-flex flex-row position-relative cursor-pointer', style.details)}
+                                  >
+                                    <div className={clsx('simple-endpoint', style.avatar_link)}>
+                                      <div className={clsx('img-36-round', style.avatar)}>
                                         <img className={clsx(style.avatar_img)} alt="" width="36" src={item.avatar} />
                                       </div>
                                     </div>
                                     <div className={clsx(style.meta)}>
                                       <h3 className={clsx(style.video_name)}>
                                         <a
-                                          href={'/watch?v=' + item.id}
-                                          className={clsx(style.video_title_link, 'yt-simple-endpoint')}
+                                          href="#"
+                                          className={clsx('simple-endpoint', style.video_title_link)}
                                           title={item.snippet.title}
                                         >
-                                          <div className={clsx(style.video_title)}>{item.snippet.title}</div>
+                                          <div className={clsx('text-two-line text-nomal-5', style.video_title)}>
+                                            {item.snippet.title}
+                                          </div>
                                         </a>
                                       </h3>
                                       <div className={clsx(style.meta_block)}>
-                                        <div className={clsx(style.metadata)}>
-                                          <div className={clsx(style.byline_container)}>
-                                            <div className={clsx(style.channel_name)}>
+                                        <div className={clsx('d-flex flex-column mw-100', style.metadata)}>
+                                          <div className={clsx('text-md-4-secon', style.byline_container)}>
+                                            <div
+                                              className={clsx(
+                                                'text-md-4 flex-align-center flex-row mw-100',
+                                                style.channel_name,
+                                              )}
+                                            >
                                               <div
                                                 data-tooltip-id="channel_name_tooltip"
                                                 data-tooltip-content={item.snippet.channelTitle}
-                                                className={clsx(style.text)}
+                                                className={clsx('mw-100', style.text)}
                                               >
-                                                <a href="/@nhacremixvn" className={clsx(style.channel_link)}>
+                                                <a
+                                                  href="#"
+                                                  className={clsx(
+                                                    'simple-endpoint',
+                                                    'text-one-line',
+                                                    style.channel_link,
+                                                  )}
+                                                >
                                                   {item.snippet.channelTitle}
                                                 </a>
                                                 <Tooltip
@@ -180,7 +222,7 @@ function Home({ is_sidebar_mini, is_sidebar_modal, videosInfo, getVideoStart, se
                                               </div>
                                             </div>
                                           </div>
-                                          <div className={clsx(style.metadata_line)}>
+                                          <div className={clsx('d-flex text-two-line text-md-4', style.metadata_line)}>
                                             <span className={clsx(style.inline_metadata_item)}>
                                               {convertViewCount(item.statistics.viewCount)} lượt xem&nbsp;
                                             </span>
@@ -191,9 +233,9 @@ function Home({ is_sidebar_mini, is_sidebar_modal, videosInfo, getVideoStart, se
                                         </div>
                                       </div>
                                     </div>
-                                    <div className={clsx(style.menu)}>
-                                      <button className={clsx(style.button_icon)}>
-                                        <div className={clsx(style.icon_shape)}>
+                                    <div className={clsx('position-relative', style.menu)}>
+                                      <button className={clsx('position-absolute', style.button_icon)}>
+                                        <div className={clsx('shape-24', style.icon_shape)}>
                                           <Menu />
                                         </div>
                                       </button>
@@ -225,8 +267,8 @@ function Home({ is_sidebar_mini, is_sidebar_modal, videosInfo, getVideoStart, se
 const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.user.isLoggedIn,
-    is_sidebar_mini: state.user.is_sidebar_mini,
-    is_sidebar_modal: state.user.is_sidebar_modal,
+    is_sidebar_mini: state.app.is_sidebar_mini,
+    is_sidebar_modal: state.app.is_sidebar_modal,
     videosInfo: state.video.videosInfo,
   };
 };

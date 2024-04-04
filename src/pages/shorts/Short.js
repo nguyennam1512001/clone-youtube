@@ -2,13 +2,12 @@ import clsx from 'clsx';
 import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Tooltip } from 'react-tooltip';
 import Slider from 'react-slick';
 
 import style from './Short.module.scss';
 import * as actions from '~/store/actions';
 import Action from './component/Action';
-import { ArrowDown, ArrowUp } from '~/assets/icons';
+import { ArrowDown, ArrowUp } from '../../public/assets/icons';
 
 function Short({ shortVideoStart, videosShort }) {
   const [maxResult, setMaxResult] = useState(5);
@@ -69,11 +68,15 @@ function Short({ shortVideoStart, videosShort }) {
   function PrevArrow() {
     return null;
   }
+
   return (
     <div className={clsx(style.page_container)}>
       <div className={clsx(style.shorts_container)}>
         {activeSlide > 0 && (
-          <div className={clsx(style.prev_arrow, 'center-flex')} onClick={() => sliderRef.current.slickPrev()}>
+          <div
+            className={clsx('center-flex cursor-pointer rounded-circle', style.prev_arrow)}
+            onClick={() => sliderRef.current.slickPrev()}
+          >
             <div className={clsx(style.icon_shap)}>
               <div className={clsx(style.icon)}>
                 <ArrowUp />
@@ -81,7 +84,7 @@ function Short({ shortVideoStart, videosShort }) {
             </div>
           </div>
         )}
-        <div className={clsx(style.shorts_inner_container)} onWheel={handleWheel}>
+        <div className={clsx('flex-column flex-align-center', style.shorts_inner_container)} onWheel={handleWheel}>
           <Slider ref={sliderRef} {...settings}>
             {videosShort &&
               videosShort.map((item, index) => {
@@ -92,7 +95,9 @@ function Short({ shortVideoStart, videosShort }) {
                         <iframe
                           width="100%"
                           height="100%"
-                          src={`https://www.youtube.com/embed/` + item.id + 'error'}
+                          src={`https://www.youtube.com/embed/${item.id}${
+                            activeSlide === index ? '?autoplay=1&mute=1' : ''
+                          }`}
                           title={item.snippet.title}
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                           allowFullScreen
@@ -106,7 +111,10 @@ function Short({ shortVideoStart, videosShort }) {
               })}
           </Slider>
         </div>
-        <div className={clsx(style.next_arrow, 'center-flex')} onClick={() => sliderRef.current.slickNext()}>
+        <div
+          className={clsx('center-flex cursor-pointer rounded-circle', style.next_arrow)}
+          onClick={() => sliderRef.current.slickNext()}
+        >
           <div className={clsx(style.icon_shap)}>
             <div className={clsx(style.icon)}>
               <ArrowDown />

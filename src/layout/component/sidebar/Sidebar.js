@@ -1,17 +1,14 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
-import _ from 'lodash';
 
 import style from './Sidebar.module.scss';
 import * as actions from '~/store/actions';
-import { LANGUAGES } from '~/utils/constant';
-import Button from '~/components/Button';
+import Button from '~/components/button/Button';
 import { sidebarItems } from './sideBarItems';
 import clsx from 'clsx';
 import Footer from './Footer';
 import { NavLink, useHistory } from 'react-router-dom';
-import HeaderStart from '../header/component/HeaderStart';
+import HeaderStart from '../header/component/headerStart/HeaderStart';
 
 function SideBar({ is_sidebar_mini, is_sidebar_modal, changeSidebarMini, isLoggedIn }) {
   const [pathname, setPathname] = useState('');
@@ -76,7 +73,9 @@ function SideBar({ is_sidebar_mini, is_sidebar_modal, changeSidebarMini, isLogge
                               >
                                 {item.title.text && (
                                   <h3>
-                                    <div className={clsx(style.section_title)}>{item.title.text}</div>
+                                    <div className={clsx('text-one-line flex-align-center', style.section_title)}>
+                                      {item.title.text}
+                                    </div>
                                     {item.title.icon && (
                                       <div className={clsx(style.title_icon_shape)}>{item.title.icon}</div>
                                     )}
@@ -98,7 +97,10 @@ function SideBar({ is_sidebar_mini, is_sidebar_modal, changeSidebarMini, isLogge
                                               onClick={() => {
                                                 handleItemClick(item.path);
                                               }}
-                                              className={clsx(style.link)}
+                                              className={clsx(
+                                                'flex-align-center simple-endpoint text-nomal-4',
+                                                style.link,
+                                              )}
                                               key={index}
                                             >
                                               <div className={clsx(style.icon)}>
@@ -110,19 +112,11 @@ function SideBar({ is_sidebar_mini, is_sidebar_modal, changeSidebarMini, isLogge
                                                       item.icon
                                                     ) : null
                                                   ) : (
-                                                    <img
-                                                      style={{
-                                                        borderRadius: '50%',
-                                                      }}
-                                                      height={24}
-                                                      width={24}
-                                                      src={item.url}
-                                                      alt=""
-                                                    />
+                                                    <img className={'img-24-round'} src={item.url} alt="" />
                                                   )}
                                                 </div>
                                               </div>
-                                              <div className={clsx(style.text)}>{item.text}</div>
+                                              <div className={clsx('text-one-line', style.text)}>{item.text}</div>
                                             </NavLink>
                                           </div>
                                         </div>
@@ -153,14 +147,13 @@ const mapStateToProps = (state) => {
   return {
     language: state.app.language,
     isLoggedIn: state.user.isLoggedIn,
-    is_sidebar_mini: state.user.is_sidebar_mini,
-    is_sidebar_modal: state.user.is_sidebar_modal,
+    is_sidebar_mini: state.app.is_sidebar_mini,
+    is_sidebar_modal: state.app.is_sidebar_modal,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    // processLogout: () => dispatch(actions.processLogout()),
     changeSidebarMini: (isShow) => dispatch(actions.changeSideBarMini(isShow)),
   };
 };

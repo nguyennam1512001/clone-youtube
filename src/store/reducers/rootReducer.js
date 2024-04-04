@@ -18,25 +18,26 @@ const persistCommonConfig = {
 const userPersistConfig = {
   ...persistCommonConfig,
   key: 'user',
-  whitelist: ['isLoggedIn', 'access_token', 'oauth2Data', 'is_sidebar_mini'],
+  whitelist: ['isLoggedIn', 'access_token', 'oauth2Data', 'userInfo'],
 };
 
 const appPersistConfig = {
   ...persistCommonConfig,
   key: 'app',
   whitelist: ['language'],
+  // 'is_sidebar_mini', 'is_sidebar_modal', 'isHidenSibarMini'
 };
 
 const adminPersistConfig = {
   ...persistCommonConfig,
   key: 'admin',
-  whitelist: ['userInfor', 'channelInfor'],
+  whitelist: [],
 };
 
 const videoPersistConfig = {
   ...persistCommonConfig,
   key: 'video',
-  whitelist: ['videosInfo', 'videosShort', 'videosSearch'],
+  whitelist: ['videosInfo', 'videosShort', 'videosSearch', 'videoWatch'],
 };
 export default (history) =>
   combineReducers({

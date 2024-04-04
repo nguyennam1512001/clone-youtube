@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
-import _ from 'lodash';
 import clsx from 'clsx';
 import useSound from 'use-sound';
-import beep from '~/assets/mp3/beep6.mp3';
+import beep from '~/public/assets/mp3/beep6.mp3';
 
 import style from './SearchVoiceModal.module.scss';
 import * as actions from '~/store/actions';
-import { MicroPhone } from '~/assets/icons';
+import { MicroPhone } from '~/public/assets/icons';
 import C_Modal from '~/components/Modal';
 
 function SearchVoiceModal({ isShow, setIsShow }) {
@@ -22,8 +20,8 @@ function SearchVoiceModal({ isShow, setIsShow }) {
             Để tìm kiếm bằng giọng nói, hãy chuyển đến phần cài đặt trong trình duyệt của bạn và cho phép truy cập vào
             micrô
           </div>
-          <div className={clsx(style.microphone)} onClick={() => play()}>
-            <div className={clsx(style.icon)}>
+          <div className={clsx('flex-center cursor-pointer ', style.microphone)} onClick={() => play()}>
+            <div className={clsx('flex-center rounded-circle', style.icon)}>
               <div className={clsx(style.icon_shape)}>
                 <MicroPhone />
               </div>

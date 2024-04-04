@@ -1,14 +1,14 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 import clsx from 'clsx';
 
 import style from './SearchSuggest.module.scss';
 import * as actions from '~/store/actions';
 
-import icons, { Search } from '~/assets/icons';
-import Popup from '~/components/Popup';
-import Item from '~/components/Item';
+import { Search } from '../../../../public/assets/icons';
+import Popup from '~/components/popup/Popup';
+import Item from '~/components/listItem/Item';
+
 function SearchSuggest({ searchResult, handleSearchSuggest }) {
   return (
     <Popup minWidth="568px" left="0" right="0">

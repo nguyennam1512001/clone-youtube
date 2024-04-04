@@ -27,36 +27,20 @@ html {
 
 body {
     font-family           : var(--font-family);
-    -webkit-font-smoothing: antialiased;
+    -webkit-font-smoothing: auto;
     font-size             : 1.6rem;
     line-height           : 1.5;
     text-rendering        : optimizeSpeed;
     overflow-y            : overlay;
 }
 
+button {
+    background: transparent;
+}
+
 .main-container {
     width   : 100%;
     position: relative;
-}
-
-.ellipsis {
-    display      : block;
-    text-overflow: ellipsis;
-    overflow     : hidden;
-    white-space  : nowrap;
-}
-
-.center-flex {
-    display        : flex;
-    justify-content: center;
-    align-items    : center;
-}
-
-.yt-simple-endpoint {
-    display        : inline-block;
-    cursor         : pointer;
-    text-decoration: none;
-    color          : $--yt-spec-text-primary;
 }
 
 .normal_tooltip {

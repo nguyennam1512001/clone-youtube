@@ -3,17 +3,19 @@ import { connect } from 'react-redux';
 import clsx from 'clsx';
 
 import style from './Item.module.scss';
-import * as actions from '~/store/actions';
 function Item({ leftIcon, text, rightIcon, setIsShow, fz }) {
   let fontSize = fz || '1.4rem';
   return (
-    <div className={clsx(style.item_link, { [style.m_16]: rightIcon })} onClick={() => setIsShow && setIsShow(false)}>
+    <div
+      className={clsx('flex-align-center cursor-pointer', style.item_link, { [style.m_16]: rightIcon })}
+      onClick={() => setIsShow && setIsShow(false)}
+    >
       {leftIcon && (
         <div className={clsx(style.left_icon)}>
           <div className={clsx(style.icon_shape)}>{leftIcon}</div>
         </div>
       )}
-      <div className={clsx(style.text)} style={{ fontSize: fontSize }}>
+      <div className={clsx('text-one-line', style.text)} style={{ fontSize: fontSize }}>
         {text}
       </div>
       {rightIcon && (

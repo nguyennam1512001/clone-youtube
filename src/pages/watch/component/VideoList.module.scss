@@ -1,13 +1,6 @@
 @import'../../../styles/styles.scss';
 
 .grid_row {
-    width          : 100%;
-    display        : flex;
-    justify-content: center;
 
-    .list {
-        width         : 100%;
-        display       : flex;
-        flex-direction: column;
-    }
+    .list {}
 }

@@ -1,5 +1,5 @@
 // Layout.js
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import clsx from 'clsx';
 
@@ -10,9 +10,9 @@ import SideBarMini from '../component/sidebar/SideBarMini';
 
 function Layout({ props, children, isHidenSibarMini }) {
   return (
-    <div className={clsx(style.app)}>
+    <div className={clsx('d-flex w-100', style.app)}>
       <Header {...props} />
-      <div className={clsx(style.contain)}>
+      <div className={clsx('w-100', style.contain)}>
         {isHidenSibarMini && <SideBarMini />}
         <Sidebar />
         {children}
@@ -22,7 +22,7 @@ function Layout({ props, children, isHidenSibarMini }) {
 }
 const mapStateToProps = (state) => {
   return {
-    isHidenSibarMini: state.user.isHidenSibarMini,
+    isHidenSibarMini: state.app.isHidenSibarMini,
   };
 };
 

@@ -1,8 +1,31 @@
 import actionTypes from './actionTypes';
+import { getApi } from '~/services';
 
-export const addUserSuccess = () => ({
-  type: actionTypes.ADD_USER_SUCCESS,
-});
+export const getUserInfoStart = (access_token) => {
+  return async (dispatch, getState) => {
+    try {
+      let res = await getApi(
+        'https://www.googleapis.com/youtube/v3/channels?part=snippet%2CcontentDetails%2Cstatistics&mine=true',
+        null,
+        access_token,
+      );
+      if (res && res.data) {
+        dispatch({ type: actionTypes.FETCH_USER_SUCCESS, data: res.data });
+      } else {
+        dispatch({
+          type: actionTypes.FETCH_USER_FAIL,
+          data: 'Error: Failed to fetch user info',
+        });
+      }
+    } catch (e) {
+      dispatch({
+        type: actionTypes.FETCH_USER_FAIL,
+        data: e.message,
+      });
+      console.log(e);
+    }
+  };
+};
 
 export const userLoginSuccess = (access_token) => ({
   type: actionTypes.USER_LOGIN_SUCCESS,
@@ -20,19 +43,4 @@ export const processLogout = () => ({
 export const oauth2Data = (oauth2Data) => ({
   type: actionTypes.OAUTH2_DATA,
   oauth2Data,
-});
-
-export const changeSideBarMini = (isShow) => ({
-  type: actionTypes.CHANGE_SIDEBAR_LG,
-  isShow,
-});
-
-export const changeSideBarModal = (isShow) => ({
-  type: actionTypes.CHANGE_SIDEBAR_MODAL,
-  isShow,
-});
-
-export const hidenSidebarMini = (isShow) => ({
-  type: actionTypes.HIDEN_SIBAR_MINI,
-  isShow,
 });

@@ -1,5 +1,5 @@
-import { AddList, WaitList, Share } from '~/assets/icons';
-import * as iconSidebars from '~/assets/icons/iconSideBars';
+import { AddList, WaitList, Share } from '~/public/assets/icons';
+import * as iconSidebars from '~/public/assets/icons/iconSideBars';
 
 const menuArr = [
   {

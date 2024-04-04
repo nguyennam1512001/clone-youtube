@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import _ from 'lodash';
 import clsx from 'clsx';
 
 import style from './MenuPopup.module.scss';
 import * as actions from '~/store/actions';
 import menuArr from './MenuArr';
-import Item from '~/components/Item';
+import Item from '~/components/listItem/Item';
 import { useHistory } from 'react-router-dom';
 function MenuPopup({ isLoggedIn, setIsShow }) {
   const history = useHistory();
 
   const handleItemClick = (item) => {
+    document.body.style.overflow = 'auto';
     if (item.path) {
       history.push(item.path);
     }
@@ -56,7 +56,7 @@ const mapStateToProps = (state) => {
   return {
     language: state.app.language,
     isLoggedIn: state.user.isLoggedIn,
-    userInfor: state.admin.userInfor,
+    userInfo: state.admin.userInfo,
   };
 };
 

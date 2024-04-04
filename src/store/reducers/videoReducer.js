@@ -6,6 +6,8 @@ const initialState = {
   videosShort: [],
   isSpinner: false,
   isLoadingBar: false,
+  currentPage: null,
+  videoWatch: [],
   err: '',
 };
 
@@ -40,8 +42,21 @@ const videoReducer = (state = initialState, action) => {
     case actionTypes.SHORT_VIDEO_FALSE:
       return {
         ...state,
+        videosShort: [],
         err: action.err,
       };
+    case actionTypes.WATCH_VIDEO_SUCCESS:
+      return {
+        ...state,
+        videoWatch: action.videos,
+      };
+    case actionTypes.WATCH_VIDEO_FALSE:
+      return {
+        ...state,
+        videoWatch: [],
+        err: action.err,
+      };
+    // =======
     case actionTypes.IS_SPINNER:
       return {
         ...state,
@@ -51,6 +66,11 @@ const videoReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoadingBar: action.boolean,
+      };
+    case actionTypes.CURRENT_PAGE:
+      return {
+        ...state,
+        currentPage: action.page,
       };
     default:
       return state;

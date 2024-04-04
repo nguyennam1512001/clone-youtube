@@ -1,5 +1,5 @@
-import * as iconSidebars from '~/assets/icons/iconSideBars';
-import { User } from '~/assets/icons';
+import * as iconSidebars from '~/public/assets/icons/iconSideBars';
+import { User } from '~/public/assets/icons';
 export const sidebarMiniArr = [
   { id: 1, icon: <iconSidebars.Home />, iconActive: <iconSidebars.HomeActive />, text: 'Trang chủ', path: '/' },
   {

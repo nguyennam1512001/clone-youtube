@@ -1,0 +1,65 @@
+@import'../../../../styles/styles.scss';
+
+.actions_btn {
+    .btn_shape {
+        height          : 36px;
+        border-radius   : 24px;
+        background-color: #f2f2f2;
+        padding         : 0 16px;
+        gap             : 4px;
+
+        &.like {
+            border-radius            : 0;
+            border-top-left-radius   : 24px;
+            border-bottom-left-radius: 24px;
+        }
+
+        &.dislike {
+            border-radius             : 0;
+            border-top-right-radius   : 24px;
+            border-bottom-right-radius: 24px;
+        }
+
+        &.menu {
+            padding: 0;
+            width  : 36px;
+        }
+
+        &:hover {
+            background-color: #e5e5e5;
+        }
+
+        .icon_shape {
+            color                        : $--yt-spec-text-primary;
+            font-size                    : 18px;
+            border-radius                : 24px;
+            // width                  : 36px;
+            // height                 : 36px;
+            // background-color          : #f2f2f2;
+
+            &:hover {
+                background-color: #e5e5e5;
+            }
+
+            .icon {
+                color : #0F0F0F;
+                width : 24px;
+                height: 24px;
+            }
+        }
+
+        .text {
+            pointer-events: none;
+        }
+    }
+}
+
+.pivot_btn {
+    padding-top: 16px;
+
+    img {
+        width        : 40px;
+        height       : 40px;
+        border-radius: 6px;
+    }
+}

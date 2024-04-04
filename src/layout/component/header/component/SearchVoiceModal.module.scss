@@ -22,19 +22,10 @@
         }
 
         .microphone {
-            display        : flex;
-            align-items    : center;
-            justify-content: center;
-
             .icon {
                 width           : 68px;
                 height          : 68px;
                 background-color: $--yt-spec-10-percent-layer;
-                display         : flex;
-                align-items     : center;
-                justify-content : center;
-                border-radius   : 50%;
-                cursor          : pointer;
 
                 .icon_shape {
                     width : 40px;

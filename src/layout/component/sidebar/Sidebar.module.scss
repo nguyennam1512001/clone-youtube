@@ -48,7 +48,6 @@
         background-color: white;
 
         .wrap {
-
             .space {
                 margin-top: $header-height;
             }
@@ -61,11 +60,8 @@
             .content {
                 height: calc(100vh - $header-height);
 
-
                 .inner_content {
-
                     .renderer {
-
                         .sections {
                             .login_renderer {
                                 display: inline-block;
@@ -101,21 +97,13 @@
                                 border-bottom: 1px solid #e5e5e5;
 
                                 h3 {
-                                    display    : flex;
-                                    align-items: center;
-                                    padding    : 0 12px;
+                                    padding: 0 12px;
 
                                     .section_title {
-                                        font-size         : 1.6rem;
-                                        line-height       : 2.2rem;
-                                        font-weight       : 500;
-                                        overflow          : hidden;
-                                        max-height        : 2.2rem;
-                                        -webkit-line-clamp: 1;
-                                        display           : -webkit-box;
-                                        -webkit-box-orient: vertical;
-                                        text-overflow     : ellipsis;
-                                        white-space       : normal;
+                                        font-size  : 1.6rem;
+                                        line-height: 2.2rem;
+                                        font-weight: 500;
+                                        max-height : 2.2rem;
                                     }
 
                                     .title_icon_shape {
@@ -126,7 +114,6 @@
                                 }
 
                                 .items {
-
                                     .entry_renderer {
                                         width        : calc(100% - 12px);
                                         border-radius: 10px;
@@ -137,17 +124,10 @@
                                         }
 
                                         .link {
-                                            cursor                : pointer;
-                                            display               : flex;
-                                            align-items           : center;
                                             white-space           : nowrap;
                                             -webkit-font-smoothing: antialiased;
-                                            font-size             : 16px;
-                                            font-weight           : 400;
-                                            line-height           : 24px;
                                             min-height            : 40px;
                                             padding               : 0 12px;
-                                            text-decoration       : none;
                                         }
 
                                         &.active {
@@ -167,15 +147,12 @@
                                         }
 
                                         .text {
-                                            color        : $--yt-spec-text-primary;
-                                            overflow     : hidden;
-                                            white-space  : nowrap;
-                                            text-overflow: ellipsis;
-                                            font-size    : 14px;
-                                            line-height  : 32px;
-                                            font-weight  : 400;
-                                            flex         : 1;
-                                            flex-basis   : 1e-9px;
+                                            color      : $--yt-spec-text-primary;
+                                            font-size  : 14px;
+                                            line-height: 32px;
+                                            font-weight: 400;
+                                            flex       : 1;
+                                            flex-basis : 1e-9px;
                                         }
                                     }
                                 }
@@ -214,8 +191,6 @@
                     }
                 }
             }
-
         }
     }
-
 }

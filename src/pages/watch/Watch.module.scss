@@ -13,30 +13,122 @@
     .browse_results_renderer {
         display        : flex;
         justify-content: flex-start;
-        width          : 100%;
 
         .primary {
-            flex: 1;
+            flex         : 1;
+            padding-top  : 24px;
+            margin-left  : 24px;
+            padding-right: 24px;
 
-            .avatar_link {
-                height         : 36px;
-                margin-top     : 12px;
-                margin-right   : 12px;
-                display        : inline-block;
-                cursor         : pointer;
-                text-decoration: none;
-                color          : $--yt-spec-text-primary;
+            .primary_inner {
 
-                .avatar {
-                    background-color    : $--yt-spec-10-percent-layer;
-                    width               : 36px;
-                    height              : 36px;
-                    border-radius       : 50%;
-                    overflow            : hidden;
-                    overflow-clip-margin: content-box;
-                    overflow            : clip;
+                .player {
+                    min-width  : 360px;
+                    padding-top: 56.25%;
+                }
 
-                    .avatar_img {}
+                .below {
+                    margin-top   : 12px;
+                    margin-bottom: 24px;
+
+                    .watch_metadata {
+                        .title {
+                            .formatted_string {}
+
+                        }
+
+                        .top_row {
+                            .owner {
+                                flex        : 1;
+                                margin-top  : 8px;
+                                margin-right: 12px;
+
+                                .byline_container {
+                                    .avatar_link {
+                                        margin: 0px 12px 0 0;
+
+                                        .avatar {
+                                            background-color: $--yt-spec-10-percent-layer;
+
+                                            .avatar_img {}
+                                        }
+                                    }
+
+                                    .info {
+                                        margin-right: 24px;
+                                    }
+
+                                    .subscribe_btn {
+                                        background-color: #0f0f0f;
+                                        border-radius   : 100px;
+                                        height          : fit-content;
+
+                                        &:hover {
+                                            background-color: #272727;
+                                        }
+                                    }
+                                }
+                            }
+
+                            .actions {
+                                flex           : 1;
+                                justify-content: flex-end;
+                                margin-top     : 8px;
+
+                                .actions_inner {
+                                    gap: 16px;
+                                }
+                            }
+                        }
+
+                        .bottom_row {
+                            .description {
+                                margin-right : 12px;
+                                margin-top   : 12px;
+                                background   : $--yt-spec-badge-chip-background;
+                                border-radius: 12px;
+                                padding      : 12px;
+
+                                .description_inner {
+
+                                    .info_container {
+                                        .infor {
+                                            .formatted_string {}
+
+                                        }
+                                    }
+
+                                    .description_inline_expander {
+
+                                        .snippet_expand {
+                                            .snippet_text {
+                                                white-space: pre-wrap;
+                                            }
+                                        }
+
+                                        .expand {}
+                                    }
+
+                                    .description_inline_expander {
+
+                                        .snippet {
+                                            overflow  : hidden;
+                                            max-height: 6rem;
+
+                                            .snippet_text {
+                                                white-space: pre-wrap;
+                                            }
+                                        }
+
+                                        .expand {}
+                                    }
+                                }
+                            }
+                        }
+
+                    }
+
+                    .comments {}
                 }
             }
         }
@@ -80,7 +172,6 @@
                 }
 
                 .contents {
-                    width          : 100%;
                     display        : flex;
                     flex-wrap      : wrap;
                     justify-content: flex-start;

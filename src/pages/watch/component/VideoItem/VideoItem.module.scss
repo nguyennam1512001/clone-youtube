@@ -1,0 +1,125 @@
+@import'../../../../styles/styles.scss';
+
+.item {
+    position: relative;
+
+    margin-top: 8px;
+
+    .content:hover .button_icon {
+        opacity: 1 !important;
+    }
+
+    .content {
+        align-items: flex-start;
+
+        .grid_media {
+            display : flex;
+            position: relative;
+
+            .thumbnail {
+                margin-right: 8px;
+
+                .thumbnail_link {
+                    position     : relative;
+                    margin-left  : auto;
+                    margin-right : auto;
+                    overflow     : hidden;
+                    display      : block;
+                    border-radius: 12px;
+
+                    text-decoration: none;
+                    color          : $--yt-spec-text-primary;
+                    transition     : border-radius ease-in 0.1s;
+
+                    .img {
+                        color : $--yt-spec-text-primary;
+                        width : 168px;
+                        height: 94px;
+
+                        img {
+                            background-color    : transparent;
+                            object-fit          : cover;
+                            visibility          : inherit;
+                            display             : inline-block;
+                            min-height          : 1px;
+                            min-width           : 1px;
+                            overflow-clip-margin: content-box;
+                            overflow            : clip;
+                        }
+                    }
+
+                    .overlays {
+                        display: block;
+
+                        .overlay_time {
+
+                            position      : absolute;
+                            bottom        : 0;
+                            right         : 0;
+                            margin        : 4px;
+                            display       : flex;
+                            flex-direction: row;
+
+                            .time_status {
+                                flex-direction  : row;
+                                align-items     : center;
+                                display         : inline-flex;
+                                background-color: $--yt-spec-static-overlay-background-heavy;
+                                padding         : 3px 4px;
+                                height          : 12px;
+                                border-radius   : 4px;
+                                font-size       : 1.2rem;
+                                font-weight     : 500;
+                                line-height     : 1.2rem;
+                                letter-spacing  : 0.5px;
+
+                                .text {
+                                    max-height: 1.2rem;
+                                    overflow  : hidden;
+                                    color     : $--yt-spec-static-brand-white;
+                                    background: transparent;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .details {
+                position      : relative;
+                flex          : auto;
+                display       : flex;
+                flex-direction: row;
+                min-width     : 0;
+
+                .menu {
+                    position: absolute;
+                    top     : 4px;
+                    right   : 0px;
+                    display : inline;
+
+                    .button_icon {
+                        position: relative;
+
+                        &.show {
+                            opacity: 1 !important;
+                        }
+
+                        background-color: transparent;
+                        color           : $--yt-spec-icon-inactive;
+                        opacity         : 0;
+
+                        &:hover {
+                            opacity: 1;
+                        }
+
+                        .icon_shape {
+                            width : 24px;
+                            height: 24px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

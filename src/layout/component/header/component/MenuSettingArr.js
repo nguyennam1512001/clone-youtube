@@ -14,7 +14,7 @@ import {
   Setting,
   Help,
   Message,
-} from '~/assets/icons';
+} from '~/public/assets/icons';
 
 const menuSettingArr = [
   {

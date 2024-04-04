@@ -18,116 +18,14 @@
     left            : 0;
     right           : 0;
     z-index         : 2020;
-    display         : flex;
-    align-items     : center;
-    justify-content : space-between;
     height          : $header-height;
     padding         : 0 16px;
     background-color: white;
 
     .center {
-        display       : flex;
         flex          : 0 1 732px;
-        align-items   : center;
         flex-direction: row;
     }
 
-    .end {
-        display        : flex;
-        align-items    : center;
-        justify-content: flex-end;
-        min-width      : 225px;
 
-
-        .button_upload {
-            background-color: transparent;
-        }
-
-        .button {
-
-            position       : relative;
-            width          : 40px;
-            height         : 40px;
-            margin-right   : 8px;
-            display        : flex;
-            align-items    : center;
-            justify-content: center;
-
-            .icon_shape {
-                position: relative;
-                height  : 24px;
-                width   : 24px;
-
-                span {
-                    position        : absolute;
-                    background-color: #c00;
-                    color           : #fff;
-                    top             : -4px;
-                    left            : 12px;
-                    display         : inline-block;
-                    padding         : 0 4px;
-                    height          : 20px;
-                    width           : 20px;
-                    border          : 2px solid #fff;
-                    border-radius   : 22px;
-                    text-align      : center;
-                    font-size       : 12px;
-                    font-weight     : 400;
-                    line-height     : 16px;
-                }
-            }
-        }
-
-        .setting {
-
-            .setting_icon {
-                .icon {
-                    position        : relative;
-                    text-align      : center;
-                    color           : $--yt-spec-icon-inactive;
-                    border-radius   : 50%;
-                    background-color: white;
-                    transition      : background-color ease 0.3s;
-                    display         : flex;
-                    align-items     : center;
-                    justify-content : center;
-
-                    .icon_menu {
-                        margin-right: 8px;
-                    }
-
-                    &:active {
-                        background-color: #E5E5E5;
-                    }
-
-                    .avatar {
-                        width   : 60px;
-                        position: relative;
-
-                        .img_avatar {
-                            border-radius: 50%;
-                            width        : 32px;
-                            height       : 32px;
-                        }
-
-                    }
-                }
-
-            }
-
-        }
-
-
-        .login {
-            display        : inline-flex;
-            align-items    : center;
-            justify-content: flex-end;
-            border-radius  : 100px;
-            border         : 1px solid #E5E5E5;
-
-            &:hover {
-                background-color: #def1ff;
-            }
-        }
-    }
 }

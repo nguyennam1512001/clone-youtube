@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import style from './ChipBar.module.scss';
 import { Tooltip } from 'react-tooltip';
 
-import { ChevronLeft, ChevronRight } from '~/assets/icons';
+import { ChevronLeft, ChevronRight } from '../../public/assets/icons';
 function ChipBar({ is_sidebar_mini, chipArr }) {
   const chips = useRef(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
@@ -57,12 +57,12 @@ function ChipBar({ is_sidebar_mini, chipArr }) {
           [style.showArrow]: showLeftArrow,
         })}
       >
-        <div className={clsx(style.left_arrow)}>
-          <div className={clsx(style.arrow)}>
+        <div className={clsx('h-100', style.left_arrow)}>
+          <div className={clsx('flex-align-center h-100', style.arrow)}>
             <div
               data-tooltip-id="arrow_left_btn_bar"
               data-tooltip-content="trước"
-              className={clsx(style.arrow_btn)}
+              className={clsx('inline-flex-center bg-40-round cursor-pointer', style.arrow_btn)}
               onClick={handleScrollLeft}
             >
               <div className={clsx(style.btn_arrow_shape)}>
@@ -83,11 +83,13 @@ function ChipBar({ is_sidebar_mini, chipArr }) {
           {chipArr &&
             chipArr.map((item, index) => (
               <li
-                className={clsx('nav-item', { [style.selected]: isSelected == index })}
+                className={clsx('nav-item inline-flex-center flex-row ', {
+                  [style.selected]: isSelected == index,
+                })}
                 key={index}
                 onClick={() => handleSelected(index)}
               >
-                <button className={clsx('nav-link')} type="button">
+                <button className={clsx('text-md-5')} type="button">
                   {item.text}
                 </button>
               </li>
@@ -99,9 +101,13 @@ function ChipBar({ is_sidebar_mini, chipArr }) {
           [style.showArrow]: showRightArrow,
         })}
       >
-        <div className={clsx(style.right_arrow)}>
-          <div className={clsx(style.arrow)}>
-            <div data-tooltip-id="arrow_right_btn_bar" className={clsx(style.arrow_btn)} onClick={handleScrollRight}>
+        <div className={clsx('h-100', style.right_arrow)}>
+          <div className={clsx('flex-align-center', style.arrow)}>
+            <div
+              data-tooltip-id="arrow_right_btn_bar"
+              className={clsx('inline-flex-center bg-40-round cursor-pointer', style.arrow_btn)}
+              onClick={handleScrollRight}
+            >
               <div className={clsx(style.btn_arrow_shape)}>
                 <ChevronRight />
               </div>
@@ -122,7 +128,7 @@ function ChipBar({ is_sidebar_mini, chipArr }) {
 const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.user.isLoggedIn,
-    is_sidebar_mini: state.user.is_sidebar_mini,
+    is_sidebar_mini: state.app.is_sidebar_mini,
   };
 };
 

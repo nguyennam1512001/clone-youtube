@@ -11,52 +11,6 @@
             border-bottom: 1px solid $--yt-spec-10-percent-layer;
             padding      : 8px 0;
 
-            .section_title {}
-
-            .items {
-                cursor: pointer;
-
-                .item_link.m_16 {
-                    padding: 0 16px;
-                }
-
-                .item_link {
-                    padding                : 0 36px 0 16px;
-                    display                : flex;
-                    align-items            : center;
-                    --paper-item-min-height: 40px;
-                    height                 : var(--paper-item-min-height, 48px);
-
-                    &:hover {
-                        background-color: $--yt-spec-badge-chip-background;
-                    }
-
-                    .left_icon {
-                        margin-right: 16px;
-
-                    }
-
-                    .text {
-                        display      : block;
-                        text-overflow: ellipsis;
-                        overflow     : hidden;
-                        white-space  : nowrap;
-                        font-size    : 1.4rem;
-                        line-height  : 2rem;
-                        font-weight  : 400;
-                        flex         : 1;
-                        text-align   : start;
-                    }
-
-                    .right_icon {}
-
-                    .icon_shape {
-                        color : $--yt-spec-text-primary;
-                        width : 24px;
-                        height: 24px;
-                    }
-                }
-            }
         }
     }
 }

@@ -1,28 +1,17 @@
 import clsx from 'clsx';
-import React, { useState, useEffect, useRef } from 'react';
-import { useHistory } from 'react-router-dom';
+import React, { useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import style from './VideoList.module.scss';
 import * as actions from '~/store/actions';
-import VideoItem from './VideoItem';
+import VideoItem from './VideoItem/VideoItem';
 
 function VideoList({ videoList }) {
   const [idItem, setIdItem] = useState(null);
-
-  const history = useHistory();
   const listRef = useRef(null);
 
-  //   useEffect(() => {
-  //     if (isShowMenuPopup && idItem !== null && listRef.current) {
-  //       listRef?.current?.children[idItem]?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  //       document.body.style.overflow = 'hidden';
-  //     } else {
-  //       document.body.style.overflow = 'auto';
-  //     }
-  //   }, [isShowMenuPopup, idItem]);
   return (
-    <div className={clsx(style.grid_row)}>
-      <div className={clsx(style.list)} ref={listRef}>
+    <div className={clsx('d-flex w-100 justify-content-center', style.grid_row)}>
+      <div className={clsx('d-flex flex-column w-100', style.list)} ref={listRef}>
         {videoList &&
           videoList.map((item, index) => {
             return (

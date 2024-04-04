@@ -6,6 +6,8 @@ import { googleKey } from '~/utils';
 
 function Logout({ access_token, navigateToHomePage, processLogout }) {
   useEffect(() => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('admin');
     handleLogout();
   }, []);
 

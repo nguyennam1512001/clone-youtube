@@ -1,0 +1,81 @@
+@import "../../../../../styles/styles.scss";
+
+.end {
+    min-width: 225px;
+
+    .button {
+        position    : relative;
+        width       : 40px;
+        height      : 40px;
+        margin-right: 8px;
+        overflow    : unset !important;
+
+        &:hover {
+            background-color: #E5E5E5;
+        }
+
+        .icon_shape {
+            position: relative;
+            height  : 24px;
+            width   : 24px;
+
+            span {
+                position        : absolute;
+                top             : -4px;
+                left            : 12px;
+                display         : inline-block;
+                text-align      : center;
+                padding         : 0 4px;
+                color           : #fff;
+                background-color: #c00;
+                font-size       : 1.2rem;
+                line-height     : 1.6rem;
+                font-weight     : 400;
+                height          : 20px;
+                width           : 20px;
+                border-radius   : 22px;
+                border          : 2px solid #fff;
+            }
+        }
+    }
+
+    .setting {
+        .setting_icon {
+            .icon {
+                position        : relative;
+                color           : $--yt-spec-icon-inactive;
+                border-radius   : 50%;
+                background-color: white;
+                transition      : background-color ease 0.3s;
+
+                .icon_menu {
+                    margin-right: 8px;
+                }
+
+                &:active {
+                    background-color: #E5E5E5;
+                }
+
+                .avatar {
+                    position: relative;
+                    margin  : 0 14px;
+
+                    .img_avatar {
+                        width : 32px;
+                        height: 32px;
+                    }
+                }
+            }
+        }
+    }
+
+    .login {
+        display      : inline-flex;
+        border-radius: 100px;
+        border       : 1px solid #E5E5E5;
+
+        &:hover {
+            background-color: #def1ff;
+        }
+    }
+}

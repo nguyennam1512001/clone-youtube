@@ -1,22 +1,20 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
-import _ from 'lodash';
 import clsx from 'clsx';
 import useSound from 'use-sound';
-import beep from '~/assets/mp3/beep6.mp3';
+import beep from '~/public/assets/mp3/beep6.mp3';
 import { Tooltip } from 'react-tooltip';
 import { useHistory } from 'react-router-dom';
 
 import style from './Search.module.scss';
 import * as actions from '~/store/actions';
-import { LANGUAGES, googleKey } from '~/utils/constant';
-import icons, { Close } from '~/assets/icons';
+import { googleKey } from '~/utils/constant';
+import icons, { Close } from '~/public/assets/icons';
 import SearchSuggest from './SearchSuggest';
 import SearchVoiceModal from './SearchVoiceModal';
-import { fetchApi } from '~/services/videoService';
+import { getApi } from '~/services';
 import { path } from '~/utils';
-import ClickOutside from '~/components/ClickOutside';
+import useClickOutside from '~/hooks/useClickOutside';
 
 function Search({}) {
   const [play] = useSound(beep);
@@ -25,11 +23,12 @@ function Search({}) {
   const [isFocused, setIsFocused] = useState(false);
   const [isShow, setIsShow] = useState(false);
   const history = useHistory();
+  const inputBoxRef = useRef(null);
 
-  async function getSearchVideo(searchText) {
-    if (searchText.trim()) {
+  async function getSearchVideo({ searchText }) {
+    if (searchText && searchText.trim()) {
       try {
-        let res = await fetchApi(
+        let res = await getApi(
           `https://youtube.googleapis.com/youtube/v3/search?part=snippet&maxResults=14&q=${searchText}`,
           googleKey.API_KEY,
         );
@@ -78,31 +77,34 @@ function Search({}) {
   const popupSearchSuggestClick = (e) => {
     e.stopPropagation();
   };
+
+  useClickOutside(inputBoxRef, () => setIsFocused(false));
   return (
     <>
-      <div className={clsx(style.search)}>
-        <div className={clsx(style.search_form, { [style.pl_0]: isFocused }, { [style.form_control]: isFocused })}>
-          <div className={clsx(style.container)}>
+      <div className={clsx('flex-align-center w-100', style.search)}>
+        <div
+          className={clsx(
+            'flex-align-center h-100',
+            style.search_form,
+            { [style.pl_0]: isFocused },
+            { [style.form_control]: isFocused },
+          )}
+        >
+          <div className={clsx('flex-align-center h-100', style.container)}>
             <div className={clsx(style.search_icon, { [style.active]: isFocused })}>
               <img src={icons.search} alt="" />
             </div>
-            <div className={clsx(style.search_input)}>
-              <div className={clsx(style.input_box)}>
-                <ClickOutside
-                  isActive={isFocused}
-                  className={`.${style.input_box}`}
-                  onClickOutside={() => setIsFocused(false)}
-                >
-                  <input
-                    placeholder="Tìm kiếm"
-                    type="text"
-                    value={searchText}
-                    onChange={handleInputChange}
-                    onFocus={handleInputFocus}
-                    onKeyDown={(e) => handleKeyPress(e)}
-                  />
-                </ClickOutside>
-
+            <div className={clsx('w-100', style.search_input)}>
+              <div ref={inputBoxRef} className={clsx('flex-align-center', style.input_box)}>
+                <input
+                  className={'text-nomal-4'}
+                  placeholder="Tìm kiếm"
+                  type="text"
+                  value={searchText}
+                  onChange={handleInputChange}
+                  onFocus={handleInputFocus}
+                  onKeyDown={(e) => handleKeyPress(e)}
+                />
                 <div className={clsx(style.keyboard, 'cursor-pointer', { [style.pr_0]: searchText })}>
                   <img src="https://www.gstatic.com/inputtools/images/tia.png" alt="" />
                 </div>
@@ -114,7 +116,7 @@ function Search({}) {
                 setSearchText('');
               }}
             >
-              <div className={clsx(style.icon_shape, 'cursor-pointer')}>
+              <div className={clsx('cursor-pointer bg-40-round inline-flex-center', style.icon_shape)}>
                 <div className={clsx(style.icon, 'cursor-pointer')}>
                   <Close />
                 </div>
@@ -129,17 +131,20 @@ function Search({}) {
             />
           )}
         </div>
-        <div className={clsx(style.search_btn, 'cursor-pointer')} onClick={() => handelSearch()}>
+        <div
+          className={clsx('inline-flex-center cursor-pointer h-100', style.search_btn)}
+          onClick={() => handelSearch()}
+        >
           <div className={clsx(style.search_icon)}>
             <img src={icons.search} alt="" />
           </div>
         </div>
       </div>
-      <div className={clsx(style.voice_search, 'cursor-pointer')}>
+      <div className={clsx('bg-40-round inline-flex-center', style.voice_search, 'cursor-pointer')}>
         <div
           data-tooltip-id="search_voice_search_icon_tooltip"
           data-tooltip-content="Tìm kiếm bằng giọng nói"
-          className={clsx(style.icon)}
+          className={clsx('shape-24', style.icon)}
           data-bs-toggle="modal"
           data-bs-target="#searchVoiceModal"
           onClick={() => {

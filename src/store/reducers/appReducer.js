@@ -11,6 +11,9 @@ const initialState = {
   started: true,
   language: 'vi',
   systemMenuPath: '/system/user-manage',
+  is_sidebar_mini: false,
+  is_sidebar_modal: true,
+  isHidenSibarMini: true,
   contentOfConfirmModal: {
     ...initContentOfConfirmModal,
   },
@@ -18,6 +21,21 @@ const initialState = {
 
 const appReducer = (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.CHANGE_SIDEBAR_MINI:
+      return {
+        ...state,
+        is_sidebar_mini: action.isShow,
+      };
+    case actionTypes.CHANGE_SIDEBAR_MODAL:
+      return {
+        ...state,
+        is_sidebar_modal: action.isShow,
+      };
+    case actionTypes.HIDEN_SIBAR_MINI:
+      return {
+        ...state,
+        isHidenSibarMini: action.isShow,
+      };
     case actionTypes.APP_START_UP_COMPLETE:
       return {
         ...state,

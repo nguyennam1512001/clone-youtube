@@ -15,6 +15,7 @@ import SearchVoiceModal from './SearchVoiceModal';
 import { getApi } from '~/services';
 import { path } from '~/utils';
 import useClickOutside from '~/hooks/useClickOutside';
+import { Box } from '@mui/material';
 
 function Search({}) {
   const [play] = useSound(beep);
@@ -95,7 +96,11 @@ function Search({}) {
               <img src={icons.search} alt="" />
             </div>
             <div className={clsx('w-100', style.search_input)}>
-              <div ref={inputBoxRef} className={clsx('flex-align-center', style.input_box)}>
+              <Box
+                sx={{ color: 'text.primary' }}
+                ref={inputBoxRef}
+                className={clsx('flex-align-center', style.input_box)}
+              >
                 <input
                   className={'text-nomal-4'}
                   placeholder="Tìm kiếm"
@@ -108,7 +113,7 @@ function Search({}) {
                 <div className={clsx(style.keyboard, 'cursor-pointer', { [style.pr_0]: searchText })}>
                   <img src="https://www.gstatic.com/inputtools/images/tia.png" alt="" />
                 </div>
-              </div>
+              </Box>
             </div>
             <div
               className={clsx(style.search_clear_button, { [style.active]: searchText })}

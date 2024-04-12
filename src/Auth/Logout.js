@@ -1,49 +1,36 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { GoogleAuthProvider, signOut } from 'firebase/auth';
 import { push } from 'connected-react-router';
 import * as actions from '~/store/actions';
-import { googleKey } from '~/utils';
+import { auth } from '~/fireBase/FireBase';
 
-function Logout({ access_token, navigateToHomePage, processLogout }) {
+function Logout({ processLogout, navigate }) {
   useEffect(() => {
+    console.log('logout');
     localStorage.removeItem('user');
-    localStorage.removeItem('admin');
     handleLogout();
   }, []);
 
-  const handleLogout = () => {
-    revokeAccess();
-    navigateToHomePage();
+  const handleLogout = async () => {
+    const provider = new GoogleAuthProvider();
+    try {
+      await signOut(auth);
+      processLogout();
+      navigate('/');
+    } catch (error) {
+      navigate('/');
+    }
   };
 
-  const revokeAccess = () => {
-    fetch(`${googleKey.REVOKE_TOKEN_ENDPOINT}?token=${access_token}`, {
-      method: 'POST',
-    })
-      .then((response) => {
-        console.log('Access token revoked successfully', response);
-        processLogout();
-      })
-      .catch((error) => {
-        console.error('Failed to revoke access token', error);
-      });
-  };
-
-  return <div></div>;
+  return <></>;
 }
 
-const mapStateToProps = (state) => {
-  return {
-    access_token: state.user.access_token,
-  };
-};
 const mapDispatchToProps = (dispatch) => {
   return {
-    navigateToHomePage: () => {
-      dispatch(push('/'));
-    },
+    navigate: (path) => dispatch(push(path)),
     processLogout: () => dispatch(actions.processLogout()),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Logout);
+export default connect(null, mapDispatchToProps)(Logout);

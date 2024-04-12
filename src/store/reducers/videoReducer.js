@@ -8,6 +8,10 @@ const initialState = {
   isLoadingBar: false,
   currentPage: null,
   videoWatch: [],
+  rate: null,
+  subscriptions: [],
+  isSubscribed: [],
+  message: '',
   err: '',
 };
 
@@ -56,6 +60,26 @@ const videoReducer = (state = initialState, action) => {
         videoWatch: [],
         err: action.err,
       };
+    case actionTypes.GET_RATE:
+      return {
+        ...state,
+        rate: action.data,
+      };
+    case actionTypes.SUBSCRIPTIONS:
+      return {
+        ...state,
+        subscriptions: action.data,
+      };
+    case actionTypes.IS_CHANNEL_SUBSCRIBED:
+      return {
+        ...state,
+        isSubscribed: action.data,
+      };
+    case actionTypes.IS_SUBSCRIBED:
+      return {
+        ...state,
+        message: action.data,
+      };
     // =======
     case actionTypes.IS_SPINNER:
       return {
@@ -72,6 +96,7 @@ const videoReducer = (state = initialState, action) => {
         ...state,
         currentPage: action.page,
       };
+
     default:
       return state;
   }

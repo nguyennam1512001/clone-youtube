@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
 import { ConnectedRouter as Router } from 'connected-react-router';
@@ -8,54 +8,52 @@ import { history } from './redux';
 import { userIsAuthenticated, userIsNotAuthenticated } from './hoc/authentication';
 import { path } from './utils';
 import AppRoutes from './routes/AppRoutes';
-import Login from './Auth/Login';
 import Container from './pages';
 import Layout from './layout/defaultLayout';
-import Logout from './Auth/Logout';
 import * as actions from '~/store/actions';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import getTheme from './utils/getTheme';
+import Login from './Auth/Login';
+import Logout from './Auth/Logout';
 
-class App extends Component {
-  handlePersistorState = () => {
-    const { persistor } = this.props;
+const App = ({ persistor, onBeforeLift, isHidenSibarMini, changeSideBarModal, mode }) => {
+  const defaultTheme = createTheme(getTheme(mode));
+
+  const handlePersistorState = () => {
     let { bootstrapped } = persistor.getState();
     if (bootstrapped) {
-      if (this.props.onBeforeLift) {
-        Promise.resolve(this.props.onBeforeLift())
-          .then(() => this.setState({ bootstrapped: true }))
-          .catch(() => this.setState({ bootstrapped: true }));
-      } else {
-        this.setState({ bootstrapped: true });
+      if (onBeforeLift) {
+        Promise.resolve(onBeforeLift())
+          .then(() => {})
+          .catch(() => {});
       }
     }
   };
 
-  componentDidMount() {
-    this.handlePersistorState();
-    window.addEventListener('resize', this.handleResize);
-    this.handleResize();
-  }
-
-  componentDidUpdate(prevProps) {
-    if (this.props.isHidenSibarMini !== prevProps.isHidenSibarMini) {
-      this.handleResize();
-    }
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener('resize', this.handleResize);
-  }
-
-  handleResize = () => {
+  const handleResize = () => {
     const screenWidth = window.innerWidth;
-    if (screenWidth < 1313 || this.props.isHidenSibarMini === false) {
-      this.props.changeSideBarModal(true);
+    if (screenWidth < 1313 || isHidenSibarMini === false) {
+      changeSideBarModal(true);
     } else {
-      this.props.changeSideBarModal(false);
+      changeSideBarModal(false);
     }
   };
-  render() {
-    return (
-      <Fragment>
+  useEffect(() => {
+    handlePersistorState();
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    handleResize();
+  }, [isHidenSibarMini]);
+
+  return (
+    <Fragment>
+      <ThemeProvider theme={defaultTheme}>
         <Router history={history}>
           <div className="main-container">
             <div className="content-container scroll_bar">
@@ -86,16 +84,17 @@ class App extends Component {
             />
           </div>
         </Router>
-      </Fragment>
-    );
-  }
-}
+      </ThemeProvider>
+    </Fragment>
+  );
+};
 
 const mapStateToProps = (state) => {
   return {
     started: state.app.started,
     isLoggedIn: state.user.isLoggedIn,
     isHidenSibarMini: state.app.isHidenSibarMini,
+    mode: state.app.mode,
   };
 };
 

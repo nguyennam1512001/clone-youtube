@@ -8,6 +8,7 @@ const initContentOfConfirmModal = {
 };
 
 const initialState = {
+  mode: 'light',
   started: true,
   language: 'vi',
   systemMenuPath: '/system/user-manage',
@@ -54,7 +55,11 @@ const appReducer = (state = initialState, action) => {
         ...state,
         language: action.language,
       };
-
+    case actionTypes.CHANGE_THEME_MODE:
+      return {
+        ...state,
+        mode: action.mode,
+      };
     default:
       return state;
   }

@@ -5,15 +5,19 @@ import { useHistory } from 'react-router-dom';
 
 import style from './Header.module.scss';
 import * as actions from '~/store/actions';
-import Search from './component/Search';
+import Search from './component/searchInput/Search';
 import HeaderStart from './component/headerStart/HeaderStart';
 import HeaderEnd from './component/headerEnd/HeaderEnd';
+import { Box } from '@mui/material';
 
 function Header({ isLoggedIn, userInfo, isLoadingBar }) {
   const history = useHistory();
 
   return (
-    <div className={clsx('d-flex justify-content-between align-items-center', style.header)}>
+    <Box
+      sx={{ bgcolor: 'bgcolor.default' }}
+      className={clsx('d-flex justify-content-between align-items-center', style.header)}
+    >
       <div className="progress" style={{ height: '2px' }}>
         <div
           className={`progress-bar ${isLoadingBar ? ' progress-bar-animated bg-danger' : ''}`}
@@ -31,7 +35,7 @@ function Header({ isLoggedIn, userInfo, isLoadingBar }) {
       </div>
       <HeaderEnd />
       {/* <div className={clsx(style.a)}></div> */}
-    </div>
+    </Box>
   );
 }
 

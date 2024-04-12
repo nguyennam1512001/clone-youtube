@@ -1,76 +1,203 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import clsx from 'clsx';
 
 import style from './SettingPopup.module.scss';
 import * as actions from '~/store/actions';
 import menuSettingArr from './MenuSettingArr';
-import Item from '~/components/listItem/Item';
-import { useHistory } from 'react-router-dom';
-function SettingPopup({ isLoggedIn, userInfo, setIsShow }) {
+
+import { Box, Paper, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider } from '@mui/material';
+import { ArrowLeft, Check } from '~/public/assets/icons';
+
+const backIconSX = {
+  '&:hover': {
+    'background-color': 'rgba(255, 255, 255, 0.2)',
+  },
+};
+function SettingPopup({ isLoggedIn, userInfo, setIsShow, mode, changeThemeMode, googleUserInfo }) {
+  const [childrenPopup, setChildrenPopup] = useState(null);
+
   const history = useHistory();
-  console.log(userInfo);
+
   const handleItemClick = (item) => {
+    if (item.popup) {
+      setChildrenPopup(item.popup);
+    }
     if (item.path) {
       history.push(item.path);
     }
+    // setIsShow(false);
   };
+
+  const handleSelect = (item) => {
+    if (item.theme) {
+      changeThemeMode(item.theme);
+    }
+    setIsShow(false);
+  };
+
+  const handleBack = () => {
+    setIsShow(true);
+    setChildrenPopup(null);
+  };
+
   return (
     <>
-      {isLoggedIn && (
-        <div className={clsx(style.popup_header)}>
-          <div className={clsx(style.account_header)}>
-            <div className={clsx('img-40-round', style.account_avatar)}>
-              <img
-                draggable="false"
-                alt=""
-                height="40"
-                width="40"
-                src={userInfo?.items[0]?.snippet.thumbnails.default.url}
-              />
-            </div>
-            <div className={clsx(style.account_container)}>
-              <div className={clsx('text-one-line text-nomal-4', style.account_name)}>
-                {userInfo.items[0].snippet.title}
+      {childrenPopup ? (
+        <Paper
+          elevation={3}
+          sx={{
+            minWidth: '300px',
+            maxHeight: '90vh',
+            borderRadius: '12px',
+            overflow: 'auto',
+            bgcolor: 'bgcolor.popup',
+          }}
+        >
+          <List>
+            <ListItem sx={{ pl: 1, height: '40px', pt: 0 }}>
+              <ListItemIcon sx={{ minWidth: '0' }} onClick={() => handleBack()}>
+                <Box className="flex-center bg-40-round " sx={backIconSX} mr={0.5}>
+                  <Box sx={{ width: '24px', height: '24px' }}>
+                    <ArrowLeft />
+                  </Box>
+                </Box>
+              </ListItemIcon>
+              <ListItemText>
+                <Box
+                  sx={{ color: 'text.primary' }}
+                  className="text-nomal-4 text-line-one"
+                  style={{ WebkitFontSmoothing: 'auto' }}
+                >
+                  {childrenPopup.title}
+                </Box>
+              </ListItemText>
+            </ListItem>
+            <Divider />
+            {childrenPopup.option.map((item, index) => (
+              <ListItem disablePadding key={index} sx={{ height: '40px' }} onClick={() => handleSelect(item)}>
+                <ListItemButton>
+                  <ListItemIcon sx={{ minWidth: '0', mr: 3 }}>
+                    <Box sx={{ width: '24px', height: '24px' }}>{item.theme && item.theme === mode && <Check />}</Box>
+                  </ListItemIcon>
+                  <ListItemText sx={{ '&.MuiTypography-root': { WebkitFontSmoothing: 'antialiased' } }}>
+                    <Box
+                      sx={(theme) => ({
+                        color: theme.palette.mode === 'light' ? 'text.primary' : '#f1f1f1',
+                      })}
+                      className="text-md-4 text-line-one"
+                      style={{ WebkitFontSmoothing: 'antialiased' }}
+                    >
+                      {item.text}{' '}
+                    </Box>
+                  </ListItemText>
+                </ListItemButton>
+              </ListItem>
+            ))}
+          </List>
+        </Paper>
+      ) : (
+        <Paper
+          elevation={3}
+          sx={(theme) => ({
+            minWidth: '300px',
+            maxHeight: '90vh',
+            borderRadius: '12px',
+            overflow: 'auto',
+            bgcolor: 'bgcolor.popup',
+          })}
+        >
+          <List>
+            {isLoggedIn && (userInfo?.pageInfo?.totalResults !== 0 || googleUserInfo) && (
+              <div className={clsx(style.popup_header)}>
+                <div className={clsx(style.account_header)}>
+                  <div className={clsx('img-40-round', style.account_avatar)}>
+                    <img
+                      draggable="false"
+                      alt=""
+                      height="40"
+                      width="40"
+                      src={
+                        (userInfo?.pageInfo?.totalResults !== 0 &&
+                          userInfo?.items &&
+                          userInfo.items.length > 0 &&
+                          userInfo.items[0]?.snippet?.thumbnails?.default?.url) ||
+                        googleUserInfo.photoUrl
+                      }
+                    />
+                  </div>
+                  <div className={clsx(style.account_container)}>
+                    <Box
+                      sx={{ color: 'text.primary' }}
+                      className={clsx('text-one-line text-nomal-4', style.account_name)}
+                    >
+                      {(userInfo?.pageInfo?.totalResults !== 0 &&
+                        userInfo?.items &&
+                        userInfo.items.length > 0 &&
+                        userInfo.items[0]?.snippet?.title) ||
+                        googleUserInfo.email}
+                    </Box>
+                    <Box
+                      sx={{ color: 'text.primary' }}
+                      className={clsx('text-one-line text-nomal-4', style.channel_name)}
+                    >
+                      {(userInfo.pageInfo.totalResults !== 0 &&
+                        userInfo?.items &&
+                        userInfo.items.length > 0 &&
+                        userInfo.items[0]?.snippet?.customUrl) ||
+                        googleUserInfo.displayName}
+                    </Box>
+                    <div className={clsx('text-md-4 cursor-pointer', style.manage_account)}>Xem kênh của bạn</div>
+                  </div>
+                </div>
               </div>
-              <div className={clsx('text-one-line text-nomal-4', style.channel_name)}>
-                {userInfo.items[0].snippet.customUrl}
-              </div>
-              <div className={clsx('text-md-4 cursor-pointer', style.manage_account)}>Xem kênh của bạn</div>
-            </div>
-          </div>
-        </div>
-      )}
-      <div className={clsx(style.popup_container)}>
-        <div className={clsx(style.sections)}>
-          {menuSettingArr &&
-            menuSettingArr.map((section, index) => {
-              if (section.auth && isLoggedIn === false) {
-                return <React.Fragment key={index}></React.Fragment>;
-              } else {
-                return (
-                  <div className={clsx(style.section_render)} key={index}>
-                    <div className={clsx(style.section_title)}></div>
-                    <div className={clsx('cursor-pointer', style.items)}>
-                      {section.items.map((item, index) => {
+            )}
+            {menuSettingArr &&
+              menuSettingArr.map((section, index) => {
+                if (section.auth && isLoggedIn === false) {
+                  return <React.Fragment key={index}></React.Fragment>;
+                } else {
+                  return (
+                    <Box key={index}>
+                      {section.items.map((item, id) => {
                         return (
-                          <div key={index} onClick={() => handleItemClick(item)}>
-                            <Item
-                              leftIcon={item.iconLeft}
-                              text={item.text}
-                              rightIcon={item.rightIcon}
-                              setIsShow={setIsShow}
-                            />
-                          </div>
+                          <ListItem
+                            disablePadding
+                            key={id + 'item'}
+                            sx={{ height: '40px' }}
+                            onClick={() => handleItemClick(item)}
+                          >
+                            <ListItemButton>
+                              <ListItemIcon sx={{ minWidth: '0', mr: 2 }}>
+                                <Box sx={{ height: '24px', width: '24px', color: 'text.primary' }}>{item.iconLeft}</Box>
+                              </ListItemIcon>
+                              <ListItemText>
+                                <Box
+                                  sx={(theme) => ({
+                                    color: theme.palette.mode === 'light' ? 'text.primary' : '#f1f1f1',
+                                  })}
+                                  className="text-md-4 text-line-one"
+                                  style={{ WebkitFontSmoothing: 'antialiased' }}
+                                >
+                                  {item.text === 'Giao diện:'
+                                    ? `Giao diện: ${mode === 'light' ? 'Sáng' : 'Tối'}`
+                                    : item.text}
+                                </Box>
+                              </ListItemText>
+                              {item.iconRight && <Box sx={{ height: '24px', width: '24px' }}>{item.iconRight}</Box>}
+                            </ListItemButton>
+                          </ListItem>
                         );
                       })}
-                    </div>
-                  </div>
-                );
-              }
-            })}
-        </div>
-      </div>
+                      {index !== menuSettingArr.length - 1 ? <Divider sx={{ my: '8px' }} /> : <></>}
+                    </Box>
+                  );
+                }
+              })}
+          </List>
+        </Paper>
+      )}
     </>
   );
 }
@@ -78,14 +205,17 @@ function SettingPopup({ isLoggedIn, userInfo, setIsShow }) {
 const mapStateToProps = (state) => {
   return {
     language: state.app.language,
+    mode: state.app.mode,
     isLoggedIn: state.user.isLoggedIn,
     userInfo: state.user.userInfo,
+    googleUserInfo: state.user.googleUserInfo,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     changeLanguageAppRedux: (language) => dispatch(actions.changeLanguageApp(language)),
+    changeThemeMode: (mode) => dispatch(actions.changeThemeMode(mode)),
   };
 };
 

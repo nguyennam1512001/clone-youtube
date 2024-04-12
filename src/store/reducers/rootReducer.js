@@ -18,7 +18,7 @@ const persistCommonConfig = {
 const userPersistConfig = {
   ...persistCommonConfig,
   key: 'user',
-  whitelist: ['isLoggedIn', 'access_token', 'oauth2Data', 'userInfo'],
+  whitelist: ['isLoggedIn', 'access_token', 'userInfo', 'refresh_token', 'googleUserInfo'],
 };
 
 const appPersistConfig = {

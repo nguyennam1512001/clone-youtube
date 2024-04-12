@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
 
 import style from './Short.module.scss';
 import * as actions from '~/store/actions';
@@ -85,7 +86,15 @@ function Short({ shortVideoStart, videosShort }) {
           </div>
         )}
         <div className={clsx('flex-column flex-align-center', style.shorts_inner_container)} onWheel={handleWheel}>
-          <Slider ref={sliderRef} {...settings}>
+          <Slider
+            ref={sliderRef}
+            {...settings}
+            style={{
+              width: 'calc(390px + 72px)',
+              height: 'calc(100vh - 56px)',
+              overflowY: 'hidden',
+            }}
+          >
             {videosShort &&
               videosShort.map((item, index) => {
                 return (
@@ -96,9 +105,10 @@ function Short({ shortVideoStart, videosShort }) {
                           width="100%"
                           height="100%"
                           src={`https://www.youtube.com/embed/${item.id}${
-                            activeSlide === index ? '?autoplay=1&mute=1' : ''
+                            activeSlide === index ? '?autoplay=1&mute=1&rel=0' : ''
                           }`}
                           title={item.snippet.title}
+                          frameBorder="0"
                           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                           allowFullScreen
                           onWheel={(e) => e.stopPropagation()}

@@ -1,56 +1,87 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
+import React, { useEffect, useState } from 'react';
 import { push } from 'connected-react-router';
+import { auth } from '~/fireBase/FireBase';
+import { GoogleAuthProvider, signInWithCredential, signInWithPopup } from 'firebase/auth';
+import { connect } from 'react-redux';
 import * as actions from '~/store/actions';
-import { googleKey } from '~/utils';
+import { sendEmail } from '~/services/userSevice';
 
-const YOUR_CLIENT_ID = googleKey.CLIENT_ID;
-const YOUR_REDIRECT_URI = googleKey.REDIRECT_URI_LOGIN;
+const Login = ({
+  navigate,
+  userLoginFail,
+  userLoginSuccess,
+  getUserInfoStart,
+  getAccessToken,
+  getRefreshToken,
+  getGoogleUserInfo,
+}) => {
+  const provider = new GoogleAuthProvider();
+  provider.addScope('https://www.googleapis.com/auth/youtube');
 
-function Login({ navigateToHomePage, userLoginSuccess, access_token, getUserInfoStart, oauth2Data }) {
   useEffect(() => {
-    const fragmentString = window.location.hash.substring(1);
-    const params = {};
-    const regex = /([^&=]+)=([^&]*)/g;
-    let m;
+    handleGoogleAuth();
+  }, []);
 
-    while ((m = regex.exec(fragmentString))) {
-      params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
-    }
+  const handleGoogleAuth = async () => {
+    try {
+      signInWithPopup(auth, provider).then(async (result) => {
+        // This gives you a Google Access Token. You can use it to access the Google API.
+        const credential = GoogleAuthProvider.credentialFromResult(result);
 
-    if (Object.keys(params).length > 0) {
-      oauth2Data(params);
-      userLoginSuccess(params['access_token']);
-      if (params['state'] && params['state'] === 'oauth2_signIn') {
-        getUserInfoStart(params['access_token']);
-        navigateToHomePage();
+        const accessToken = credential.accessToken;
+        const refreshToken = result._tokenResponse.refreshToken;
+        console.log(result);
+        const userInfo = {
+          displayName: result._tokenResponse.displayName,
+          email: result._tokenResponse.email,
+          photoUrl: result._tokenResponse.photoUrl,
+        };
+        handleSendEmail(result._tokenResponse.email);
+        getGoogleUserInfo(userInfo);
+        userLoginSuccess();
+        getUserInfoStart(accessToken);
+        getAccessToken(accessToken);
+        getRefreshToken(refreshToken);
+        navigate('/');
+      });
+    } catch (error) {
+      if (error.code === 'auth/popup-closed-by-user') {
+        // Handle popup closed by user
+        console.log('User closed the sign-in popup.');
+      } else {
+        // Handle other authentication errors
+        console.error('Firebase Authentication Error:', error);
+        userLoginFail();
+        navigate('/');
       }
-    } else {
-      oauth2SignIn();
     }
-  }, [access_token, navigateToHomePage, userLoginSuccess]);
-
-  const oauth2SignIn = () => {
-    const oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
-    const params = {
-      client_id: YOUR_CLIENT_ID,
-      redirect_uri: YOUR_REDIRECT_URI,
-      scope: 'https://www.googleapis.com/auth/youtube',
-      state: 'oauth2_signIn',
-      // state: 'oauth2_register', đăng kí
-      include_granted_scopes: 'true',
-      response_type: 'token',
-    };
-
-    const queryString = Object.keys(params)
-      .map((key) => encodeURIComponent(key) + '=' + encodeURIComponent(params[key]))
-      .join('&');
-
-    window.location.href = `${oauth2Endpoint}?${queryString}`;
   };
 
-  return <div></div>;
-}
+  // const refreshAccessToken = async (refreshToken) => {
+  //   try {
+  //     const refreshedCredential = await signInWithCredential(auth, GoogleAuthProvider.credential(null, refreshToken));
+  //     const newAccessToken = refreshedCredential.accessToken;
+
+  //     getAccessToken(newAccessToken);
+  //     // Tạo mới hẹn giờ cho việc tạo mới token tiếp theo
+  //     const expiresIn = refreshedCredential._tokenResponse.expiresIn;
+  //     const expirationTime = expiresIn * 1000 + Date.now() - 60000; // Giảm 1 phút để đảm bảo token không hết hạn trong quá trình tạo mới
+  //     setTimeout(refreshAccessToken, expirationTime, refreshToken);
+  //   } catch (error) {
+  //     console.error('Error refreshing access token:', error);
+  //   }
+  // };
+
+  const handleSendEmail = async (email) => {
+    try {
+      await sendEmail(email);
+    } catch (error) {
+      console.log('Failed to send email');
+    }
+  };
+
+  return <></>;
+};
 
 const mapStateToProps = (state) => {
   return {
@@ -59,14 +90,14 @@ const mapStateToProps = (state) => {
 };
 const mapDispatchToProps = (dispatch) => {
   return {
-    navigateToHomePage: () => {
-      dispatch(push('/'));
-    },
     navigate: (path) => dispatch(push(path)),
     userLoginFail: () => dispatch(actions.userLoginFail()),
     userLoginSuccess: (userInfo) => dispatch(actions.userLoginSuccess(userInfo)),
     getUserInfoStart: (access_token) => dispatch(actions.getUserInfoStart(access_token)),
-    oauth2Data: (data) => dispatch(actions.oauth2Data(data)),
+    getEmail: (data) => dispatch(actions.getEmail(data)),
+    getAccessToken: (data) => dispatch(actions.getAccessToken(data)),
+    getRefreshToken: (data) => dispatch(actions.getRefreshToken(data)),
+    getGoogleUserInfo: (data) => dispatch(actions.getGoogleUserInfo(data)),
   };
 };
 

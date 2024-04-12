@@ -28,3 +28,8 @@ export const hidenSidebarMini = (isShow) => ({
   type: actionTypes.HIDEN_SIBAR_MINI,
   isShow,
 });
+
+export const changeThemeMode = (mode) => ({
+  type: actionTypes.CHANGE_THEME_MODE,
+  mode,
+});

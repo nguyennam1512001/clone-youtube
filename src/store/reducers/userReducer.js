@@ -4,7 +4,10 @@ const initialState = {
   isLoggedIn: false,
   userInfo: null,
   access_token: null,
+  refresh_token: null,
   oauth2Data: null,
+  email: null,
+  googleUserInfo: null,
 };
 
 const userReducer = (state = initialState, action) => {
@@ -23,13 +26,22 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         isLoggedIn: true,
-        access_token: action.access_token,
       };
     case actionTypes.USER_LOGIN_FAIL:
       return {
         ...state,
         isLoggedIn: false,
         access_token: null,
+      };
+    case actionTypes.GET_ACCESS_TOKEN:
+      return {
+        ...state,
+        access_token: action.accessToken,
+      };
+    case actionTypes.GET_REFRESH_TOKEN:
+      return {
+        ...state,
+        refresh_token: action.refreshToken,
       };
     case actionTypes.PROCESS_LOGOUT:
       return {
@@ -43,6 +55,11 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         oauth2Data: action.oauth2Data,
+      };
+    case actionTypes.GET_GOOGLE_USER_INFO:
+      return {
+        ...state,
+        googleUserInfo: action.data,
       };
     default:
       return state;

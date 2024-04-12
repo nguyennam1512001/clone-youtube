@@ -5,11 +5,12 @@ import style from './ChipBar.module.scss';
 import { Tooltip } from 'react-tooltip';
 
 import { ChevronLeft, ChevronRight } from '../../public/assets/icons';
+import { Box, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
 function ChipBar({ is_sidebar_mini, chipArr }) {
   const chips = useRef(null);
+  const [isSelected, setIsSelected] = useState(0);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
   const [showRightArrow, setShowRightArrow] = useState(false);
-  const [isSelected, setIsSelected] = useState(0);
 
   useEffect(() => {
     if (chips.current) {
@@ -78,24 +79,38 @@ function ChipBar({ is_sidebar_mini, chipArr }) {
           </div>
         </div>
       </div>
-      <div className={clsx(style.scroll_container)}>
-        <ul ref={chips} className={clsx(style.chips, 'nav-pills scroll_bar')}>
+      <Box sx={{ bgcolor: 'bgcolor.default' }} className={clsx(style.scroll_container)}>
+        <List ref={chips} className={clsx(style.chips, 'nav-pills scroll_bar')}>
           {chipArr &&
             chipArr.map((item, index) => (
-              <li
-                className={clsx('nav-item inline-flex-center flex-row ', {
-                  [style.selected]: isSelected == index,
+              <ListItem
+                sx={(theme) => ({
+                  bgcolor: theme.palette.mode === 'light' ? 'bgcolor.secondary' : '#272727',
+                  ...(isSelected === index && {
+                    bgcolor: 'action.bgcolor',
+                  }),
+                  cursor: 'pointer',
                 })}
+                className={clsx('nav-item inline-flex-center flex-row ', style.item)}
                 key={index}
                 onClick={() => handleSelected(index)}
               >
-                <button className={clsx('text-md-5')} type="button">
+                <Box
+                  sx={{
+                    color: 'text.primary',
+                    whiteSpace: 'nowrap',
+                    ...(isSelected === index && {
+                      color: 'action.text',
+                    }),
+                  }}
+                  className={clsx('text-md-5', style.text)}
+                >
                   {item.text}
-                </button>
-              </li>
+                </Box>
+              </ListItem>
             ))}
-        </ul>
-      </div>
+        </List>
+      </Box>
       <div
         className={clsx(style.right_arrow_wrap, {
           [style.showArrow]: showRightArrow,

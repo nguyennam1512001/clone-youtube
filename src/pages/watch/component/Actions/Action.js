@@ -19,27 +19,67 @@ import {
 import style from './Action.module.scss';
 import * as actions from '~/store/actions';
 import { convertViewCount } from '~/utils';
+import ShareModal from './ShareModal';
 
-function Action({ item }) {
-  const [likeActive, setLikeActive] = useState(false);
-  const [dislikeActive, setDislikeActive] = useState(false);
-
+function Action({ isLoggedIn, item, rate, postRate, access_token, getRate }) {
+  const [rating, setRating] = useState('');
+  const [openModalShare, setOpenModalShare] = React.useState(false);
+  const handleOpenModalShare = () => {
+    setOpenModalShare(true);
+  };
+  const handleCloseModalShare = () => {
+    setOpenModalShare(false);
+  };
   const history = useHistory();
+
+  useEffect(() => {
+    if (access_token) {
+      getRate(item.id, access_token);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (rate && rate.items && rate.items.length > 0 && isLoggedIn) {
+      console.log(rate);
+      setRating(rate.items[0].rating);
+    }
+  }, [rate, isLoggedIn]);
+
+  useEffect(() => {
+    const handlePostAndFetchRate = async () => {
+      if (rating && access_token) {
+        try {
+          await postRate(item.id, rating, access_token);
+          getRate(item.id, access_token);
+        } catch (error) {
+          console.error('Error while posting rate:', error);
+        }
+      }
+    };
+    handlePostAndFetchRate();
+  }, [rating]);
+
   const handleLike = () => {
-    if (!likeActive || (likeActive && dislikeActive)) {
-      setLikeActive(!likeActive);
-      setDislikeActive(false);
-    } else {
-      setLikeActive(false);
+    if (rating === 'like') {
+      setRating('none');
+    }
+    if (rating === 'none') {
+      setRating('like');
+    }
+    if (rating === 'dislike') {
+      setRating('like');
     }
   };
 
   const handleDislike = () => {
-    if (!dislikeActive || (likeActive && dislikeActive)) {
-      setDislikeActive(!dislikeActive);
-      setLikeActive(false);
-    } else {
-      setDislikeActive(false);
+    if (rating === 'dislike') {
+      setRating('none');
+    }
+    if (rating === 'none') {
+      setRating('dislike');
+    }
+    if (rating === 'like') {
+      setRating('dislike');
     }
   };
 
@@ -53,11 +93,13 @@ function Action({ item }) {
             data-tooltip-content="Tôi thích video này"
             onClick={() => handleLike()}
           >
-            <div className={clsx(style.icon)}>{likeActive ? <LikeBold /> : <Like />}</div>
+            <div className={clsx(style.icon)}>{rating === 'like' ? <LikeBold /> : <Like />}</div>
           </div>
           <Tooltip place="bottom" arrowColor="transparent" id="short-action-icon" className="normal_tooltip"></Tooltip>
           <div className={clsx('text-one-line text-md-6', style.text)}>
-            {convertViewCount(item?.statistics.likeCount)}
+            {convertViewCount(
+              rating === 'like' ? parseInt(item?.statistics.likeCount) + 1 : item?.statistics.likeCount,
+            )}
           </div>
         </div>
         <div className={clsx('flex-center cursor-pointer', style.btn_shape, style.dislike)}>
@@ -67,7 +109,7 @@ function Action({ item }) {
             data-tooltip-content="Tôi không thích video này"
             onClick={() => handleDislike()}
           >
-            <div className={clsx(style.icon)}>{dislikeActive ? <DisLikeBold /> : <DisLike />}</div>
+            <div className={clsx(style.icon)}>{rating === 'dislike' ? <DisLikeBold /> : <DisLike />}</div>
           </div>
           <div className={clsx('text-one-line text-md-4', style.text)}>Không thích</div>
         </div>
@@ -89,7 +131,7 @@ function Action({ item }) {
         </div>
       </div> */}
       <div className={clsx('flex-center', style.share_btn, style.actions_btn)}>
-        <div className={clsx('flex-center cursor-pointer', style.btn_shape)}>
+        <div className={clsx('flex-center cursor-pointer', style.btn_shape)} onClick={handleOpenModalShare}>
           <div
             className={clsx('flex-center simple-endpoint', style.icon_shape)}
             data-tooltip-id="short-action-icon"
@@ -102,6 +144,7 @@ function Action({ item }) {
           </div>
           <div className={clsx('text-one-line text-md-6', style.text)}>Chia sẻ</div>
         </div>
+        <ShareModal isOpen={openModalShare} handleClose={handleCloseModalShare} />
       </div>
       <div className={clsx('flex-center', style.dowload_btn, style.actions_btn)}>
         <div className={clsx('flex-center cursor-pointer', style.btn_shape)}>
@@ -140,11 +183,16 @@ function Action({ item }) {
 const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.user.isLoggedIn,
+    access_token: state.user.access_token,
+    rate: state.video.rate,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {};
+  return {
+    getRate: (id, access_token) => dispatch(actions.getRate(id, access_token)),
+    postRate: (id, rating, access_token) => dispatch(actions.postRate(id, rating, access_token)),
+  };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Action);

@@ -15,4 +15,17 @@ const findDuplicates = (string) => {
   return repeatedWords.join(' ');
 };
 
-export { findDuplicates };
+// convert Text To Anchor & tags
+function convertTextToAnchor(text) {
+  const urlRegex = /(https?:\/\/[^\s]+)/g;
+
+  let formattedText = text.replace(urlRegex, (match) => {
+    return `<div><a href="${match}"><div style="color: inherit">/${match}</div></a></div>`;
+  });
+  const tagRegex = /#(\w+)/g;
+  formattedText = formattedText.replace(tagRegex, `<span class="tags">#$1</span>`);
+
+  return formattedText;
+}
+
+export { findDuplicates, convertTextToAnchor };

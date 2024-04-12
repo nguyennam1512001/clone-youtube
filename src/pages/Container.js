@@ -9,6 +9,7 @@ import Home from './home/Home';
 import Short from './shorts/Short';
 import Search from './search/Search';
 import Watch from './watch/Watch';
+import { Snackbar } from '@mui/material';
 
 const views = [
   {
@@ -29,11 +30,17 @@ const views = [
   },
 ];
 
-function Container({ is_sidebar_mini, is_sidebar_modal, isHidenSibarMini, hidenSidebarMini, changeSideBarMini }) {
+function Container({
+  is_sidebar_mini,
+  is_sidebar_modal,
+  isHidenSibarMini,
+  hidenSidebarMini,
+  changeSideBarMini,
+  message,
+}) {
   const [reloadState, setReloadState] = useState(false);
   const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const videoId = queryParams.get('v');
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const targetElement = document.getElementById('watch-video-play');
@@ -62,6 +69,15 @@ function Container({ is_sidebar_mini, is_sidebar_modal, isHidenSibarMini, hidenS
     }
   }, [location.pathname, hidenSidebarMini]);
 
+  useEffect(() => {
+    if (message) {
+      setOpen(true);
+    }
+  }, [message]);
+
+  const handleClose = () => {
+    setOpen(false);
+  };
   return (
     <div
       className={clsx(
@@ -78,6 +94,13 @@ function Container({ is_sidebar_mini, is_sidebar_modal, isHidenSibarMini, hidenS
           </div>
         );
       })}
+      <Snackbar
+        sx={{ color: 'text.primary', fontSize: '14px' }}
+        open={open}
+        autoHideDuration={3000}
+        onClose={handleClose}
+        message={message}
+      />
     </div>
   );
 }
@@ -88,6 +111,8 @@ const mapStateToProps = (state) => {
     is_sidebar_mini: state.app.is_sidebar_mini,
     is_sidebar_modal: state.app.is_sidebar_modal,
     isHidenSibarMini: state.app.isHidenSibarMini,
+    userInfo: state.user.userInfo,
+    message: state.video.message,
   };
 };
 

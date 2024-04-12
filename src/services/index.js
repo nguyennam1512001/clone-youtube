@@ -7,4 +7,8 @@ const getApi = (url, api_key, token) => {
 const postApi = (url, token) => {
   return axios.post(`${url}&access_token=${token}`);
 };
-export { getApi, postApi };
+
+const deleteApi = (url, token) => {
+  return axios.delete(`${url}&access_token=${token}`);
+};
+export { getApi, postApi, deleteApi };

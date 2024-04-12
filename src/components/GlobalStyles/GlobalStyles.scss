@@ -75,6 +75,10 @@ a {
     text-decoration: none;
 }
 
+.tags {
+    color: #3EA6FF;
+}
+
 // // Fonts emmbedes
 // @font-face {
 //     font-family: TikTokFont;
@@ -114,11 +118,6 @@ body {
 }
 
 // slider
-.slick-list {
-    width     : calc(390px + 72px);
-    height    : calc(100vh - $header-height) !important;
-    overflow-y: hidden;
-}
 
 // modal
 .modal-title.h4 {

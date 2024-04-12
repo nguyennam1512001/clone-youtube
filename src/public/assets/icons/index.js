@@ -1,5 +1,4 @@
 import React from 'react';
-import bar from './bar.svg';
 import search from './search.svg';
 import closeSearchQuery from './closeSearchQuery.svg';
 import voiceSearch from './voiceSearch.svg';
@@ -7,6 +6,23 @@ import menu from './menu.svg';
 import user from './user.svg';
 import WrapSvg from '../WrapSvg';
 import { Setting, Help, Message } from './iconSideBars';
+
+function MenuBar() {
+  return (
+    <WrapSvg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="24"
+        viewBox="0 0 24 24"
+        width="24"
+        focusable="false"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <path d="M21 6H3V5h18v1zm0 5H3v1h18v-1zm0 6H3v1h18v-1z"></path>
+      </svg>
+    </WrapSvg>
+  );
+}
 
 function User() {
   return (
@@ -503,6 +519,24 @@ function ArrowUp() {
     </WrapSvg>
   );
 }
+function ArrowLeft() {
+  return (
+    <WrapSvg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        enableBackground="new 0 0 24 24"
+        height="24"
+        viewBox="0 0 24 24"
+        width="24"
+        focusable="false"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <path d="M21 11v1H5.64l6.72 6.72-.71.71-7.93-7.93 7.92-7.92.71.71L5.64 11H21z"></path>
+      </svg>
+    </WrapSvg>
+  );
+}
+
 function ArrowDown() {
   return (
     <WrapSvg>
@@ -602,8 +636,89 @@ function Download() {
     </WrapSvg>
   );
 }
+
+function Check() {
+  return (
+    <WrapSvg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="24"
+        viewBox="0 0 24 24"
+        width="24"
+        focusable="false"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <path d="m9 18.7-5.4-5.4.7-.7L9 17.3 20.6 5.6l.7.7L9 18.7z"></path>
+      </svg>
+    </WrapSvg>
+  );
+}
+
+function UnSubscribe() {
+  return (
+    <WrapSvg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="24"
+        viewBox="0 0 24 24"
+        width="24"
+        focusable="false"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <path d="M13.72 11.93C15.58 11.59 17 9.96 17 8c0-2.21-1.79-4-4-4S9 5.79 9 8c0 1.96 1.42 3.59 3.28 3.93C6.77 12.21 4 15.76 4 20h18c0-4.24-2.77-7.79-8.28-8.07zM10 8c0-1.65 1.35-3 3-3s3 1.35 3 3-1.35 3-3 3-3-1.35-3-3zm3 4.9c5.33 0 7.56 2.99 7.94 6.1H5.06c.38-3.11 2.61-6.1 7.94-6.1zM7 12H2v-1h5v1z"></path>
+      </svg>
+    </WrapSvg>
+  );
+}
+
+function Sort() {
+  return (
+    <WrapSvg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        enableBackground="new 0 0 24 24"
+        height="24"
+        viewBox="0 0 24 24"
+        width="24"
+        focusable="false"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <path d="M21 6H3V5h18v1zm-6 5H3v1h12v-1zm-6 6H3v1h6v-1z"></path>
+      </svg>
+    </WrapSvg>
+  );
+}
+
+function ArrowDropDownIcon() {
+  return (
+    <WrapSvg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        focusable="false"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <path d="M7 10l5 5 5-5z"></path>
+      </svg>
+    </WrapSvg>
+  );
+}
+
+function ArrowDropUpIcon() {
+  return (
+    <WrapSvg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 24"
+        focusable="false"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <path d="M7 14l5-5 5 5z"></path>
+      </svg>
+    </WrapSvg>
+  );
+}
 const icons = {
-  bar,
   search,
   closeSearchQuery,
   voiceSearch,
@@ -612,6 +727,9 @@ const icons = {
   // Thêm các biểu tượng khác vào đây
 };
 export {
+  ArrowDropDownIcon,
+  ArrowDropUpIcon,
+  MenuBar,
   Close,
   User,
   Tick,
@@ -646,10 +764,14 @@ export {
   Share,
   ShareBold,
   ArrowUp,
+  ArrowLeft,
   ArrowDown,
   Filter,
   WaitList,
   AddList,
   Download,
+  Check,
+  UnSubscribe,
+  Sort,
 };
 export default icons;

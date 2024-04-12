@@ -78,7 +78,7 @@ function Home({ is_sidebar_mini, is_sidebar_modal, videosInfo, getVideoStart, se
   const handleWatchVideo = (id) => {
     history.push('/watch?v=' + id);
   };
-  console.log(videosInfo);
+
   return (
     <div className={clsx(style.page_container)}>
       <div className={clsx('w-100', style.browse_results_renderer)}>

@@ -1,7 +1,7 @@
 @import "../../../styles/styles.scss";
 
 .active {
-    background-color: #f2f2f2;
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .sidebar_lg.scrim {
@@ -17,12 +17,11 @@
 }
 
 .sidebar_lg {
-    position        : fixed;
-    z-index         : 2005;
-    top             : 0%;
-    left            : 0;
-    background-color: white;
-    transition      : left linear .2s;
+    position  : fixed;
+    z-index   : 2005;
+    top       : 0%;
+    left      : 0;
+    transition: left linear .2s;
 
     .scrim {
         position        : fixed;
@@ -44,8 +43,7 @@
     }
 
     .contentContainer {
-        width           : $--sidebar-width;
-        background-color: white;
+        width: $--sidebar-width;
 
         .wrap {
             .space {
@@ -96,34 +94,16 @@
                                 padding      : 12px;
                                 border-bottom: 1px solid #e5e5e5;
 
-                                h3 {
-                                    padding: 0 12px;
-
-                                    .section_title {
-                                        font-size  : 1.6rem;
-                                        line-height: 2.2rem;
-                                        font-weight: 500;
-                                        max-height : 2.2rem;
-                                    }
-
-                                    .title_icon_shape {
-                                        margin-left: 8px;
-                                        width      : 16px;
-                                        height     : 16px;
-                                    }
-                                }
-
                                 .items {
                                     .entry_renderer {
-                                        width        : calc(100% - 12px);
-                                        border-radius: 10px;
-                                        overflow     : hidden;
+                                        overflow: hidden;
 
                                         &:hover {
-                                            background-color: #f2f2f2;
+                                            background-color: rgba(255, 255, 255, 0.1);
                                         }
 
                                         .link {
+                                            width                 : 100%;
                                             white-space           : nowrap;
                                             -webkit-font-smoothing: antialiased;
                                             min-height            : 40px;
@@ -136,21 +116,8 @@
                                             }
                                         }
 
-                                        .icon {
-                                            margin-right: 24px;
-
-                                            .icon_shape {
-                                                width : 24px;
-                                                height: 24px;
-                                                color : $--yt-spec-brand-icon-active;
-                                            }
-                                        }
-
                                         .text {
-                                            color      : $--yt-spec-text-primary;
-                                            font-size  : 14px;
                                             line-height: 32px;
-                                            font-weight: 400;
                                             flex       : 1;
                                             flex-basis : 1e-9px;
                                         }

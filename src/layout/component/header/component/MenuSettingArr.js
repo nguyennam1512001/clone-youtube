@@ -14,10 +14,12 @@ import {
   Setting,
   Help,
   Message,
+  ArrowLeft,
 } from '~/public/assets/icons';
 
 const menuSettingArr = [
   {
+    id: 1,
     auth: true,
     items: [
       {
@@ -39,6 +41,7 @@ const menuSettingArr = [
     ],
   },
   {
+    id: 2,
     auth: true,
     items: [
       {
@@ -54,6 +57,7 @@ const menuSettingArr = [
     ],
   },
   {
+    id: 3,
     auth: false,
     items: [
       {
@@ -63,8 +67,27 @@ const menuSettingArr = [
       },
       {
         iconLeft: <Moon />,
-        text: 'Giao diện: Giao diện thiết bị',
+        text: 'Giao diện:',
         iconRight: <ChevronRight />,
+        popup: {
+          title: 'Giao diện',
+          option: [
+            {
+              id: 1,
+              text: 'Dùng giao diện của thiết bị',
+            },
+            {
+              id: 2,
+              text: 'Giao diện tối',
+              theme: 'dark',
+            },
+            {
+              id: 3,
+              text: 'Giao diện sáng',
+              theme: 'light',
+            },
+          ],
+        },
       },
       {
         iconLeft: <Language />,
@@ -89,6 +112,8 @@ const menuSettingArr = [
     ],
   },
   {
+    id: 4,
+
     auth: false,
     items: [
       {
@@ -99,6 +124,7 @@ const menuSettingArr = [
     ],
   },
   {
+    id: 5,
     auth: false,
     items: [
       {

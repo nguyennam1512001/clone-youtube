@@ -9,6 +9,7 @@ import clsx from 'clsx';
 import Footer from './Footer';
 import { NavLink, useHistory } from 'react-router-dom';
 import HeaderStart from '../header/component/headerStart/HeaderStart';
+import { Box, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 
 function SideBar({ is_sidebar_mini, is_sidebar_modal, changeSidebarMini, isLoggedIn }) {
   const [pathname, setPathname] = useState('');
@@ -27,19 +28,20 @@ function SideBar({ is_sidebar_mini, is_sidebar_modal, changeSidebarMini, isLogge
   };
 
   return (
-    <div
+    <Box
       className={clsx(
         style.sidebar_lg,
         { [style.scrim]: is_sidebar_modal },
         { [style.not_modal]: !is_sidebar_modal },
         { [style.is_mini]: is_sidebar_mini },
       )}
+      sx={{ bgcolor: 'bgcolor.default' }}
     >
       <div
         className={clsx({ [style.scrim]: is_sidebar_modal }, { [style.is_lg]: is_sidebar_mini })}
         onClick={() => changeSidebarMini(true)}
       ></div>
-      <div className={clsx(style.contentContainer)}>
+      <Box className={clsx(style.contentContainer)} sx={{ bgcolor: 'bgcolor.default' }}>
         <div className={clsx(style.wrap)}>
           {is_sidebar_modal ? (
             <div className={clsx(style.header)}>
@@ -72,14 +74,25 @@ function SideBar({ is_sidebar_mini, is_sidebar_modal, changeSidebarMini, isLogge
                                 key={index}
                               >
                                 {item.title.text && (
-                                  <h3>
-                                    <div className={clsx('text-one-line flex-align-center', style.section_title)}>
-                                      {item.title.text}
-                                    </div>
-                                    {item.title.icon && (
-                                      <div className={clsx(style.title_icon_shape)}>{item.title.icon}</div>
-                                    )}
-                                  </h3>
+                                  <ListItem disablePadding sx={{ width: 'calc(100% - 12px)' }}>
+                                    <ListItemButton sx={{ height: '40px', borderRadius: '10px' }}>
+                                      <ListItemText>
+                                        <Box
+                                          sx={{ color: 'text.primary' }}
+                                          className={clsx('text-one-line flex-align-center text-nomal-5')}
+                                        >
+                                          {item.title.text}
+                                        </Box>
+                                      </ListItemText>
+                                      {item.title.icon && (
+                                        <ListItemIcon sx={{ minWidth: '0' }} className={clsx(style.title_icon_shape)}>
+                                          <Box sx={{ height: '16px', width: '16px', color: 'icon.primary' }}>
+                                            {item.title.icon}
+                                          </Box>
+                                        </ListItemIcon>
+                                      )}
+                                    </ListItemButton>
+                                  </ListItem>
                                 )}
                                 {item &&
                                   item.items &&
@@ -89,7 +102,11 @@ function SideBar({ is_sidebar_mini, is_sidebar_modal, changeSidebarMini, isLogge
                                     } else {
                                       return (
                                         <div className={clsx(style.items)} key={item.path}>
-                                          <div className={clsx(style.entry_renderer)}>
+                                          <ListItem
+                                            disablePadding
+                                            className={clsx(style.entry_renderer)}
+                                            sx={{ borderRadius: '10px', width: 'calc(100% - 12px)' }}
+                                          >
                                             <NavLink
                                               exact={item.exact || true}
                                               to={item.path}
@@ -103,8 +120,14 @@ function SideBar({ is_sidebar_mini, is_sidebar_modal, changeSidebarMini, isLogge
                                               )}
                                               key={index}
                                             >
-                                              <div className={clsx(style.icon)}>
-                                                <div className={clsx(style.icon_shape)}>
+                                              <ListItemIcon sx={{ minWidth: '48px' }}>
+                                                <Box
+                                                  sx={{
+                                                    width: '24px',
+                                                    height: '24px',
+                                                    color: 'icon.primary',
+                                                  }}
+                                                >
                                                   {item.icon ? (
                                                     pathname === item.path ? (
                                                       item.iconActive
@@ -114,11 +137,19 @@ function SideBar({ is_sidebar_mini, is_sidebar_modal, changeSidebarMini, isLogge
                                                   ) : (
                                                     <img className={'img-24-round'} src={item.url} alt="" />
                                                   )}
-                                                </div>
-                                              </div>
-                                              <div className={clsx('text-one-line', style.text)}>{item.text}</div>
+                                                </Box>
+                                              </ListItemIcon>
+                                              <ListItemText
+                                                sx={{
+                                                  color: 'text.primary',
+                                                  '>.MuiTypography-root': { fontSize: '1.4rem' },
+                                                }}
+                                                className={clsx('text-one-line', style.text)}
+                                              >
+                                                {item.text}
+                                              </ListItemText>
                                             </NavLink>
-                                          </div>
+                                          </ListItem>
                                         </div>
                                       );
                                     }
@@ -137,9 +168,9 @@ function SideBar({ is_sidebar_mini, is_sidebar_modal, changeSidebarMini, isLogge
             </div>
           </div>
         </div>
-      </div>
+      </Box>
       <div className={clsx(style.a)}></div>
-    </div>
+    </Box>
   );
 }
 

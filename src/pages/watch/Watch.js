@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Tooltip } from 'react-tooltip';
@@ -11,15 +11,33 @@ import EndOfListObserver from '~/components/EndOfListObserver';
 import Spinner from '~/components/Spinner';
 import Button from '~/components/button/Button';
 import VideoList from './component/VideoList';
-import { calculateTimeDifference, convertViewCount } from '~/utils';
+import { calculateTimeDifference, convertTextToAnchor, convertViewCount } from '~/utils';
 import Action from './component/Actions/Action';
+import { Chip, Box, Paper, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import { Bell, UnSubscribe } from '~/public/assets/icons';
+import useClickOutside from '~/hooks/useClickOutside';
+import Comment from './component/Comments/Comment';
 
-function Watch({ videosInfo, watchVideoStart, videoWatch, setIsLoadingBar, getVideoStart }) {
+function Watch({
+  isLoggedIn,
+  videosInfo,
+  watchVideoStart,
+  videoWatch,
+  setIsLoadingBar,
+  isSubscribed,
+  checkChannelSubscribed,
+  access_token,
+  unSubscribeChannel,
+  message,
+  subscribeChannel,
+}) {
   const [maxResult, setMaxResult] = useState(20);
   const [expand, setExpand] = useState(false);
   const history = useHistory();
   const [endOfListReached, setEndOfListReached] = useState(false);
   const [isSpinner, setIsSpinner] = useState(false);
+  const [isShowSubscribedPopup, setIsShowSubscribedPopup] = useState(false);
+  const subcribedBtnRef = useRef(null);
   // const [videoId, setVideoId] = useState(null);
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
@@ -50,6 +68,36 @@ function Watch({ videosInfo, watchVideoStart, videoWatch, setIsLoadingBar, getVi
       text: 'Đã xem',
     },
   ];
+  const channelId = videoWatch[0].snippet.channelId;
+  useEffect(() => {
+    if (videoWatch[0] && access_token) {
+      checkChannelSubscribed(channelId, access_token);
+    }
+  }, [videoWatch, message]);
+
+  useEffect(() => {
+    if (videoWatch[0]) {
+      const formattedText = convertTextToAnchor(videoWatch[0]?.snippet?.description);
+      const container = document.getElementById('description_expander');
+      if (container) {
+        container.innerHTML = formattedText; // Thêm nội dung mới vào container
+      } else {
+        console.error('Container element not found.');
+      }
+    }
+  }, [expand, videoWatch]);
+
+  useEffect(() => {
+    // setIsSpinner(true);
+    // watchVideoStart(videoId)
+    //   .then(() => {
+    //     setIsSpinner(false);
+    //   })
+    //   .catch((error) => {
+    //     setIsSpinner(false);
+    //     console.error('Error loading videos:', error);
+    //   });
+  }, [videoId]);
 
   useEffect(() => {
     // setIsSpinner(true);
@@ -66,18 +114,7 @@ function Watch({ videosInfo, watchVideoStart, videoWatch, setIsLoadingBar, getVi
     //   });
   }, [maxResult]);
 
-  useEffect(() => {
-    setIsSpinner(true);
-    watchVideoStart(videoId)
-      .then(() => {
-        setIsSpinner(false);
-      })
-      .catch((error) => {
-        setIsSpinner(false);
-        console.error('Error loading videos:', error);
-      });
-  }, [videoId]);
-  console.log(videoWatch);
+  // console.log(videoWatch);
   const handleEndOfListReached = () => {
     setMaxResult((prevMaxResult) => prevMaxResult + 10);
   };
@@ -88,6 +125,23 @@ function Watch({ videosInfo, watchVideoStart, videoWatch, setIsLoadingBar, getVi
     setExpand(false);
     e.stopPropagation();
   };
+  const handleSubcriber = async () => {
+    let id = videoWatch[0]?.snippet.channelId;
+    if (access_token) {
+      await subscribeChannel(id, access_token);
+      // checkChannelSubscribed(channelId, access_token);
+    }
+  };
+  const handleUnSubscribe = async (channel) => {
+    let id = channel.items[0].id;
+    if (access_token) {
+      await unSubscribeChannel(id, access_token);
+      // checkChannelSubscribed(channelId, access_token);
+    }
+    setIsShowSubscribedPopup(false);
+  };
+
+  useClickOutside(subcribedBtnRef, () => setIsShowSubscribedPopup(false));
   return (
     <div className={clsx(style.page_container)}>
       <div id="watch-video-play"></div>
@@ -111,7 +165,7 @@ function Watch({ videosInfo, watchVideoStart, videoWatch, setIsLoadingBar, getVi
               </div>
             </div>
             <div className={clsx(style.below)}>
-              <div className={clsx(style.watch_metadata)}>
+              <Box mb={3} className={clsx(style.watch_metadata)}>
                 <div className={clsx(style.title)}>
                   <h1 className={clsx('text-two-line, text-lg-6', style.formatted_string)}>
                     {videoWatch[0]?.snippet?.title}
@@ -144,9 +198,95 @@ function Watch({ videosInfo, watchVideoStart, videoWatch, setIsLoadingBar, getVi
                           </span>
                         </div>
                       </div>
-                      <div className={clsx(style.subscribe_btn)}>
-                        <Button text={'Đăng kí'} color={'white'} fs={'14px'} fw={'500'} />
-                      </div>
+                      {isSubscribed && isSubscribed?.pageInfo?.totalResults === 1 ? (
+                        <Box ref={subcribedBtnRef} sx={{ position: 'relative' }}>
+                          <Chip
+                            icon={
+                              <Box style={{ width: '24px', height: '24px' }}>
+                                <Bell />
+                              </Box>
+                            }
+                            label="Đã đăng kí"
+                            sx={{
+                              color: 'text.primary',
+                              height: '36px',
+                              fontSize: '14px',
+                              padding: '0 4px',
+                              cursor: 'pointer',
+                              bgcolor: 'bgcolor.secondary',
+                            }}
+                            className="text-md-5 text-line-one"
+                            onClick={() => setIsShowSubscribedPopup(!isShowSubscribedPopup)}
+                          />
+                          {isShowSubscribedPopup && (
+                            <Box
+                              sx={{
+                                position: 'absolute',
+                                top: '100%',
+                                left: '0',
+                              }}
+                              onClick={(e) => e.stopPropagation()}
+                            >
+                              <Paper
+                                sx={{
+                                  maxWidth: '300px',
+                                  maxHeight: '410px',
+                                  borderRadius: '12px',
+                                  overflow: 'auto',
+                                  bgcolor: 'bgcolor.popup',
+                                }}
+                              >
+                                <List>
+                                  <ListItem disablePadding onClick={() => handleUnSubscribe(isSubscribed)}>
+                                    <ListItemButton>
+                                      <ListItemIcon sx={{ minWidth: '0', mr: 2 }}>
+                                        <Box sx={{ height: '24px', width: '24px' }}>
+                                          <UnSubscribe />
+                                        </Box>
+                                      </ListItemIcon>
+                                      <ListItemText
+                                        sx={{
+                                          '&.MuiListItemText-root': {
+                                            WebkitFontSmoothing: 'antialiased',
+                                            whiteSpace: 'nowrap',
+                                          },
+                                        }}
+                                      >
+                                        <Box
+                                          sx={(theme) => ({
+                                            color: theme.palette.mode === 'light' ? 'text.primary' : '#f1f1f1',
+                                          })}
+                                          className="text-md-4 text-line-one"
+                                        >
+                                          Huỷ đăng kí
+                                        </Box>
+                                      </ListItemText>
+                                    </ListItemButton>
+                                  </ListItem>
+                                </List>
+                              </Paper>
+                            </Box>
+                          )}
+                        </Box>
+                      ) : (
+                        <Box
+                          sx={(theme) => ({ bgcolor: theme.palette.mode === 'light' ? '#0f0f0f' : '#f1f1f1' })}
+                          className={clsx(style.subscribe_btn)}
+                          onClick={handleSubcriber}
+                        >
+                          <Chip
+                            label="Đăng kí"
+                            className="text-md-5 text-line-one"
+                            sx={(theme) => ({
+                              color: theme.palette.mode === 'light' ? '#fff' : '#0f0f0f',
+                              fontSize: '14px',
+                              cursor: 'pointer',
+                              height: '36px',
+                              padding: '0 4px',
+                            })}
+                          />
+                        </Box>
+                      )}
                     </div>
                   </div>
                   <div className={clsx('d-flex', style.actions)}>
@@ -170,10 +310,8 @@ function Watch({ videosInfo, watchVideoStart, videoWatch, setIsLoadingBar, getVi
                       </div>
                       {expand ? (
                         <div className={clsx(style.description_inline_expander)}>
-                          <div className={clsx(style.snippet_expand)}>
-                            <span className={clsx('text-md-4', style.snippet_text)}>
-                              {videoWatch[0]?.snippet?.description}
-                            </span>
+                          <div style={{ backgroundColor: 'transparent' }} className={clsx(style.snippet_expand)}>
+                            <span id="description_expander" className={clsx('text-md-4', style.snippet_text)}></span>
                           </div>
                           <div className={clsx('text-md-5', style.expand)} onClick={(e) => handleClose(e)}>
                             Ẩn bớt
@@ -192,12 +330,10 @@ function Watch({ videosInfo, watchVideoStart, videoWatch, setIsLoadingBar, getVi
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className={clsx(style.comments)}>
-                <div className={clsx(style.below)}>
-                  <div className={clsx(style.below)}></div>
-                </div>
-              </div>
+              </Box>
+              <Box mr={2} className={clsx(style.comments)}>
+                <Comment videoWatch={videoWatch} />
+              </Box>
             </div>
           </div>
         </div>
@@ -249,8 +385,11 @@ function Watch({ videosInfo, watchVideoStart, videoWatch, setIsLoadingBar, getVi
 const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.user.isLoggedIn,
+    access_token: state.user.access_token,
     videosInfo: state.video.videosInfo,
     videoWatch: state.video.videoWatch,
+    isSubscribed: state.video.isSubscribed,
+    message: state.video.message,
   };
 };
 
@@ -259,6 +398,9 @@ const mapDispatchToProps = (dispatch) => {
     getVideoStart: (max) => dispatch(actions.getVideoStart(max)),
     setIsLoadingBar: (value) => dispatch(actions.setIsLoadingBar(value)),
     watchVideoStart: (value) => dispatch(actions.watchVideoStart(value)),
+    checkChannelSubscribed: (channelId, token) => dispatch(actions.checkChannelSubscribed(channelId, token)),
+    unSubscribeChannel: (channelId, token) => dispatch(actions.unSubscribeChannel(channelId, token)),
+    subscribeChannel: (channelId, token) => dispatch(actions.subscribeChannel(channelId, token)),
   };
 };
 

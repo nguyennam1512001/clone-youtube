@@ -59,9 +59,8 @@
                                     }
 
                                     .subscribe_btn {
-                                        background-color: #0f0f0f;
-                                        border-radius   : 100px;
-                                        height          : fit-content;
+                                        border-radius: 100px;
+                                        height       : fit-content;
 
                                         &:hover {
                                             background-color: #272727;
@@ -90,7 +89,6 @@
                                 padding      : 12px;
 
                                 .description_inner {
-
                                     .info_container {
                                         .infor {
                                             .formatted_string {}
@@ -99,7 +97,6 @@
                                     }
 
                                     .description_inline_expander {
-
                                         .snippet_expand {
                                             .snippet_text {
                                                 white-space: pre-wrap;
@@ -110,7 +107,6 @@
                                     }
 
                                     .description_inline_expander {
-
                                         .snippet {
                                             overflow  : hidden;
                                             max-height: 6rem;

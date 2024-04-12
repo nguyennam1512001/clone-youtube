@@ -1,4 +1,4 @@
-@import "../../../../styles/styles.scss";
+@import "../../../../../styles/styles.scss";
 
 .active {
     display: block !important;
@@ -50,13 +50,14 @@
 
             .search_input {
                 .input_box {
-
                     .keyboard {
                         padding: 0 8px;
                     }
 
                     input {
-                        flex: 1;
+                        flex            : 1;
+                        background-color: transparent;
+                        color           : inherit;
                     }
                 }
             }

@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import style from './SearchSuggest.module.scss';
 import * as actions from '~/store/actions';
 
-import { Search } from '../../../../public/assets/icons';
+import { Search } from '../../../../../public/assets/icons';
 import Popup from '~/components/popup/Popup';
 import Item from '~/components/listItem/Item';
 

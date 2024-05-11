@@ -1,47 +1,51 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import clsx from 'clsx';
 
 import style from './SideBarMini.module.scss';
 import * as actions from '~/store/actions';
-import { sidebarMiniArr } from './sideBarItems';
+import { Box } from '@mui/material';
 
-function SideBarMini({ is_sidebar_mini }) {
+function SideBarMini({ is_sidebar_mini, sidebarMiniArr }) {
   const [pathname, setPathname] = useState('');
-  const history = useHistory();
+  const location = useLocation();
 
-  const handleItemClick = (url) => {
-    setPathname(url);
-    history.push(url);
-  };
   useEffect(() => {
-    const pathname = window.location.pathname;
-    setPathname(pathname);
-  }, []);
+    setPathname(location.pathname);
+  }, [location]);
 
   return (
-    <div className={clsx(style.sidebar_mini, { [style.is_mini]: !is_sidebar_mini })}>
+    <div className={clsx(style.sidebar_mini, { [style.is_mini]: !is_sidebar_mini }, 'scroll_bar')}>
       <div className={clsx(style.items)}>
         {sidebarMiniArr &&
-          sidebarMiniArr.map((item, index) => (
-            <div className={clsx(style.item)} key={index}>
-              <NavLink
-                exact={item.exact}
-                to={item.path}
-                activeClassName={clsx(style.active)}
-                onClick={() => {
-                  handleItemClick(item.path);
-                }}
-                className={clsx('flex-align-center flex-column simple-endpoint', style.link)}
-              >
-                <div className={clsx(style.icon)}>
-                  <div className={clsx(style.icon_shape)}>{pathname === item.path ? item.iconActive : item.icon}</div>
-                </div>
-                <div className={clsx('text-one-line mw-100', style.text)}>{item.text}</div>
-              </NavLink>
-            </div>
-          ))}
+          sidebarMiniArr.map((item, index) => {
+            return (
+              <div className={clsx(style.item)} key={index}>
+                <NavLink
+                  activeClassName={clsx(style.active)}
+                  exact={true}
+                  to={item.path}
+                  className={clsx('flex-align-center flex-column simple-endpoint', style.link)}
+                  onClick={(e) => {
+                    if (pathname === item.path) {
+                      e.preventDefault();
+                    }
+                  }}
+                >
+                  <div className={clsx(style.icon)}>
+                    <Box
+                      sx={{ color: pathname === item.path ? '#CC0100' : 'text.primary' }}
+                      className={clsx(style.icon_shape)}
+                    >
+                      {pathname === item.path ? item.iconActive : item.icon}
+                    </Box>
+                  </div>
+                  {item.text && <div className={clsx('text-one-line mw-100', style.text)}>{item.text}</div>}
+                </NavLink>
+              </div>
+            );
+          })}
       </div>
     </div>
   );

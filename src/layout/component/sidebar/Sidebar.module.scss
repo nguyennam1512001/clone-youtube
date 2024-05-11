@@ -1,7 +1,7 @@
 @import "../../../styles/styles.scss";
 
 .active {
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: #f2f2f2;
 }
 
 .sidebar_lg.scrim {
@@ -99,7 +99,7 @@
                                         overflow: hidden;
 
                                         &:hover {
-                                            background-color: rgba(255, 255, 255, 0.1);
+                                            background-color: #f2f2f2;
                                         }
 
                                         .link {

@@ -15,22 +15,14 @@ export const getUserInfoStart = (access_token) => {
         dispatch({ type: actionTypes.FETCH_USER_SUCCESS, data: res.data });
       } else {
         dispatch({
-          type: actionTypes.FETCH_USER_FAIL,
-          data: 'Error: Failed to fetch user info',
+          type: actionTypes.FETCH_USER_SUCCESS,
+          data: null,
         });
       }
     } catch (error) {
-      // if (error.response.status === 401) {
-      //   // Xử lý lỗi "Unauthorized"
-      //   const newAccessToken = await refreshGoogleToken(currentState.user.refresh_token);
-      //   dispatch(getAccessToken(newAccessToken));
-      //   return getUserInfoStart(newAccessToken)(dispatch, getState);
-      // } else {
-      //   console.error('Error making authenticated request:', error);
-      // }
       dispatch({
-        type: actionTypes.FETCH_USER_FAIL,
-        data: error.message,
+        type: actionTypes.FETCH_USER_SUCCESS,
+        data: null,
       });
       console.log(error);
     }
@@ -42,8 +34,9 @@ export const getAccessToken = (accessToken) => ({
   accessToken,
 });
 
-export const userLoginSuccess = () => ({
-  type: actionTypes.USER_LOGIN_SUCCESS,
+export const setLoggedIn = (boolean) => ({
+  type: actionTypes.SET_LOGGED_IN,
+  boolean,
 });
 
 export const getRefreshToken = (refreshToken) => ({
@@ -51,22 +44,8 @@ export const getRefreshToken = (refreshToken) => ({
   refreshToken,
 });
 
-export const userLoginFail = () => ({
-  type: actionTypes.USER_LOGIN_FAIL,
-});
-
 export const processLogout = () => ({
   type: actionTypes.PROCESS_LOGOUT,
-});
-
-export const oauth2Data = (oauth2Data) => ({
-  type: actionTypes.OAUTH2_DATA,
-  oauth2Data,
-});
-
-export const getEmail = (data) => ({
-  type: actionTypes.GET_EMAIL,
-  data,
 });
 
 export const getGoogleUserInfo = (data) => ({

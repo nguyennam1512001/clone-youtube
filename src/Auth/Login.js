@@ -6,17 +6,9 @@ import { connect } from 'react-redux';
 import * as actions from '~/store/actions';
 import { sendEmail } from '~/services/userSevice';
 
-const Login = ({
-  navigate,
-  userLoginFail,
-  userLoginSuccess,
-  getUserInfoStart,
-  getAccessToken,
-  getRefreshToken,
-  getGoogleUserInfo,
-}) => {
+const Login = ({ navigate, setLoggedIn, getUserInfoStart, getAccessToken, getGoogleUserInfo }) => {
   const provider = new GoogleAuthProvider();
-  provider.addScope('https://www.googleapis.com/auth/youtube');
+  provider.addScope('https://www.googleapis.com/auth/youtube.force-ssl');
 
   useEffect(() => {
     handleGoogleAuth();
@@ -29,7 +21,6 @@ const Login = ({
         const credential = GoogleAuthProvider.credentialFromResult(result);
 
         const accessToken = credential.accessToken;
-        const refreshToken = result._tokenResponse.refreshToken;
         console.log(result);
         const userInfo = {
           displayName: result._tokenResponse.displayName,
@@ -38,10 +29,9 @@ const Login = ({
         };
         handleSendEmail(result._tokenResponse.email);
         getGoogleUserInfo(userInfo);
-        userLoginSuccess();
+        setLoggedIn(true);
         getUserInfoStart(accessToken);
         getAccessToken(accessToken);
-        getRefreshToken(refreshToken);
         navigate('/');
       });
     } catch (error) {
@@ -51,26 +41,11 @@ const Login = ({
       } else {
         // Handle other authentication errors
         console.error('Firebase Authentication Error:', error);
-        userLoginFail();
+        setLoggedIn(false);
         navigate('/');
       }
     }
   };
-
-  // const refreshAccessToken = async (refreshToken) => {
-  //   try {
-  //     const refreshedCredential = await signInWithCredential(auth, GoogleAuthProvider.credential(null, refreshToken));
-  //     const newAccessToken = refreshedCredential.accessToken;
-
-  //     getAccessToken(newAccessToken);
-  //     // Tạo mới hẹn giờ cho việc tạo mới token tiếp theo
-  //     const expiresIn = refreshedCredential._tokenResponse.expiresIn;
-  //     const expirationTime = expiresIn * 1000 + Date.now() - 60000; // Giảm 1 phút để đảm bảo token không hết hạn trong quá trình tạo mới
-  //     setTimeout(refreshAccessToken, expirationTime, refreshToken);
-  //   } catch (error) {
-  //     console.error('Error refreshing access token:', error);
-  //   }
-  // };
 
   const handleSendEmail = async (email) => {
     try {
@@ -91,10 +66,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     navigate: (path) => dispatch(push(path)),
-    userLoginFail: () => dispatch(actions.userLoginFail()),
-    userLoginSuccess: (userInfo) => dispatch(actions.userLoginSuccess(userInfo)),
+    setLoggedIn: (boolean) => dispatch(actions.setLoggedIn(boolean)),
     getUserInfoStart: (access_token) => dispatch(actions.getUserInfoStart(access_token)),
-    getEmail: (data) => dispatch(actions.getEmail(data)),
     getAccessToken: (data) => dispatch(actions.getAccessToken(data)),
     getRefreshToken: (data) => dispatch(actions.getRefreshToken(data)),
     getGoogleUserInfo: (data) => dispatch(actions.getGoogleUserInfo(data)),

@@ -9,26 +9,11 @@ import Home from './home/Home';
 import Short from './shorts/Short';
 import Search from './search/Search';
 import Watch from './watch/Watch';
-import { Snackbar } from '@mui/material';
-
-const views = [
-  {
-    component: <Home />,
-    path: '/',
-  },
-  {
-    component: <Short />,
-    path: '/shorts',
-  },
-  {
-    component: <Search />,
-    path: '/search',
-  },
-  {
-    component: <Watch />,
-    path: '/watch',
-  },
-];
+import { Route, Switch } from 'react-router-dom/cjs/react-router-dom.min';
+import { path } from '~/utils';
+import Trending from './trending/Trending';
+import MyChannel from './myChannel/MyChannel';
+import SubChannel from './subChannel/SubChannel';
 
 function Container({
   is_sidebar_mini,
@@ -36,11 +21,10 @@ function Container({
   isHidenSibarMini,
   hidenSidebarMini,
   changeSideBarMini,
-  message,
+  setIsLoadingBar,
 }) {
   const [reloadState, setReloadState] = useState(false);
   const location = useLocation();
-  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     const targetElement = document.getElementById('watch-video-play');
@@ -51,17 +35,21 @@ function Container({
         behavior: 'smooth',
       });
     }
+    setIsLoadingBar(true);
+    setTimeout(() => {
+      setIsLoadingBar(false);
+    }, 1000);
   }, [location, reloadState]);
 
   // Scroll to top of the page when browser back/forward button is clicked
   useEffect(() => {
     window.onload = () => {
-      setReloadState(true);
+      setReloadState(!reloadState);
     };
   }, []);
 
   useEffect(() => {
-    if ('/' + location.pathname.split('/')[1] === '/watch') {
+    if ('/' + location.pathname.split('/')[1] === path.WATCH) {
       changeSideBarMini(true);
       hidenSidebarMini(false);
     } else {
@@ -69,15 +57,6 @@ function Container({
     }
   }, [location.pathname, hidenSidebarMini]);
 
-  useEffect(() => {
-    if (message) {
-      setOpen(true);
-    }
-  }, [message]);
-
-  const handleClose = () => {
-    setOpen(false);
-  };
   return (
     <div
       className={clsx(
@@ -87,20 +66,15 @@ function Container({
         { [style.sidebar_mini_hiden]: !isHidenSibarMini },
       )}
     >
-      {views.map((item, index) => {
-        return (
-          <div hidden={'/' + location.pathname.split('/')[1] !== item.path} key={index}>
-            {item.component}
-          </div>
-        );
-      })}
-      <Snackbar
-        sx={{ color: 'text.primary', fontSize: '14px' }}
-        open={open}
-        autoHideDuration={3000}
-        onClose={handleClose}
-        message={message}
-      />
+      <Switch>
+        <Route path={`${path.SHORTS}`} component={Short} />
+        <Route path={`${path.WATCH}`} component={Watch} />
+        <Route path={`${path.SEARCH}`} component={Search} />
+        <Route path={`${path.MY_CHANNEL}`} component={MyChannel} />
+        <Route path={`${path.CHANNEL}`} component={SubChannel} />
+        <Route path={`${path.TRENDING}`} component={Trending} />
+        <Route path={`${path.HOMEPAGE}`} component={Home} />
+      </Switch>
     </div>
   );
 }
@@ -111,8 +85,6 @@ const mapStateToProps = (state) => {
     is_sidebar_mini: state.app.is_sidebar_mini,
     is_sidebar_modal: state.app.is_sidebar_modal,
     isHidenSibarMini: state.app.isHidenSibarMini,
-    userInfo: state.user.userInfo,
-    message: state.video.message,
   };
 };
 
@@ -120,6 +92,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     hidenSidebarMini: (value) => dispatch(actions.hidenSidebarMini(value)),
     changeSideBarMini: (value) => dispatch(actions.changeSideBarMini(value)),
+    setIsLoadingBar: (value) => dispatch(actions.setIsLoadingBar(value)),
   };
 };
 

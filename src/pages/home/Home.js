@@ -9,35 +9,29 @@ import ChipBar from '~/components/chipbar/ChipBar';
 import style from './Home.module.scss';
 
 import * as actions from '~/store/actions';
-import { convertDuration, convertViewCount, calculateTimeDifference } from '~/utils';
+import { convertDuration, convertViewCount, calculateTimeDifference, path } from '~/utils';
 import EndOfListObserver from '~/components/EndOfListObserver';
 import Spinner from '~/components/Spinner';
 import { chipArr } from './component/ListChip';
+import ShortList from './component/ShortList';
+import { Box, Skeleton, Stack } from '@mui/material';
 
-function Home({ is_sidebar_mini, is_sidebar_modal, videosInfo, getVideoStart, setIsLoadingBar }) {
+function Home({ is_sidebar_mini, is_sidebar_modal, videosInfo, getVideoStart, isLoadingBar }) {
   const [itemPerRow, setItemPerRow] = useState(4);
   const [groups, setGroups] = useState([]);
+  const [fakes, setFake] = useState([]);
   const [maxResult, setMaxResult] = useState(20);
   const history = useHistory();
   const [endOfListReached, setEndOfListReached] = useState(false);
   const [isSpinner, setIsSpinner] = useState(false);
-
-  const handleClickThumbnail = (url) => {
+  const handleRedirect = (url) => {
     history.push(url);
   };
   useEffect(() => {
-    // setIsSpinner(true);
-    // setIsLoadingBar(true);
-    // getVideoStart(maxResult)
-    //   .then(() => {
-    //     setIsSpinner(false);
-    //     setIsLoadingBar(false);
-    //   })
-    //   .catch((error) => {
-    //     setIsLoadingBar(false);
-    //     setIsSpinner(false);
-    //     console.error('Error loading videos:', error);
-    //   });
+    setIsSpinner(true);
+    getVideoStart(maxResult).finally(() => {
+      setIsSpinner(false);
+    });
   }, [maxResult]);
 
   useEffect(() => {
@@ -47,6 +41,14 @@ function Home({ is_sidebar_mini, is_sidebar_modal, videosInfo, getVideoStart, se
         group.push(videosInfo.slice(i, i + itemPerRow));
       }
       setGroups(group);
+    }
+    let groupFake = [];
+    let videosFake = [1, 2, 3, 4, 5];
+    if (videosFake) {
+      for (let i = 0; i < videosFake.length; i += itemPerRow) {
+        groupFake.push(videosInfo.slice(i, i + itemPerRow));
+      }
+      setFake(groupFake);
     }
   }, [itemPerRow, videosInfo]);
 
@@ -75,10 +77,6 @@ function Home({ is_sidebar_mini, is_sidebar_modal, videosInfo, getVideoStart, se
     setMaxResult((prevMaxResult) => prevMaxResult + 10);
   };
 
-  const handleWatchVideo = (id) => {
-    history.push('/watch?v=' + id);
-  };
-
   return (
     <div className={clsx(style.page_container)}>
       <div className={clsx('w-100', style.browse_results_renderer)}>
@@ -100,8 +98,46 @@ function Home({ is_sidebar_mini, is_sidebar_modal, videosInfo, getVideoStart, se
               </div>
             </div>
             <div className={clsx('w-100', style.contents)}>
-              {groups &&
+              {isLoadingBar &&
+                fakes.map((group, index) => {
+                  return (
+                    <div className={clsx('flex-justify-center w-100', style.grid_row)} key={index}>
+                      <div className={clsx('w-100', style.list)}>
+                        {group.map((item, index) => (
+                          <Box
+                            className={clsx(
+                              'position-relative',
+                              style.item,
+                              { [style.per_row_1]: itemPerRow === 1 },
+                              { [style.per_row_2]: itemPerRow === 2 },
+                              { [style.per_row_3]: itemPerRow === 3 },
+                              { [style.per_row_4]: itemPerRow === 4 },
+                            )}
+                            key={index + 'item'}
+                          >
+                            <Stack spacing={2} className={clsx('flex-justify-center h-100 ', style.content)}>
+                              <Skeleton variant="rounded" height={210} width={'100%'} />
+                              <Stack direction={'row'} spacing={1} width={'100%'}>
+                                <Skeleton variant="circular" width={40} height={40} />
+                                <Stack flex={1} spacing={1}>
+                                  <Skeleton variant="rectangular" height={30} width={'100%'} />
+                                  <Skeleton variant="rectangular" height={10} width={'100%'} />
+                                  <Skeleton variant="rectangular" height={10} width={'100%'} />
+                                </Stack>
+                              </Stack>
+                            </Stack>
+                          </Box>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              {!isLoadingBar &&
+                groups &&
                 groups.map((group, index) => {
+                  if (index === 2) {
+                    return <ShortList key={index + 'shorst'} />;
+                  }
                   return (
                     <div className={clsx('flex-justify-center w-100', style.grid_row)} key={index}>
                       <div className={clsx('w-100', style.list)}>
@@ -121,15 +157,15 @@ function Home({ is_sidebar_mini, is_sidebar_modal, videosInfo, getVideoStart, se
                               <div className={clsx('flex-justify-center h-100 ', style.content)}>
                                 <div
                                   className={clsx('w-100 h-100 m-0 position-relative', style.grid_media)}
-                                  onClick={() => handleWatchVideo(item.id)}
+                                  onClick={() => handleRedirect('/watch?v=' + item.id)}
                                 >
+                                  {/* có thể tách thumbnail thành 1 component  */}
                                   <div className={clsx(style.thumbnail)}>
                                     <div
                                       className={clsx(
                                         'simple-endpoint radius-12 position-relative',
                                         style.thumbnail_link,
                                       )}
-                                      onClick={() => handleClickThumbnail()}
                                     >
                                       <div className={clsx(style.img)}>
                                         <img src={item.snippet.thumbnails.medium.url} alt="anh" />
@@ -158,7 +194,10 @@ function Home({ is_sidebar_mini, is_sidebar_modal, videosInfo, getVideoStart, se
                                   <div
                                     className={clsx('d-flex flex-row position-relative cursor-pointer', style.details)}
                                   >
-                                    <div className={clsx('simple-endpoint', style.avatar_link)}>
+                                    <div
+                                      className={clsx('simple-endpoint', style.avatar_link)}
+                                      onClick={() => handleRedirect(path.CHANNEL + '?id=' + item.snippet.channelId)}
+                                    >
                                       <div className={clsx('img-36-round', style.avatar)}>
                                         <img className={clsx(style.avatar_img)} alt="" width="36" src={item.avatar} />
                                       </div>
@@ -269,6 +308,7 @@ const mapStateToProps = (state) => {
     isLoggedIn: state.user.isLoggedIn,
     is_sidebar_mini: state.app.is_sidebar_mini,
     is_sidebar_modal: state.app.is_sidebar_modal,
+    isLoadingBar: state.video.isLoadingBar,
     videosInfo: state.video.videosInfo,
   };
 };
@@ -276,7 +316,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getVideoStart: (max) => dispatch(actions.getVideoStart(max)),
-    setIsLoadingBar: (value) => dispatch(actions.setIsLoadingBar(value)),
   };
 };
 

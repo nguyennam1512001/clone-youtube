@@ -38,7 +38,6 @@ function HeaderStart({ changeSideBarMiniRedux, is_sidebar_mini, mode }) {
             <Box sx={{ color: 'text.primary' }}>
               <LogoSvg />
             </Box>
-            {/* {mode === 'light' ? <img src={logoSvg} alt="" /> : <img src={logoDark} alt="" />} */}
           </div>
         </div>
         <span className={clsx(style.country_code)}>VN</span>

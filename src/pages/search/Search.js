@@ -42,18 +42,18 @@ function Search({ videosSearch, searchVideoStart, isSpinner, setIsSpinner, setIs
   };
 
   useEffect(() => {
-    // setIsSpinner(true);
-    // setIsLoadingBar(true);
-    // searchVideoStart(query, maxResult)
-    //   .then(() => {
-    //     setIsSpinner(false);
-    //     setIsLoadingBar(false);
-    //   })
-    //   .catch((error) => {
-    //     setIsLoadingBar(false);
-    //     setIsSpinner(false);
-    //     console.error('Error loading videos:', error);
-    //   });
+    setIsSpinner(true);
+    setIsLoadingBar(true);
+    searchVideoStart(query, maxResult)
+      .then(() => {
+        setIsSpinner(false);
+        setIsLoadingBar(false);
+      })
+      .catch((error) => {
+        setIsLoadingBar(false);
+        setIsSpinner(false);
+        console.error('Error loading videos:', error);
+      });
   }, [query, maxResult]);
 
   useEffect(() => {

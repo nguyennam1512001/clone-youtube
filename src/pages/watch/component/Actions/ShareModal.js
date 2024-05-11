@@ -1,12 +1,10 @@
-import clsx from 'clsx';
 import React, { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
 import { connect } from 'react-redux';
-import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 
 import * as actions from '~/store/actions';
-import { ArrowDown, ArrowUp, ChevronLeft, ChevronRight } from '~/public/assets/icons';
+import { ChevronLeft, ChevronRight } from '~/public/assets/icons';
 import { Box, List, ListItem, Modal, Paper, Stack } from '@mui/material';
 import { Close } from '~/public/assets/icons';
 
@@ -52,7 +50,7 @@ const shareButtons = [
   { Button: LinkedinShareButton, Icon: LinkedinIcon, text: 'Linkedin' },
 ];
 
-function ShareModal({ isOpen, handleClose, shortVideoStart, videosShort }) {
+function ShareModal({ isOpen, handleClose }) {
   const shareUrl = window.location.href;
   const sliderRef = useRef(null);
   const [showLeftArrow, setShowLeftArrow] = useState(false);

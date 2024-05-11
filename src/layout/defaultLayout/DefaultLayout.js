@@ -7,14 +7,15 @@ import style from './DefaultLayout.module.scss';
 import Header from '../component/header';
 import Sidebar from '../component/sidebar';
 import SideBarMini from '../component/sidebar/SideBarMini';
+import { sidebarMiniArr, sidebarItems } from '../component/sidebar/sideBarItems';
 
 function Layout({ props, children, isHidenSibarMini }) {
   return (
     <div className={clsx('d-flex w-100', style.app)}>
       <Header {...props} />
       <div className={clsx('w-100', style.contain)}>
-        {isHidenSibarMini && <SideBarMini />}
-        <Sidebar />
+        {isHidenSibarMini && <SideBarMini sidebarMiniArr={sidebarMiniArr} />}
+        <Sidebar sidebarItems={sidebarItems} footer={true} />
         {children}
       </div>
     </div>

@@ -37,7 +37,20 @@ const adminPersistConfig = {
 const videoPersistConfig = {
   ...persistCommonConfig,
   key: 'video',
-  whitelist: ['videosInfo', 'videosShort', 'videosSearch', 'videoWatch'],
+  whitelist: [
+    'videosInfo',
+    'videosShort',
+    'videosSearch',
+    'videoWatch',
+    'commentThreads',
+    'videoRelated',
+    'videoPost',
+    'myVideo',
+    'playListPublic',
+    'playListPrivate',
+    'videoTrending',
+    'myChannelInfo',
+  ],
 };
 export default (history) =>
   combineReducers({

@@ -18,6 +18,10 @@
             padding-top: 16px;
 
             .btn_shape {
+                display       : flex;
+                flex-direction: column;
+                align-items   : center;
+
                 .icon_shape {
                     width           : 48px;
                     height          : 48px;
@@ -54,6 +58,9 @@
                     font-weight   : 400;
                     max-height    : 2rem;
                     pointer-events: none;
+                    width         : 100%;
+                    white-space   : unset;
+                    text-align    : center;
                 }
             }
         }

@@ -5,19 +5,18 @@ import clsx from 'clsx';
 
 import style from './SettingPopup.module.scss';
 import * as actions from '~/store/actions';
-import menuSettingArr from './MenuSettingArr';
 
 import { Box, Paper, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider } from '@mui/material';
 import { ArrowLeft, Check } from '~/public/assets/icons';
+import { path } from '~/utils';
 
 const backIconSX = {
   '&:hover': {
     'background-color': 'rgba(255, 255, 255, 0.2)',
   },
 };
-function SettingPopup({ isLoggedIn, userInfo, setIsShow, mode, changeThemeMode, googleUserInfo }) {
+function SettingPopup({ dataList, isLoggedIn, setIsShow, mode, changeThemeMode, myChannelInfo }) {
   const [childrenPopup, setChildrenPopup] = useState(null);
-
   const history = useHistory();
 
   const handleItemClick = (item) => {
@@ -40,6 +39,10 @@ function SettingPopup({ isLoggedIn, userInfo, setIsShow, mode, changeThemeMode, 
   const handleBack = () => {
     setIsShow(true);
     setChildrenPopup(null);
+  };
+
+  const handleRedirect = (path) => {
+    history.push(path);
   };
 
   return (
@@ -109,52 +112,37 @@ function SettingPopup({ isLoggedIn, userInfo, setIsShow, mode, changeThemeMode, 
           })}
         >
           <List>
-            {isLoggedIn && (userInfo?.pageInfo?.totalResults !== 0 || googleUserInfo) && (
+            {isLoggedIn && (
               <div className={clsx(style.popup_header)}>
                 <div className={clsx(style.account_header)}>
                   <div className={clsx('img-40-round', style.account_avatar)}>
-                    <img
-                      draggable="false"
-                      alt=""
-                      height="40"
-                      width="40"
-                      src={
-                        (userInfo?.pageInfo?.totalResults !== 0 &&
-                          userInfo?.items &&
-                          userInfo.items.length > 0 &&
-                          userInfo.items[0]?.snippet?.thumbnails?.default?.url) ||
-                        googleUserInfo.photoUrl
-                      }
-                    />
+                    <img draggable="false" alt="" height="40" width="40" src={myChannelInfo.thumbnails} />
                   </div>
                   <div className={clsx(style.account_container)}>
                     <Box
                       sx={{ color: 'text.primary' }}
                       className={clsx('text-one-line text-nomal-4', style.account_name)}
                     >
-                      {(userInfo?.pageInfo?.totalResults !== 0 &&
-                        userInfo?.items &&
-                        userInfo.items.length > 0 &&
-                        userInfo.items[0]?.snippet?.title) ||
-                        googleUserInfo.email}
+                      {myChannelInfo.title}
                     </Box>
                     <Box
                       sx={{ color: 'text.primary' }}
                       className={clsx('text-one-line text-nomal-4', style.channel_name)}
                     >
-                      {(userInfo.pageInfo.totalResults !== 0 &&
-                        userInfo?.items &&
-                        userInfo.items.length > 0 &&
-                        userInfo.items[0]?.snippet?.customUrl) ||
-                        googleUserInfo.displayName}
+                      {myChannelInfo.customUrl}
                     </Box>
-                    <div className={clsx('text-md-4 cursor-pointer', style.manage_account)}>Xem kênh của bạn</div>
+                    <div
+                      className={clsx('text-md-4 cursor-pointer', style.manage_account)}
+                      onClick={() => handleRedirect(path.MY_CHANNEL)}
+                    >
+                      Xem kênh của bạn
+                    </div>
                   </div>
                 </div>
               </div>
             )}
-            {menuSettingArr &&
-              menuSettingArr.map((section, index) => {
+            {dataList &&
+              dataList.map((section, index) => {
                 if (section.auth && isLoggedIn === false) {
                   return <React.Fragment key={index}></React.Fragment>;
                 } else {
@@ -190,7 +178,7 @@ function SettingPopup({ isLoggedIn, userInfo, setIsShow, mode, changeThemeMode, 
                           </ListItem>
                         );
                       })}
-                      {index !== menuSettingArr.length - 1 ? <Divider sx={{ my: '8px' }} /> : <></>}
+                      {index !== dataList.length - 1 ? <Divider sx={{ my: '8px' }} /> : <></>}
                     </Box>
                   );
                 }
@@ -207,8 +195,7 @@ const mapStateToProps = (state) => {
     language: state.app.language,
     mode: state.app.mode,
     isLoggedIn: state.user.isLoggedIn,
-    userInfo: state.user.userInfo,
-    googleUserInfo: state.user.googleUserInfo,
+    myChannelInfo: state.video.myChannelInfo,
   };
 };
 

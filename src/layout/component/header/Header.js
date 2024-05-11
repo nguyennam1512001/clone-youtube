@@ -1,18 +1,15 @@
 import React, { useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import clsx from 'clsx';
-import { useHistory } from 'react-router-dom';
+import { Box } from '@mui/material';
 
 import style from './Header.module.scss';
 import * as actions from '~/store/actions';
 import Search from './component/searchInput/Search';
 import HeaderStart from './component/headerStart/HeaderStart';
 import HeaderEnd from './component/headerEnd/HeaderEnd';
-import { Box } from '@mui/material';
 
-function Header({ isLoggedIn, userInfo, isLoadingBar }) {
-  const history = useHistory();
-
+function Header({ isLoadingBar }) {
   return (
     <Box
       sx={{ bgcolor: 'bgcolor.default' }}
@@ -34,26 +31,18 @@ function Header({ isLoggedIn, userInfo, isLoadingBar }) {
         <Search />
       </div>
       <HeaderEnd />
-      {/* <div className={clsx(style.a)}></div> */}
     </Box>
   );
 }
 
 const mapStateToProps = (state) => {
   return {
-    isLoggedIn: state.user.isLoggedIn,
-    userInfo: state.user.userInfo,
-    language: state.app.language,
-    oauth2Data: state.user.oauth2Data,
     isLoadingBar: state.video.isLoadingBar,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    processLogout: () => dispatch(actions.processLogout()),
-    changeLanguageAppRedux: (language) => dispatch(actions.changeLanguageApp(language)),
-  };
+  return {};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Header);

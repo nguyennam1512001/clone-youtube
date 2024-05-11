@@ -11,13 +11,17 @@
 
     .content {
         align-items: flex-start;
+        height     : 100%;
 
         .grid_media {
             display : flex;
             position: relative;
+            height  : 100%;
 
             .thumbnail {
                 margin-right: 8px;
+                flex        : 1;
+                height      : 100%;
 
                 .thumbnail_link {
                     position     : relative;
@@ -30,11 +34,12 @@
                     text-decoration: none;
                     color          : $--yt-spec-text-primary;
                     transition     : border-radius ease-in 0.1s;
+                    height         : 100%;
 
                     .img {
-                        color : $--yt-spec-text-primary;
-                        width : 168px;
-                        height: 94px;
+                        color    : $--yt-spec-text-primary;
+                        min-width: 168px;
+                        height   : 100%;
 
                         img {
                             background-color    : transparent;
@@ -87,10 +92,11 @@
 
             .details {
                 position      : relative;
-                flex          : auto;
+                flex          : 2;
                 display       : flex;
                 flex-direction: row;
                 min-width     : 0;
+                max-width     : 600px;
 
                 .menu {
                     position: absolute;

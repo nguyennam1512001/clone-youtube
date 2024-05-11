@@ -1,28 +1,30 @@
 export function convertDuration(duration) {
   // Loại bỏ các ký tự không cần thiết
-  duration = duration.replace('PT', '');
+  if (duration) {
+    duration = duration.replace('PT', '');
 
-  // Tách phần giờ, phút và giây
-  const hours = parseInt(duration.match(/\d+H/) || 0);
-  const minutes = parseInt(duration.match(/\d+M/) || 0);
-  const seconds = parseInt(duration.match(/\d+S/) || 0);
+    // Tách phần giờ, phút và giây
+    const hours = parseInt(duration.match(/\d+H/) || 0);
+    const minutes = parseInt(duration.match(/\d+M/) || 0);
+    const seconds = parseInt(duration.match(/\d+S/) || 0);
 
-  // Chuyển đổi thành dạng hh:mm:ss
-  let formattedDuration;
-  if (hours > 0) {
-    formattedDuration = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
-  } else {
-    formattedDuration = `${pad(minutes)}:${pad(seconds)}`;
+    // Chuyển đổi thành dạng hh:mm:ss
+    let formattedDuration;
+    if (hours > 0) {
+      formattedDuration = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+    } else {
+      formattedDuration = `${pad(minutes)}:${pad(seconds)}`;
+    }
+
+    return formattedDuration;
   }
-
-  return formattedDuration;
 }
 function pad(number) {
   return (number < 10 ? '0' : '') + number;
 }
 
 export function convertViewCount(viewCount) {
-  if (viewCount >= 1000000000) {
+  if (viewCount && viewCount >= 1000000000) {
     return (viewCount / 1000000000).toFixed(1) + ' Tỉ';
   } else if (viewCount >= 1000000) {
     return (viewCount / 1000000).toFixed(1) + ' Tr';
@@ -61,4 +63,26 @@ export function calculateTimeDifference(isoDateString) {
   } else {
     return seconds + ' giây trước';
   }
+}
+
+// Danh sách các loại MIME được chấp nhận cho video
+const videoMimeTypes = [
+  'video/mp4',
+  'video/quicktime', // MOV
+  'video/ogg',
+  'video/webm',
+  'video/avi',
+  'video/x-msvideo',
+  'video/x-matroska', // MKV
+  'video/mpeg',
+  // Thêm các loại MIME video khác nếu cần
+];
+
+// Hàm tiện ích để kiểm tra xem tệp có phải là video không
+export function isVideoFile(file) {
+  if (!file) {
+    return false; // Nếu không có tệp, trả về false
+  }
+  // Kiểm tra xem loại MIME có nằm trong danh sách video hay không
+  return videoMimeTypes.includes(file.type);
 }

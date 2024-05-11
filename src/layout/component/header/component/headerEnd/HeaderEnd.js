@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
 import clsx from 'clsx';
 import { useHistory } from 'react-router-dom';
@@ -10,17 +10,24 @@ import icons, { Bell, CameraMovie, User, Live } from '~/public/assets/icons';
 import Button from '~/components/button/Button';
 import { Tooltip } from 'react-tooltip';
 import SettingPopup from '../SettingPopup';
-import Popup from '~/components/popup/Popup';
-import Item from '~/components/listItem/Item';
 
-import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
-import { auth, firestore } from '~/fireBase/FireBase';
-
-import { Box, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Paper } from '@mui/material';
+import {
+  Badge,
+  Box,
+  IconButton,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Paper,
+} from '@mui/material';
 
 import useClickOutside from '~/hooks/useClickOutside';
+import menuSettingArr from './MenuSettingArr';
+import { path } from '~/utils';
 
-function HeaderEnd({ isLoggedIn, userInfo, googleUserInfo }) {
+function HeaderEnd({ isLoggedIn, myChannelInfo }) {
   const history = useHistory();
   const [isShowSettingPopup, setIsShowSettingPopup] = useState(false);
   const [isShowUploadPopup, setIsShowUploadPopup] = useState(false);
@@ -31,28 +38,29 @@ function HeaderEnd({ isLoggedIn, userInfo, googleUserInfo }) {
   useClickOutside(settingIconRef, () => setIsShowSettingPopup(false));
   useClickOutside(uploadIconRef, () => setIsShowUploadPopup(false));
 
-  const handleLoginClick = (url) => {
-    history.push(url);
+  const handleRedirect = (path) => {
+    history.push(path);
   };
 
   return (
     <div className={clsx('flex-center-end', style.end)}>
       {isLoggedIn && (
         <>
-          <div
+          <Box
+            sx={{ marginRight: '8px', position: 'relative' }}
             ref={uploadIconRef}
-            className={clsx('img-40-round flex-center', style.button, 'cursor-pointer')}
             onClick={() => {
               setIsShowUploadPopup(!isShowUploadPopup);
             }}
           >
-            <div
+            <IconButton
               className={clsx(style.icon_shape)}
               data-tooltip-id="header_camera_icon_tooltip"
               data-tooltip-content="Tạo"
+              sx={{ color: 'text.primary' }}
             >
               <CameraMovie />
-            </div>
+            </IconButton>
             {isShowUploadPopup && (
               <Box
                 sx={{
@@ -72,7 +80,7 @@ function HeaderEnd({ isLoggedIn, userInfo, googleUserInfo }) {
                 >
                   <List>
                     <ListItem disablePadding onClick={() => setIsShowUploadPopup(false)}>
-                      <ListItemButton>
+                      <ListItemButton onClick={() => handleRedirect(path.UPLOAD)}>
                         <ListItemIcon sx={{ minWidth: '0', mr: 2 }}>
                           <Box sx={{ height: '24px', width: '24px' }}>
                             <iconSidebars.YourVideo />
@@ -108,18 +116,16 @@ function HeaderEnd({ isLoggedIn, userInfo, googleUserInfo }) {
                 </Paper>
               </Box>
             )}
-          </div>
-
-          <div className={clsx('img-40-round  flex-center cursor-pointer', style.button)}>
-            <div
-              className={clsx(style.icon_shape)}
-              data-tooltip-id="header_bell_icon_tooltip"
-              data-tooltip-content="Thông báo"
-            >
+          </Box>
+          {/* <IconButton
+            data-tooltip-id="header_bell_icon_tooltip"
+            data-tooltip-content="Thông báo"
+            sx={{ marginRight: '8px', color: 'text.primary' }}
+          >
+            <Badge color="error" badgeContent={10} max={9} sx={{ '>.MuiBadge-badge': { fontSize: '1.2rem' } }}>
               <Bell />
-              <span>5</span>
-            </div>
-          </div>
+            </Badge>
+          </IconButton> */}
         </>
       )}
       <div className={clsx(style.setting)}>
@@ -133,17 +139,7 @@ function HeaderEnd({ isLoggedIn, userInfo, googleUserInfo }) {
           >
             {isLoggedIn ? (
               <div className={clsx(style.avatar)}>
-                <img
-                  className={clsx(style.img_avatar, 'img-36-round')}
-                  src={
-                    (userInfo &&
-                      userInfo?.items &&
-                      userInfo.items.length > 0 &&
-                      userInfo.items[0]?.snippet?.thumbnails?.default?.url) ||
-                    googleUserInfo.photoUrl
-                  }
-                  alt="avatar"
-                />
+                <img className={clsx(style.img_avatar, 'img-36-round')} src={myChannelInfo?.thumbnails} alt="avatar" />
                 {isShowSettingPopup && (
                   <Box
                     sx={{
@@ -153,7 +149,7 @@ function HeaderEnd({ isLoggedIn, userInfo, googleUserInfo }) {
                     }}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <SettingPopup setIsShow={setIsShowSettingPopup} />
+                    <SettingPopup dataList={menuSettingArr} setIsShow={setIsShowSettingPopup} />
                   </Box>
                 )}
               </div>
@@ -182,7 +178,7 @@ function HeaderEnd({ isLoggedIn, userInfo, googleUserInfo }) {
         </div>
       </div>
       {!isLoggedIn && (
-        <div className={clsx('flex-center-end', style.login)} onClick={() => handleLoginClick('/login')}>
+        <div className={clsx('flex-center-end', style.login)} onClick={() => handleRedirect('/login')}>
           <Button icon={<User />} text="Đăng Nhập" color="#085ED4" fs="14px" fw="500" />
         </div>
       )}
@@ -197,8 +193,7 @@ const mapStateToProps = (state) => {
   return {
     language: state.app.language,
     isLoggedIn: state.user.isLoggedIn,
-    userInfo: state.user.userInfo,
-    googleUserInfo: state.user.googleUserInfo,
+    myChannelInfo: state.video.myChannelInfo,
   };
 };
 

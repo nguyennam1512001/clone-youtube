@@ -1,7 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import 'react-toastify/dist/ReactToastify.css';
-
 import 'react-tooltip/dist/react-tooltip.css';
 import './styles/styles.scss';
 

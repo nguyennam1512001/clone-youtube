@@ -9,9 +9,17 @@ import style from './Watch.module.scss';
 import * as actions from '~/store/actions';
 import EndOfListObserver from '~/components/EndOfListObserver';
 import Spinner from '~/components/Spinner';
-import Button from '~/components/button/Button';
 import VideoList from './component/VideoList';
-import { calculateTimeDifference, convertTextToAnchor, convertViewCount } from '~/utils';
+import {
+  calculateTimeDifference,
+  convertTextToAnchor,
+  convertViewCount,
+  extractHashtags,
+  extractTextAfterDash,
+  extractTextAfterPipe,
+  extractFirstThreeWords,
+  path,
+} from '~/utils';
 import Action from './component/Actions/Action';
 import { Chip, Box, Paper, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import { Bell, UnSubscribe } from '~/public/assets/icons';
@@ -20,16 +28,16 @@ import Comment from './component/Comments/Comment';
 
 function Watch({
   isLoggedIn,
-  videosInfo,
   watchVideoStart,
+  getVideoRelated,
   videoWatch,
-  setIsLoadingBar,
+  videoRelated,
   isSubscribed,
   checkChannelSubscribed,
   access_token,
   unSubscribeChannel,
-  message,
   subscribeChannel,
+  message,
 }) {
   const [maxResult, setMaxResult] = useState(20);
   const [expand, setExpand] = useState(false);
@@ -38,10 +46,10 @@ function Watch({
   const [isSpinner, setIsSpinner] = useState(false);
   const [isShowSubscribedPopup, setIsShowSubscribedPopup] = useState(false);
   const subcribedBtnRef = useRef(null);
-  // const [videoId, setVideoId] = useState(null);
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const videoId = queryParams.get('v');
+
   const chipArr = [
     {
       path: 'Tất cả',
@@ -49,7 +57,7 @@ function Watch({
     },
     {
       path: '',
-      text: `Của lẩu nhạc remix`,
+      text: `Của ${videoWatch[0] && videoWatch[0]?.snippet?.channelTitle}`,
     },
     {
       path: '',
@@ -68,79 +76,78 @@ function Watch({
       text: 'Đã xem',
     },
   ];
-  const channelId = videoWatch[0].snippet.channelId;
+  const channelId = videoWatch[0]?.snippet?.channelId;
+  useEffect(() => {
+    setIsSpinner(true);
+    watchVideoStart(videoId, access_token)
+      .then(() => {
+        setIsSpinner(false);
+      })
+      .catch((error) => {
+        setIsSpinner(false);
+        console.error('Error loading videos:', error);
+      });
+  }, [videoId]);
+
+  useEffect(() => {
+    fn_getListVideoRelated(videoWatch);
+    fn_getVideoDesc(videoWatch);
+  }, [videoWatch]);
+
+  useEffect(() => {
+    fn_getVideoDesc(videoWatch);
+  }, [expand, videoWatch]);
+
   useEffect(() => {
     if (videoWatch[0] && access_token) {
       checkChannelSubscribed(channelId, access_token);
     }
   }, [videoWatch, message]);
 
-  useEffect(() => {
-    if (videoWatch[0]) {
+  const fn_getListVideoRelated = (videoWatch) => {
+    if (videoWatch && videoWatch[0]) {
+      let title = videoWatch[0]?.snippet?.title;
+      let textPipe = extractTextAfterPipe(title);
+      let textDash = extractTextAfterDash(title);
+      let tags = extractHashtags(videoWatch[0]?.snippet?.description);
+      let text = extractFirstThreeWords(title);
+      let searchText = tags || textPipe || textDash || text;
+      getVideoRelated(searchText, maxResult);
+    }
+  };
+
+  const fn_getVideoDesc = (videoWatch) => {
+    if (videoWatch && videoWatch[0]) {
       const formattedText = convertTextToAnchor(videoWatch[0]?.snippet?.description);
       const container = document.getElementById('description_expander');
       if (container) {
-        container.innerHTML = formattedText; // Thêm nội dung mới vào container
-      } else {
-        console.error('Container element not found.');
+        container.innerHTML = formattedText; // Thêm nội dung mới vào description_expander
       }
     }
-  }, [expand, videoWatch]);
+  };
 
-  useEffect(() => {
-    // setIsSpinner(true);
-    // watchVideoStart(videoId)
-    //   .then(() => {
-    //     setIsSpinner(false);
-    //   })
-    //   .catch((error) => {
-    //     setIsSpinner(false);
-    //     console.error('Error loading videos:', error);
-    //   });
-  }, [videoId]);
-
-  useEffect(() => {
-    // setIsSpinner(true);
-    // setIsLoadingBar(true);
-    // getVideoStart(maxResult)
-    //   .then(() => {
-    //     setIsSpinner(false);
-    //     setIsLoadingBar(false);
-    //   })
-    //   .catch((error) => {
-    //     setIsLoadingBar(false);
-    //     setIsSpinner(false);
-    //     console.error('Error loading videos:', error);
-    //   });
-  }, [maxResult]);
-
-  // console.log(videoWatch);
   const handleEndOfListReached = () => {
     setMaxResult((prevMaxResult) => prevMaxResult + 10);
   };
-  const handleExpand = () => {
-    setExpand(true);
-  };
-  const handleClose = (e) => {
-    setExpand(false);
-    e.stopPropagation();
-  };
+
   const handleSubcriber = async () => {
     let id = videoWatch[0]?.snippet.channelId;
     if (access_token) {
       await subscribeChannel(id, access_token);
-      // checkChannelSubscribed(channelId, access_token);
+      checkChannelSubscribed(channelId, access_token);
     }
   };
   const handleUnSubscribe = async (channel) => {
     let id = channel.items[0].id;
     if (access_token) {
       await unSubscribeChannel(id, access_token);
-      // checkChannelSubscribed(channelId, access_token);
+      checkChannelSubscribed(channelId, access_token);
     }
     setIsShowSubscribedPopup(false);
   };
-
+  const handleRedirect = (url) => {
+    history.push(url);
+  };
   useClickOutside(subcribedBtnRef, () => setIsShowSubscribedPopup(false));
   return (
     <div className={clsx(style.page_container)}>
@@ -174,7 +181,10 @@ function Watch({
                 <div className={clsx('d-flex', style.top_row)}>
                   <div className={clsx(style.owner)}>
                     <div className={clsx('flex-align-center', style.byline_container)}>
-                      <div className={clsx('simple-endpoint', style.avatar_link)}>
+                      <div
+                        className={clsx('simple-endpoint', style.avatar_link)}
+                        onClick={() => handleRedirect(path.CHANNEL + '?id=' + videoWatch[0]?.snippet.channelId)}
+                      >
                         <div className={clsx('img-40-round', style.avatar)}>
                           <img className={clsx(style.avatar_img)} alt="channelImg" src={videoWatch[0]?.avatar} />
                         </div>
@@ -270,8 +280,11 @@ function Watch({
                         </Box>
                       ) : (
                         <Box
-                          sx={(theme) => ({ bgcolor: theme.palette.mode === 'light' ? '#0f0f0f' : '#f1f1f1' })}
-                          className={clsx(style.subscribe_btn)}
+                          sx={(theme) => ({
+                            bgcolor: theme.palette.mode === 'light' ? '#0f0f0f' : '#f1f1f1',
+                            borderRadius: '100px',
+                            height: 'fit-content',
+                          })}
                           onClick={handleSubcriber}
                         >
                           <Chip
@@ -296,7 +309,7 @@ function Watch({
                   </div>
                 </div>
                 <div className={clsx(style.bottom_row)}>
-                  <div className={clsx('cursor-pointer', style.description)} onClick={() => handleExpand()}>
+                  <div className={clsx('cursor-pointer', style.description)} onClick={() => setExpand(true)}>
                     <div className={clsx(style.description_inner)}>
                       <div className={clsx(style.info_container)}>
                         <div className={clsx('text-one-line text-md-6 d-flex', style.info)}>
@@ -313,7 +326,13 @@ function Watch({
                           <div style={{ backgroundColor: 'transparent' }} className={clsx(style.snippet_expand)}>
                             <span id="description_expander" className={clsx('text-md-4', style.snippet_text)}></span>
                           </div>
-                          <div className={clsx('text-md-5', style.expand)} onClick={(e) => handleClose(e)}>
+                          <div
+                            className={clsx('text-md-5', style.expand)}
+                            onClick={(e) => {
+                              setExpand(false);
+                              e.stopPropagation();
+                            }}
+                          >
                             Ẩn bớt
                           </div>
                         </div>
@@ -332,7 +351,7 @@ function Watch({
                 </div>
               </Box>
               <Box mr={2} className={clsx(style.comments)}>
-                <Comment videoWatch={videoWatch} />
+                <Comment videoId={videoWatch[0]?.id} />
               </Box>
             </div>
           </div>
@@ -345,7 +364,7 @@ function Watch({
         <div className={clsx(style.secondary)}>
           <div className={clsx(style.grid_renderer)}>
             <div className={clsx(style.header)}>
-              <div className={clsx(style.chat_container)}>
+              {/* <div className={clsx(style.chat_container)}>
                 <div className={clsx(style.chat)}>
                   <div className={clsx(style.show_hide_button)}>
                     <Button
@@ -357,18 +376,18 @@ function Watch({
                     />
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               <div className={clsx(style.chips_bar)}>
                 <div className={clsx(style.chips_wrapper)}>
                   <div className={clsx(style.chips_content)}>
-                    <ChipBar chipArr={chipArr} />
+                    <ChipBar chipArr={chipArr} watch={true} />
                   </div>
                 </div>
               </div>
             </div>
             <div className={clsx('w-100', style.contents)}>
-              <VideoList videoList={videosInfo} />
+              <VideoList videoList={videoRelated} itemHeight={'94px'} />
               <EndOfListObserver
                 onEndOfListReached={handleEndOfListReached}
                 setEndOfListReached={setEndOfListReached}
@@ -386,21 +405,21 @@ const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.user.isLoggedIn,
     access_token: state.user.access_token,
-    videosInfo: state.video.videosInfo,
     videoWatch: state.video.videoWatch,
     isSubscribed: state.video.isSubscribed,
     message: state.video.message,
+    videoRelated: state.video.videoRelated,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getVideoStart: (max) => dispatch(actions.getVideoStart(max)),
-    setIsLoadingBar: (value) => dispatch(actions.setIsLoadingBar(value)),
-    watchVideoStart: (value) => dispatch(actions.watchVideoStart(value)),
+    watchVideoStart: (value, access_token) => dispatch(actions.watchVideoStart(value, access_token)),
     checkChannelSubscribed: (channelId, token) => dispatch(actions.checkChannelSubscribed(channelId, token)),
     unSubscribeChannel: (channelId, token) => dispatch(actions.unSubscribeChannel(channelId, token)),
     subscribeChannel: (channelId, token) => dispatch(actions.subscribeChannel(channelId, token)),
+    getVideoRelated: (searchText, max) => dispatch(actions.getVideoRelated(searchText, max)),
   };
 };
 

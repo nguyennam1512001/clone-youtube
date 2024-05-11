@@ -1,10 +1,17 @@
 export const path = {
   HOMEPAGE: '/',
+  SHORTS: '/shorts',
+  WATCH: '/watch',
+  SEARCH: '/search',
   LOGIN: '/login',
   LOGOUT: '/logout',
-  SYSTEM: '/system',
-  DETAIL_DOCTOR: '/detail-doctor/:id',
-  SEARCH: '/search',
+  MANAGER: '/manager',
+  TRENDING: '/trending',
+  CHANNEL: '/channel',
+  MY_CHANNEL: '/my-channel',
+  // manager
+  OVERVIEW: '/manager/overview',
+  UPLOAD: '/manager/upload',
 };
 
 export const LANGUAGES = {
@@ -32,12 +39,22 @@ export const USER_ROLE = {
   PATIENT: 'R3',
 };
 
+// export const googleKey = {
+//   API_KEY: 'AIzaSyDjcs6U7KoMOPphJp6QuKlffm5DVHnPmfU',
+//   CLIENT_ID: '813216354966-07ct994sa840tfen59g97p1nb13m5rh2.apps.googleusercontent.com',
+//   CLIENT_SECRET: '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',
+//   REDIRECT_URI_LOGIN: 'http://localhost:3000/login',
+//   REDIRECT_URI_HOME: 'http://localhost:3000/',
+//   GOOGLE_TOKEN_ENDPOINT: 'https://oauth2.googleapis.com/token',
+//   REVOKE_TOKEN_ENDPOINT: 'https://oauth2.googleapis.com/revoke',
+// };
+
 export const googleKey = {
-  CLIENT_ID: '902006562581-99kf6ddm60h9p7utap0r4kaknn7evmov.apps.googleusercontent.com',
-  CLIENT_SECRET: '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',
+  API_KEY: 'AIzaSyAtNBN4BY-n1ft4dX0fwj52SNZUqU-0D9A',
+  CLIENT_ID: '387121722567-i93qnhhn8maoljnek0capa8s1ou49s4h.apps.googleusercontent.com',
+  CLIENT_SECRET: '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',
   REDIRECT_URI_LOGIN: 'http://localhost:3000/login',
   REDIRECT_URI_HOME: 'http://localhost:3000/',
   GOOGLE_TOKEN_ENDPOINT: 'https://oauth2.googleapis.com/token',
   REVOKE_TOKEN_ENDPOINT: 'https://oauth2.googleapis.com/revoke',
-  API_KEY: 'AIzaSyDBpl_EG20wgYBsHKzbRsh0fk7qG0Nh5cY',
 };

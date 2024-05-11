@@ -34,6 +34,10 @@ body {
     overflow-y            : overlay;
 }
 
+.font-antialiased {
+    -webkit-font-smoothing: antialiased;
+}
+
 button {
     background: transparent;
 }
@@ -132,8 +136,20 @@ body {
     font-size: 18px;
 }
 
+.modal-400 .modal-dialog {
+    max-width: 400px;
+}
+
+.modal-500 .modal-dialog {
+    max-width: 500px;
+}
+
 .modal-700 .modal-dialog {
     max-width: 712px;
+}
+
+.modal-960 .modal-dialog {
+    max-width: 960px;
 }
 
 //bootstrap

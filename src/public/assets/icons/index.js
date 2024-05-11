@@ -450,6 +450,27 @@ function DisLikeBold() {
   );
 }
 
+function Comment() {
+  return (
+    <WrapSvg>
+      <svg
+        viewBox="0 0 24 24"
+        preserveAspectRatio="xMidYMid meet"
+        focusable="false"
+        className="style-scope tp-yt-iron-icon"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <g width="24" height="24" viewBox="0 0 24 24" className="style-scope tp-yt-iron-icon">
+          <path
+            d="M8 7H16V9H8V7ZM8 13H13V11H8V13ZM5 3V16H15H15.41L15.7 16.29L19 19.59V3H5ZM4 2H20V22L15 17H4V2Z"
+            className="style-scope tp-yt-iron-icon"
+          ></path>
+        </g>
+      </svg>
+    </WrapSvg>
+  );
+}
+
 function CommentBold() {
   return (
     <WrapSvg>
@@ -566,6 +587,23 @@ function Filter() {
         style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
       >
         <path d="M15 17h6v1h-6v-1zm-4 0H3v1h8v2h1v-5h-1v2zm3-9h1V3h-1v2H3v1h11v2zm4-3v1h3V5h-3zM6 14h1V9H6v2H3v1h3v2zm4-2h11v-1H10v1z"></path>
+      </svg>
+    </WrapSvg>
+  );
+}
+function FilterList() {
+  return (
+    <WrapSvg>
+      <svg
+        viewBox="0 0 24 24"
+        preserveAspectRatio="xMidYMid meet"
+        focusable="false"
+        className="style-scope tp-yt-iron-icon"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <g className="style-scope tp-yt-iron-icon">
+          <path d="M21,6H3V5h18V6z M18,11H6v1h12V11z M15,17H9v1h6V17z" className="style-scope tp-yt-iron-icon"></path>
+        </g>
       </svg>
     </WrapSvg>
   );
@@ -718,6 +756,412 @@ function ArrowDropUpIcon() {
     </WrapSvg>
   );
 }
+
+function Edit() {
+  return (
+    <WrapSvg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        enableBackground="new 0 0 24 24"
+        height="24"
+        viewBox="0 0 24 24"
+        width="24"
+        focusable="false"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <path d="m14.06 7.6 2.34 2.34L6.34 20H4v-2.34L14.06 7.6m0-1.41L3 17.25V21h3.75L17.81 9.94l-3.75-3.75zm3.55-2.14 2.37 2.37-1.14 1.14-2.37-2.37 1.14-1.14m0-1.42-2.55 2.55 3.79 3.79 2.55-2.55-3.79-3.79z"></path>
+      </svg>
+    </WrapSvg>
+  );
+}
+
+function Trash() {
+  return (
+    <WrapSvg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        enableBackground="new 0 0 24 24"
+        height="24"
+        viewBox="0 0 24 24"
+        width="24"
+        focusable="false"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <path d="M11 17H9V8h2v9zm4-9h-2v9h2V8zm4-4v1h-1v16H6V5H5V4h4V3h6v1h4zm-2 1H7v15h10V5z"></path>
+      </svg>
+    </WrapSvg>
+  );
+}
+
+function OverView() {
+  return (
+    <WrapSvg>
+      <svg
+        viewBox="0 0 24 24"
+        preserveAspectRatio="xMidYMid meet"
+        focusable="false"
+        className="style-scope tp-yt-iron-icon"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <g width="24" height="24" viewBox="0 0 24 24" className="style-scope tp-yt-iron-icon">
+          <path
+            d="M10 16V20H4V16H10ZM11 15H3V21H11V15ZM20 4V8H14V4H20ZM21 3H13V9H21V3ZM3 3V13H11V3H3ZM10 12H4V4H10V12ZM13 11V21H21V11H13ZM20 20H14V12H20V20Z"
+            className="style-scope tp-yt-iron-icon"
+          ></path>
+        </g>
+      </svg>
+    </WrapSvg>
+  );
+}
+
+function OverViewBold() {
+  return (
+    <WrapSvg>
+      <svg
+        viewBox="0 0 24 24"
+        preserveAspectRatio="xMidYMid meet"
+        focusable="false"
+        className="style-scope tp-yt-iron-icon"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <g width="24" height="24" viewBox="0 0 24 24" className="style-scope tp-yt-iron-icon">
+          <path
+            d="M11 3H3V13H11V3ZM21 11H13V21H21V11ZM11 15H3V21H11V15ZM13 3V9H21V3H13Z"
+            className="style-scope tp-yt-iron-icon"
+          ></path>
+        </g>
+      </svg>
+    </WrapSvg>
+  );
+}
+
+function Analytics() {
+  return (
+    <WrapSvg>
+      <svg
+        viewBox="0 0 24 24"
+        preserveAspectRatio="xMidYMid meet"
+        focusable="false"
+        className="style-scope tp-yt-iron-icon"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <g width="24" height="24" viewBox="0 0 24 24" className="style-scope tp-yt-iron-icon">
+          <path
+            d="M9 17H7V10H9V17ZM13 7H11V17H13V7ZM17 14H15V17H17V14ZM20 4H4V20H20V4ZM21 3V21H3V3H21Z"
+            className="style-scope tp-yt-iron-icon"
+          ></path>
+        </g>
+      </svg>
+    </WrapSvg>
+  );
+}
+
+function AnalyticsBold() {
+  return (
+    <WrapSvg>
+      <svg
+        viewBox="0 0 24 24"
+        preserveAspectRatio="xMidYMid meet"
+        focusable="false"
+        className="style-scope tp-yt-iron-icon"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <g width="24" height="24" viewBox="0 0 24 24" className="style-scope tp-yt-iron-icon">
+          <path
+            d="M3 3V21H21V3H3ZM9 17H7V10H9V17ZM13 17H11V7H13V17ZM17 17H15V14H17V17Z"
+            className="style-scope tp-yt-iron-icon"
+          ></path>
+        </g>
+      </svg>
+    </WrapSvg>
+  );
+}
+
+function Translation() {
+  return (
+    <WrapSvg>
+      <svg
+        viewBox="0 0 24 24"
+        preserveAspectRatio="xMidYMid meet"
+        focusable="false"
+        className="style-scope tp-yt-iron-icon"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <g width="24" height="24" viewBox="0 0 24 24" className="style-scope tp-yt-iron-icon">
+          <path
+            d="M5 11H7V13H5V11ZM15 15H5V17H15V15ZM19 15H17V17H19V15ZM19 11H9V13H19V11ZM22 6H2V20H22V6ZM3 7H21V19H3V7Z"
+            className="style-scope tp-yt-iron-icon"
+          ></path>
+        </g>
+      </svg>
+    </WrapSvg>
+  );
+}
+
+function TranslationBold() {
+  return (
+    <WrapSvg>
+      <svg
+        viewBox="0 0 24 24"
+        preserveAspectRatio="xMidYMid meet"
+        focusable="false"
+        className="style-scope tp-yt-iron-icon"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <g width="24" height="24" viewBox="0 0 24 24" className="style-scope tp-yt-iron-icon">
+          <path
+            d="M2 6V20H22V6H2ZM5 11H7V13H5V11ZM15 17H5V15H15V17ZM19 17H17V15H19V17ZM19 13H9V11H19V13Z"
+            className="style-scope tp-yt-iron-icon"
+          ></path>
+        </g>
+      </svg>
+    </WrapSvg>
+  );
+}
+
+function Copyright() {
+  return (
+    <WrapSvg>
+      <svg
+        viewBox="0 0 24 24"
+        preserveAspectRatio="xMidYMid meet"
+        focusable="false"
+        className="style-scope tp-yt-iron-icon"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <g width="24" height="24" viewBox="0 0 24 24" className="style-scope tp-yt-iron-icon">
+          <path
+            d="M10.57 10.96C10.62 10.66 10.72 10.4 10.84 10.17C10.96 9.94 11.15 9.75 11.38 9.61C11.6 9.47 11.87 9.41 12.21 9.4C12.42 9.41 12.61 9.45 12.78 9.52C12.96 9.6 13.13 9.71 13.25 9.85C13.38 9.99 13.48 10.15 13.56 10.33C13.64 10.51 13.68 10.71 13.69 10.91L15.32 10.91C15.3 10.48 15.22 10.09 15.06 9.73C14.91 9.37 14.7 9.06 14.42 8.81C14.14 8.56 13.82 8.35 13.44 8.21C13.07 8.06 12.65 8 12.18 8C11.59 8 11.07 8.1 10.63 8.31C10.19 8.52 9.83 8.79 9.54 9.15C9.25 9.5 9.03 9.91 8.89 10.39C8.75 10.87 8.67 11.36 8.67 11.88L8.67 12.13C8.67 12.66 8.74 13.15 8.88 13.62C9.02 14.09 9.24 14.5 9.53 14.85C9.82 15.2 10.19 15.48 10.62 15.68C11.06 15.88 11.58 15.99 12.17 15.99C12.6 15.99 13 15.92 13.37 15.78C13.74 15.64 14.07 15.45 14.35 15.21C14.63 14.96 14.86 14.68 15.02 14.35C15.18 14.02 15.28 13.68 15.29 13.3L13.66 13.3C13.65 13.49 13.61 13.66 13.52 13.83C13.43 14 13.33 14.13 13.19 14.25C13.05 14.37 12.9 14.46 12.72 14.52C12.55 14.58 12.36 14.6 12.17 14.61C11.84 14.6 11.57 14.54 11.36 14.4C11.13 14.25 10.95 14.06 10.82 13.84C10.69 13.61 10.59 13.34 10.55 13.04C10.51 12.74 10.48 12.43 10.48 12.13L10.48 11.88C10.5 11.56 10.52 11.26 10.57 10.96ZM12 3C16.96 3 21 7.04 21 12C21 16.96 16.96 21 12 21C7.04 21 3 16.96 3 12C3 7.04 7.04 3 12 3ZM12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2Z"
+            className="style-scope tp-yt-iron-icon"
+          ></path>
+        </g>
+      </svg>
+    </WrapSvg>
+  );
+}
+
+function CopyrightBold() {
+  return (
+    <WrapSvg>
+      <svg
+        viewBox="0 0 24 24"
+        preserveAspectRatio="xMidYMid meet"
+        focusable="false"
+        className="style-scope tp-yt-iron-icon"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <g width="24" height="24" viewBox="0 0 24 24" className="style-scope tp-yt-iron-icon">
+          <path
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            d="M12 21.9998C17.5228 21.9998 22 17.5226 22 11.9998C22 6.47691 17.5228 1.99976 12 1.99976C6.47715 1.99976 2 6.47691 2 11.9998C2 17.5226 6.47715 21.9998 12 21.9998ZM10.8399 10.1698C10.7199 10.3998 10.6199 10.6598 10.5699 10.9598C10.5199 11.2598 10.4999 11.5598 10.4799 11.8798V12.1298C10.4799 12.4298 10.5099 12.7398 10.5499 13.0398C10.5899 13.3398 10.6899 13.6098 10.8199 13.8398C10.9499 14.0598 11.1299 14.2498 11.3599 14.3998C11.5699 14.5398 11.8399 14.5998 12.1699 14.6098C12.3599 14.5998 12.5499 14.5798 12.7199 14.5198C12.8999 14.4598 13.0499 14.3698 13.1899 14.2498C13.3299 14.1298 13.4299 13.9998 13.5199 13.8298C13.6099 13.6598 13.6499 13.4898 13.6599 13.2998H15.2899C15.2799 13.6798 15.1799 14.0198 15.0199 14.3498C14.8599 14.6798 14.6299 14.9598 14.3499 15.2098C14.0699 15.4498 13.7399 15.6398 13.3699 15.7798C12.9999 15.9198 12.5999 15.9898 12.1699 15.9898C11.5799 15.9898 11.0599 15.8798 10.6199 15.6798C10.1899 15.4798 9.81992 15.1998 9.52992 14.8498C9.23992 14.4998 9.01992 14.0898 8.87992 13.6198C8.73992 13.1498 8.66992 12.6598 8.66992 12.1298V11.8798C8.66992 11.3598 8.74992 10.8698 8.88992 10.3898C9.02992 9.90976 9.24992 9.49976 9.53992 9.14976C9.82992 8.78976 10.1899 8.51976 10.6299 8.30976C11.0699 8.09976 11.5899 7.99976 12.1799 7.99976C12.6499 7.99976 13.0699 8.05976 13.4399 8.20976C13.8199 8.34976 14.1399 8.55976 14.4199 8.80976C14.6999 9.05976 14.9099 9.36975 15.0599 9.72975C15.2199 10.0898 15.2999 10.4798 15.3199 10.9098H13.6899C13.6799 10.7098 13.6399 10.5098 13.5599 10.3298C13.4799 10.1498 13.3799 9.98976 13.2499 9.84976C13.1299 9.70976 12.9599 9.59976 12.7799 9.51976C12.6099 9.44976 12.4199 9.40976 12.2099 9.39976C11.8699 9.40976 11.5999 9.46976 11.3799 9.60976C11.1499 9.74976 10.9599 9.93976 10.8399 10.1698Z"
+            className="style-scope tp-yt-iron-icon"
+          ></path>
+        </g>
+      </svg>
+    </WrapSvg>
+  );
+}
+
+function Currency() {
+  return (
+    <WrapSvg>
+      <svg
+        viewBox="0 0 24 24"
+        preserveAspectRatio="xMidYMid meet"
+        focusable="false"
+        className="style-scope tp-yt-iron-icon"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <g width="24" height="24" viewBox="0 0 24 24" className="style-scope tp-yt-iron-icon">
+          <path
+            d="M8 7V10C8 10.55 8.45 11 9 11H15C16.1 11 17 11.9 17 13V17C17 18.1 16.1 19 15 19H13V21H11V19H7V18H15C15.55 18 16 17.55 16 17V13C16 12.45 15.55 12 15 12H9C7.9 12 7 11.1 7 10V7C7 5.9 7.9 5 9 5H11V3H13V5H17V6H9C8.45 6 8 6.45 8 7Z"
+            className="style-scope tp-yt-iron-icon"
+          ></path>
+        </g>
+      </svg>
+    </WrapSvg>
+  );
+}
+
+function CurrencyBold() {
+  return (
+    <WrapSvg>
+      <svg
+        viewBox="0 0 24 24"
+        preserveAspectRatio="xMidYMid meet"
+        focusable="false"
+        className="style-scope tp-yt-iron-icon"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <g width="24" height="24" viewBox="0 0 24 24" className="style-scope tp-yt-iron-icon">
+          <path
+            d="M9 7V11H15C16.1 11 17 11.9 17 13V17C17 18.1 16.1 19 15 19H13V21H11V19H7V17H15V13H9C7.9 13 7 12.1 7 11V7C7 5.9 7.9 5 9 5H11V3H13V5H17V7H9Z"
+            className="style-scope tp-yt-iron-icon"
+          ></path>
+        </g>
+      </svg>
+    </WrapSvg>
+  );
+}
+
+function EditPen() {
+  return (
+    <WrapSvg>
+      <svg
+        viewBox="0 0 24 24"
+        preserveAspectRatio="xMidYMid meet"
+        focusable="false"
+        className="style-scope tp-yt-iron-icon"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <g width="24" height="24" viewBox="0 0 24 24" className="style-scope tp-yt-iron-icon">
+          <path
+            d="M6.71 7.2L7.89 5.1L6.71 3L8.81 4.18L10.91 3L9.74 5.1L10.92 7.2L8.82 6.02L6.71 7.2ZM18.9 14.26L16.8 13.08L17.98 15.18L16.8 17.28L18.9 16.1L21 17.28L19.82 15.18L21 13.08L18.9 14.26ZM21 3L18.9 4.18L16.8 3L17.98 5.1L16.8 7.2L18.9 6.02L21 7.2L19.82 5.1L21 3ZM17.14 10.02L6.15 21L3 17.85L14 6.85L17.14 10.02ZM6.15 19.59L13.7 12.04L11.96 10.3L4.41 17.85L6.15 19.59Z"
+            className="style-scope tp-yt-iron-icon"
+          ></path>
+        </g>
+      </svg>
+    </WrapSvg>
+  );
+}
+
+function EditPenBold() {
+  return (
+    <WrapSvg>
+      <svg
+        viewBox="0 0 24 24"
+        preserveAspectRatio="xMidYMid meet"
+        focusable="false"
+        className="style-scope tp-yt-iron-icon"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <g width="24" height="24" viewBox="0 0 24 24" className="style-scope tp-yt-iron-icon">
+          <path
+            d="M8.81 6.03L10.91 7.21L9.74 5.1L10.91 3L8.81 4.18L6.71 3L7.89 5.1L6.71 7.2L8.81 6.03ZM18.9 14.26L16.8 13.08L17.98 15.18L16.8 17.28L18.9 16.1L21 17.28L19.82 15.18L21 13.08L18.9 14.26ZM21 3L18.9 4.18L16.8 3L17.98 5.1L16.8 7.2L18.9 6.02L21 7.2L19.82 5.1L21 3ZM17.14 10.02L14 6.85L3 17.85L6.15 21L17.14 10.02ZM13.72 12.06L11.94 10.28L13.99 8.23L15.77 10.01L13.72 12.06Z"
+            className="style-scope tp-yt-iron-icon"
+          ></path>
+        </g>
+      </svg>
+    </WrapSvg>
+  );
+}
+function LibraryMusic() {
+  return (
+    <WrapSvg>
+      <svg
+        viewBox="0 0 24 24"
+        preserveAspectRatio="xMidYMid meet"
+        focusable="false"
+        className="style-scope tp-yt-iron-icon"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <g width="24" height="24" viewBox="0 0 24 24" className="style-scope tp-yt-iron-icon">
+          <path
+            d="M16 6L16 8L14 8L14 13C14 14.1 13.1 15 12 15C10.9 15 10 14.1 10 13C10 11.9 10.9 11 12 11C12.37 11 12.7 11.11 13 11.28L13 6L16 6ZM18 20L4 20L4 6L3 6L3 21L18 21L18 20ZM21 3L6 3L6 18L21 18L21 3ZM7 4L20 4L20 17L7 17L7 4Z"
+            className="style-scope tp-yt-iron-icon"
+          ></path>
+        </g>
+      </svg>
+    </WrapSvg>
+  );
+}
+
+function LibraryMusicBold() {
+  return (
+    <WrapSvg>
+      <svg
+        viewBox="0 0 24 24"
+        preserveAspectRatio="xMidYMid meet"
+        focusable="false"
+        className="style-scope tp-yt-iron-icon"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <g width="24" height="24" viewBox="0 0 24 24" className="style-scope tp-yt-iron-icon">
+          <path
+            d="M18 21L3 21L3 6L4 6L4 20L18 20L18 21ZM21 3L21 18L6 18L6 3L21 3ZM16 6L13 6L13 11.28C12.7 11.11 12.37 11 12 11C10.9 11 10 11.9 10 13C10 14.1 10.9 15 12 15C13.1 15 14 14.1 14 13L14 8L16 8L16 6Z"
+            className="style-scope tp-yt-iron-icon"
+          ></path>
+        </g>
+      </svg>
+    </WrapSvg>
+  );
+}
+
+function Youtube() {
+  return (
+    <WrapSvg>
+      <svg
+        viewBox="0 0 24 24"
+        preserveAspectRatio="xMidYMid meet"
+        focusable="false"
+        className="style-scope tp-yt-iron-icon"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <g className="style-scope tp-yt-iron-icon">
+          <path
+            d="M10,9.35,15,12l-5,2.65ZM12,6a54.36,54.36,0,0,0-7.56.38A1.53,1.53,0,0,0,3.38,7.44,24.63,24.63,0,0,0,3,12a24.63,24.63,0,0,0,.38,4.56,1.53,1.53,0,0,0,1.06,1.06A54.36,54.36,0,0,0,12,18a54.36,54.36,0,0,0,7.56-.38,1.53,1.53,0,0,0,1.06-1.06A24.63,24.63,0,0,0,21,12a24.63,24.63,0,0,0-.38-4.56,1.53,1.53,0,0,0-1.06-1.06A54.36,54.36,0,0,0,12,6h0m0-1s6.25,0,7.81.42a2.51,2.51,0,0,1,1.77,1.77A25.87,25.87,0,0,1,22,12a25.87,25.87,0,0,1-.42,4.81,2.51,2.51,0,0,1-1.77,1.77C18.25,19,12,19,12,19s-6.25,0-7.81-.42a2.51,2.51,0,0,1-1.77-1.77A25.87,25.87,0,0,1,2,12a25.87,25.87,0,0,1,.42-4.81A2.51,2.51,0,0,1,4.19,5.42C5.75,5,12,5,12,5Z"
+            className="style-scope tp-yt-iron-icon"
+          ></path>
+        </g>
+      </svg>
+    </WrapSvg>
+  );
+}
+function Shorts() {
+  return (
+    <WrapSvg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        focusable="false"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <g>
+          <path
+            d="M17.77,10.32l-1.2-.5L18,9.06a3.74,3.74,0,0,0-3.5-6.62L6,6.94a3.74,3.74,0,0,0,.23,6.74l1.2.49L6,14.93a3.75,3.75,0,0,0,3.5,6.63l8.5-4.5a3.74,3.74,0,0,0-.23-6.74Z"
+            fill="red"
+          ></path>
+          <polygon points="10 14.65 15 12 10 9.35 10 14.65" fill="#fff"></polygon>
+        </g>
+      </svg>
+    </WrapSvg>
+  );
+}
+function Lock() {
+  return (
+    <WrapSvg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="16"
+        viewBox="0 0 16 16"
+        width="16"
+        focusable="false"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <path d="M11.33 4.09C11.33 2.38 9.84 1 8 1S4.67 2.38 4.67 4.09V5H3v10h10V5h-1.67v-.91zm-5.66 0C5.67 2.94 6.71 2 8 2s2.33.94 2.33 2.09V5H5.67v-.91zM12 6v8H4V6h8zm-6 4c0-1.1.9-2 2-2s2 .9 2 2-.9 2-2 2-2-.9-2-2z"></path>
+      </svg>
+    </WrapSvg>
+  );
+}
+function PlayList() {
+  return (
+    <WrapSvg>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        height="24"
+        viewBox="0 0 24 24"
+        width="24"
+        focusable="false"
+        style={{ pointerEvents: 'none', display: 'block', width: '100%', height: '100%' }}
+      >
+        <path d="M22 7H2v1h20V7zm-9 5H2v-1h11v1zm0 4H2v-1h11v1zm2 3v-8l7 4-7 4z"></path>
+      </svg>
+    </WrapSvg>
+  );
+}
 const icons = {
   search,
   closeSearchQuery,
@@ -727,6 +1171,12 @@ const icons = {
   // Thêm các biểu tượng khác vào đây
 };
 export {
+  PlayList,
+  Lock,
+  Youtube,
+  Shorts,
+  Trash,
+  Edit,
   ArrowDropDownIcon,
   ArrowDropUpIcon,
   MenuBar,
@@ -760,6 +1210,7 @@ export {
   LikeBold,
   DisLike,
   DisLikeBold,
+  Comment,
   CommentBold,
   Share,
   ShareBold,
@@ -767,11 +1218,27 @@ export {
   ArrowLeft,
   ArrowDown,
   Filter,
+  FilterList,
   WaitList,
   AddList,
   Download,
   Check,
   UnSubscribe,
   Sort,
+  // manager
+  OverView,
+  OverViewBold,
+  Analytics,
+  AnalyticsBold,
+  Translation,
+  TranslationBold,
+  Copyright,
+  CopyrightBold,
+  Currency,
+  CurrencyBold,
+  EditPen,
+  EditPenBold,
+  LibraryMusic,
+  LibraryMusicBold,
 };
 export default icons;

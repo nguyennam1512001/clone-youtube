@@ -6,12 +6,42 @@ import { Box, Button, Link, Stack } from '@mui/material';
 
 import { ArrowDropDownIcon, ArrowDropUpIcon, DisLike, DisLikeBold, Like, LikeBold, Menu } from '~/public/assets/icons';
 import * as actions from '~/store/actions';
-import { convertViewCount } from '~/utils';
+import { calculateTimeDifference, convertViewCount } from '~/utils';
+import Replist from './Replist';
+import InputCmt from './InputCmt';
+import useClickOutside from '~/hooks/useClickOutside';
+import MenuPopup from './MenuPopup';
 
-function CommentItem({ item, videoWatch, isLoggedIn, access_token }) {
-  console.log(videoWatch);
+function CommentItem({ item, totalReplyCount, replist, isRep, isLoggedIn, access_token }) {
   const [rating, setRating] = useState('none');
+  const [readMore, setReadMore] = useState(false);
   const [expander, setExpander] = useState(false);
+  const [isContentOverLimit, setIsContentOverLimit] = useState(false);
+  const [openInput, setOpenInput] = useState(false);
+  const [isShowMenuPopup, setIsShowMenuPopup] = useState(false);
+  const menuRef = useRef(null);
+  const contentRef = useRef(null);
+
+  useEffect(() => {
+    const contentElement = contentRef.current;
+    if (contentElement.scrollHeight > contentElement.clientHeight) {
+      // Nội dung đã bị ngắt dòng
+      setIsContentOverLimit(true);
+    } else {
+      setIsContentOverLimit(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    const contentText = document.getElementById(item.id);
+    const textDisplay = item.snippet.textDisplay;
+
+    if (contentText && textDisplay) {
+      const formattedText = formatFirstWord(textDisplay);
+      contentText.innerHTML = formattedText;
+    }
+  }, [item]);
+
   const handleLike = () => {
     if (rating === 'like') {
       setRating('none');
@@ -29,12 +59,46 @@ function CommentItem({ item, videoWatch, isLoggedIn, access_token }) {
   const handleExpander = () => {
     setExpander(!expander);
   };
+
+  function handleClickMenu(e, index) {
+    e.stopPropagation();
+    document.body.style.overflow = !isShowMenuPopup ? 'hidden' : 'auto';
+    // setIdItem(index);
+    setIsShowMenuPopup(!isShowMenuPopup);
+  }
+
+  const handleClickOutside = () => {
+    document.body.style.overflow = 'auto';
+    setIsShowMenuPopup(false);
+  };
+  useClickOutside(menuRef, handleClickOutside);
+
+  function formatFirstWord(str) {
+    const words = str.trim().split(' ');
+    // Kiểm tra xem từ đầu tiên có chứa @@
+    if (words.length > 0 && words[0].includes('@@')) {
+      const formattedFirstWord = words[0].replace(/(@{2,})/, '@');
+      words[0] = `<a href="/${formattedFirstWord}" style="color:#085ED4">${formattedFirstWord}</a>`;
+    }
+    return words.join(' ');
+  }
   return (
-    <Stack direction="column" justifyContent="flex-start">
-      <Stack direction="row" alignItems="flex-start" className="comment">
+    <Stack direction="column" justifyContent="flex-start" mb={isRep ? 0 : 2} sx={{ width: '100%' }}>
+      <Stack
+        direction="row"
+        alignItems="flex-start"
+        className="comment"
+        sx={{ '&:hover .action-menu': { display: 'Block' } }}
+      >
         <Box className="author-thumbnail" pr={2}>
-          <Link href="#" color="inherit" underline="none" sx={{}} className="bg-40-round">
-            <img src="" alt="" />
+          <Link
+            href="#"
+            color="inherit"
+            underline="none"
+            sx={{ display: 'flex' }}
+            className={isRep ? 'img-24-round' : 'img-40-round'}
+          >
+            <img src={item && item?.snippet?.authorProfileImageUrl} alt="img" />
           </Link>
         </Box>
 
@@ -52,18 +116,38 @@ function CommentItem({ item, videoWatch, isLoggedIn, access_token }) {
                 fontWeight: '600',
               }}
             >
-              @hoangyang1902
+              {item && item?.snippet?.authorDisplayName}
             </Link>
-            <span className="text-sm-4">&nbsp; 2 ngày trước</span>
+            <span className="text-sm-4">&nbsp; {calculateTimeDifference(item && item?.snippet?.updatedAt)}</span>
           </Stack>
           <Box
-            sx={{ cursor: 'text', whiteSpace: 'pre-wrap', color: 'text.primary' }}
+            ref={contentRef}
+            id={item.id}
+            sx={{
+              cursor: 'text',
+              whiteSpace: 'pre-wrap',
+              color: 'text.primary',
+              maxHeight: readMore ? 'auto' : '80px',
+              overflow: 'hidden',
+              display: readMore ? 'block' : '-webkit-box',
+              WebkitLineClamp: readMore ? 'initial' : 4,
+              WebkitBoxOrient: 'vertical',
+              textOverflow: readMore ? 'initial' : 'ellipsis',
+              wordWrap: 'break-word',
+              overflowWrap: 'break-word',
+            }}
             className="content-text text-md-4"
-          >
-            Video có một số chỗ bị miss sound do lỗi render team t3 kỹ thuật rất xin lỗi ae. Cái này chưa tìm ra nguyên
-            nhân. Bọn mình sẽ khắc phục ở các clip sau!
-          </Box>
-
+          ></Box>
+          {isContentOverLimit && (
+            <Box
+              onClick={() => setReadMore(!readMore)}
+              className="text-md-5 cursor-pointer"
+              sx={{ color: 'text.secondary', display: 'inline-block' }}
+              pt={0.5}
+            >
+              {readMore ? 'Ẩn bớt' : 'Đọc thêm'}
+            </Box>
+          )}
           <Stack direction="row" className="action-buttons" spacing={2} mt={1} ml={-1}>
             <Stack direction="row" alignItems="center">
               <Button
@@ -82,10 +166,9 @@ function CommentItem({ item, videoWatch, isLoggedIn, access_token }) {
                 </Box>
               </Button>
               <Box sx={{ color: 'text.secondary' }} className={clsx('text-one-line text-sm-4')}>
-                {/* {convertViewCount(
-                      rating === 'like' ? parseInt(item?.statistics.likeCount) + 1 : item?.statistics.likeCount,
-                    )} */}
-                5
+                {convertViewCount(
+                  rating === 'like' ? parseInt(item && item?.snippet?.likeCount) + 1 : item && item?.snippet?.likeCount,
+                )}
               </Box>
             </Stack>
 
@@ -118,38 +201,71 @@ function CommentItem({ item, videoWatch, isLoggedIn, access_token }) {
               }}
               variant="text"
               size="small"
+              onClick={() => setOpenInput(true)}
             >
               Phản hồi
             </Button>
           </Stack>
+          {openInput && <InputCmt item={item} setOpen={setOpenInput} imgSm={true} isRep={isRep} topCmt={true} />}
           <Box
-            sx={{ position: 'absolute', top: '12px', right: '12px', width: '40px', height: '24px' }}
+            onClick={(e) => handleClickMenu(e)}
+            ref={menuRef}
+            sx={{
+              display: isShowMenuPopup ? 'block' : 'none',
+              position: 'absolute',
+              top: '12px',
+              right: '12px',
+              width: '40px',
+              height: '24px',
+            }}
             className="action-menu cursor-pointer"
           >
             <Menu />
+            {isShowMenuPopup && (
+              <Box
+                onClick={(e) => e.stopPropagation()}
+                sx={{
+                  position: 'absolute',
+                  top: '100%',
+                  left: '0',
+                  zIndex: 1,
+                }}
+              >
+                <MenuPopup item={item} setIsShowMenuPopup={setIsShowMenuPopup} />
+              </Box>
+            )}
           </Box>
         </Box>
       </Stack>
-      <Box ml={6} sx={{}}>
-        <Button
-          variant="text"
-          size="large"
-          sx={{
-            fontSize: '1.4rem',
-            textTransform: 'unset',
-            color: '#085ED4',
-            height: '36px',
-            borderRadius: '100px',
-            '&:hover': { bgcolor: '#DFF1FE' },
-          }}
-          onClick={() => handleExpander()}
-          startIcon={
-            <Box sx={{ width: '24px', height: '24px' }}>{expander ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}</Box>
-          }
-        >
-          3 phản hồi
-        </Button>
-      </Box>
+      {totalReplyCount && totalReplyCount !== 0 ? (
+        <Box ml={6} sx={{}}>
+          <Button
+            variant="text"
+            size="large"
+            sx={{
+              fontSize: '1.4rem',
+              textTransform: 'unset',
+              color: '#085ED4',
+              height: '36px',
+              borderRadius: '100px',
+              '&:hover': { bgcolor: '#DFF1FE' },
+            }}
+            onClick={() => handleExpander()}
+            startIcon={
+              <Box sx={{ width: '24px', height: '24px' }}>{expander ? <ArrowDropUpIcon /> : <ArrowDropDownIcon />}</Box>
+            }
+          >
+            {totalReplyCount} phản hồi
+          </Button>
+        </Box>
+      ) : (
+        <></>
+      )}
+      {expander && (
+        <Box ml={7}>
+          <Replist itemParent={item} replist={replist} />
+        </Box>
+      )}
     </Stack>
   );
 }
@@ -158,16 +274,11 @@ const mapStateToProps = (state) => {
   return {
     isLoggedIn: state.user.isLoggedIn,
     access_token: state.user.access_token,
-    userInfo: state.user.userInfo,
-    googleUserInfo: state.user.googleUserInfo,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    getRate: (id, access_token) => dispatch(actions.getRate(id, access_token)),
-    postRate: (id, rating, access_token) => dispatch(actions.postRate(id, rating, access_token)),
-  };
+  return {};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CommentItem);

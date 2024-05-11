@@ -1,0 +1,44 @@
+@import'../../../../../styles/styles.scss';
+
+.popup_header {
+    .account_header {
+        border-bottom : 1px solid var(--yt-spec-10-percent-layer);
+        box-sizing    : border-box;
+        position      : relative;
+        padding       : 16px;
+        display       : flex;
+        flex-direction: row;
+
+        .account_avatar {
+            margin-right: 16px;
+        }
+
+        .account_container {
+            text-align: left;
+
+            .manage_account {
+                color     : #085ED4;
+                margin-top: 8px;
+            }
+        }
+    }
+}
+
+.popup_container {
+    overflow-y     : auto;
+    scrollbar-color: transparent transparent;
+    scrollbar-width: thin;
+
+    .sections {
+        .section_render {
+            border-bottom: 1px solid $--yt-spec-10-percent-layer;
+            padding      : 8px 0;
+
+            .items {
+                .item_link.m_16 {
+                    padding: 0 16px;
+                }
+            }
+        }
+    }
+}

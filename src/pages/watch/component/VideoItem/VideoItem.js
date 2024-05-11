@@ -11,11 +11,12 @@ import { convertDuration } from '~/utils';
 import Popup from '~/components/popup/Popup';
 import MenuPopup from '~/pages/search/component/MenuPopup';
 import Details from './component/Details';
+import { Box } from '@mui/material';
 
-function VideoItem({ item, index, idItem, setIdItem }) {
+function VideoItem({ item, index, idItem, setIdItem, itemHeight }) {
   const [isShowMenuPopup, setIsShowMenuPopup] = useState(false);
-  const history = useHistory();
   const btnRef = useRef(null);
+  const history = useHistory();
 
   function containsShorts(str) {
     // Kiểm tra xem chuỗi có chứa "#Short" hoặc "#Shorts" không
@@ -44,7 +45,7 @@ function VideoItem({ item, index, idItem, setIdItem }) {
   useClickOutside(btnRef, handleClickOutside);
 
   return (
-    <div className={clsx('w-100', style.item)} onClick={() => handleClickItem(item)}>
+    <Box height={itemHeight} className={clsx('w-100', style.item)} onClick={() => handleClickItem(item)}>
       <div className={clsx('flex-justify-center h-100', style.content)}>
         <div className={clsx('w-100 h-100', style.grid_media)}>
           <div className={clsx(style.thumbnail)}>
@@ -86,7 +87,7 @@ function VideoItem({ item, index, idItem, setIdItem }) {
           </div>
         </div>
       </div>
-    </div>
+    </Box>
   );
 }
 

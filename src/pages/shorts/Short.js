@@ -9,17 +9,27 @@ import style from './Short.module.scss';
 import * as actions from '~/store/actions';
 import Action from './component/Action';
 import { ArrowDown, ArrowUp } from '../../public/assets/icons';
+import { Box, Skeleton, Stack } from '@mui/material';
 
-function Short({ shortVideoStart, videosShort }) {
+function Short({ shortVideoStart, videosShort, firstShortVideo, setIsLoadingBar, isLoadingBar }) {
   const [maxResult, setMaxResult] = useState(5);
   const [oldSlide, setOldSlide] = useState(0);
   const [activeSlide, setActiveSlide] = useState(0);
   const sliderRef = useRef(null);
   const history = useHistory();
+  const [videoList, setVideoList] = useState(null);
+  const [fakes, setFake] = useState([1]);
 
   useEffect(() => {
-    // shortVideoStart(maxResult);
-  }, []);
+    shortVideoStart(maxResult);
+  }, [maxResult]);
+  useEffect(() => {
+    setVideoList(videosShort);
+    if (videosShort && firstShortVideo) {
+      const newList = [firstShortVideo, ...videosShort];
+      setVideoList(newList);
+    }
+  }, [videosShort]);
 
   const handleWheel = (e) => {
     // const delta = Math.sign(e.deltaY);
@@ -75,7 +85,7 @@ function Short({ shortVideoStart, videosShort }) {
       <div className={clsx(style.shorts_container)}>
         {activeSlide > 0 && (
           <div
-            className={clsx('center-flex cursor-pointer rounded-circle', style.prev_arrow)}
+            className={clsx('flex-center cursor-pointer rounded-circle', style.prev_arrow)}
             onClick={() => sliderRef.current.slickPrev()}
           >
             <div className={clsx(style.icon_shap)}>
@@ -95,8 +105,34 @@ function Short({ shortVideoStart, videosShort }) {
               overflowY: 'hidden',
             }}
           >
-            {videosShort &&
-              videosShort.map((item, index) => {
+            {' '}
+            {isLoadingBar &&
+              fakes.map((item, index) => (
+                <div className={clsx(style.short_video_render)} key={index}>
+                  <Stack
+                    direction={'row'}
+                    alignItems={'flex-end'}
+                    spacing={1}
+                    className={clsx(style.short_video_container)}
+                  >
+                    <div className={clsx(style.player_wrapper)}>
+                      <Skeleton variant="rounded" width={'100%'} height={'100%'} />
+                    </div>
+                    <Stack spacing={1} width={72} height={400}>
+                      <Skeleton variant="circular" width={40} height={40} />
+                      <Skeleton variant="circular" width={40} height={40} />
+                      <Skeleton variant="circular" width={40} height={40} />
+                      <Skeleton variant="circular" width={40} height={40} />
+                      <Skeleton variant="circular" width={40} height={40} />
+                      <Skeleton variant="circular" width={40} height={40} />
+                      <Skeleton variant="circular" width={40} height={40} />
+                    </Stack>
+                  </Stack>
+                </div>
+              ))}
+            {!isLoadingBar &&
+              videoList &&
+              videoList.map((item, index) => {
                 return (
                   <div className={clsx(style.short_video_render)} key={index}>
                     <div className={clsx(style.short_video_container)}>
@@ -122,7 +158,7 @@ function Short({ shortVideoStart, videosShort }) {
           </Slider>
         </div>
         <div
-          className={clsx('center-flex cursor-pointer rounded-circle', style.next_arrow)}
+          className={clsx('flex-center cursor-pointer rounded-circle', style.next_arrow)}
           onClick={() => sliderRef.current.slickNext()}
         >
           <div className={clsx(style.icon_shap)}>
@@ -141,12 +177,15 @@ const mapStateToProps = (state) => {
     isLoggedIn: state.user.isLoggedIn,
     videosInfo: state.video.videosInfo,
     videosShort: state.video.videosShort,
+    firstShortVideo: state.video.firstShortVideo,
+    isLoadingBar: state.video.isLoadingBar,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     shortVideoStart: (maxResult) => dispatch(actions.shortVideoStart(maxResult)),
+    setIsLoadingBar: (value) => dispatch(actions.setIsLoadingBar(value)),
   };
 };
 

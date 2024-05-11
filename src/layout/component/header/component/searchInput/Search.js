@@ -26,7 +26,7 @@ function Search({}) {
   const history = useHistory();
   const inputBoxRef = useRef(null);
 
-  async function getSearchVideo({ searchText }) {
+  async function getSearchVideo(searchText) {
     if (searchText && searchText.trim()) {
       try {
         let res = await getApi(
@@ -34,7 +34,6 @@ function Search({}) {
           googleKey.API_KEY,
         );
         if (res && res.data) {
-          console.log(res.data);
           setSearchResult(res.data);
         }
       } catch (error) {
@@ -110,9 +109,9 @@ function Search({}) {
                   onFocus={handleInputFocus}
                   onKeyDown={(e) => handleKeyPress(e)}
                 />
-                <div className={clsx(style.keyboard, 'cursor-pointer', { [style.pr_0]: searchText })}>
+                {/* <div className={clsx(style.keyboard, 'cursor-pointer', { [style.pr_0]: searchText })}>
                   <img src="https://www.gstatic.com/inputtools/images/tia.png" alt="" />
-                </div>
+                </div> */}
               </Box>
             </div>
             <div
@@ -145,7 +144,7 @@ function Search({}) {
           </div>
         </div>
       </div>
-      <div className={clsx('bg-40-round inline-flex-center', style.voice_search, 'cursor-pointer')}>
+      {/* <div className={clsx('bg-40-round inline-flex-center', style.voice_search, 'cursor-pointer')}>
         <div
           data-tooltip-id="search_voice_search_icon_tooltip"
           data-tooltip-content="Tìm kiếm bằng giọng nói"
@@ -160,7 +159,7 @@ function Search({}) {
           <img src={icons.voiceSearch} alt="" />
         </div>
         <SearchVoiceModal isShow={isShow} setIsShow={setIsShow} />
-      </div>
+      </div> */}
       <Tooltip arrowColor="transparent" id="search_voice_search_icon_tooltip" className="normal_tooltip" />
     </>
   );

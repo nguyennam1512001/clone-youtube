@@ -6,7 +6,7 @@ import { Tooltip } from 'react-tooltip';
 
 import { ChevronLeft, ChevronRight } from '../../public/assets/icons';
 import { Box, List, ListItem, ListItemButton, ListItemText } from '@mui/material';
-function ChipBar({ is_sidebar_mini, chipArr }) {
+function ChipBar({ is_sidebar_mini, chipArr, watch }) {
   const chips = useRef(null);
   const [isSelected, setIsSelected] = useState(0);
   const [showLeftArrow, setShowLeftArrow] = useState(false);
@@ -80,7 +80,13 @@ function ChipBar({ is_sidebar_mini, chipArr }) {
         </div>
       </div>
       <Box sx={{ bgcolor: 'bgcolor.default' }} className={clsx(style.scroll_container)}>
-        <List ref={chips} className={clsx(style.chips, 'nav-pills scroll_bar')}>
+        <List
+          ref={chips}
+          className={clsx(style.chips, 'nav-pills scroll_bar')}
+          sx={{
+            padding: watch ? 0 : undefined,
+          }}
+        >
           {chipArr &&
             chipArr.map((item, index) => (
               <ListItem

@@ -4,28 +4,59 @@ import { connect } from 'react-redux';
 import style from './Sidebar.module.scss';
 import * as actions from '~/store/actions';
 import Button from '~/components/button/Button';
-import { sidebarItems } from './sideBarItems';
 import clsx from 'clsx';
 import Footer from './Footer';
-import { NavLink, useHistory } from 'react-router-dom';
+import { NavLink, useHistory, useLocation } from 'react-router-dom';
 import HeaderStart from '../header/component/headerStart/HeaderStart';
 import { Box, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import axios from 'axios';
+import { path } from '~/utils';
 
-function SideBar({ is_sidebar_mini, is_sidebar_modal, changeSidebarMini, isLoggedIn }) {
-  const [pathname, setPathname] = useState('');
+function SideBar({
+  sidebarItems,
+  footer,
+  is_sidebar_mini,
+  is_sidebar_modal,
+  changeSidebarMini,
+  isLoggedIn,
+  access_token,
+}) {
   const history = useHistory();
-  const handleItemClick = (url) => {
-    setPathname(url);
-    history.push(url);
-  };
+  const [pathname, setPathname] = useState('');
+  const [subChannel, setSubChannel] = useState(null);
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const channelId = queryParams.get('id');
+
   useEffect(() => {
-    const pathname = window.location.pathname;
-    setPathname(pathname);
-  }, []);
+    setPathname(location.pathname);
+  }, [location]);
 
   const handleLoginClick = (url) => {
     history.push(url);
   };
+
+  useEffect(() => {
+    const fetchSubscriptions = async () => {
+      try {
+        const response = await axios.get('https://www.googleapis.com/youtube/v3/subscriptions', {
+          headers: {
+            Authorization: `Bearer ${access_token}`,
+          },
+          params: {
+            part: 'snippet,contentDetails',
+            mine: true,
+            maxResults: 10,
+          },
+        });
+
+        setSubChannel(response.data.items);
+      } catch (error) {
+        console.error('Lỗi khi lấy danh sách kênh đã đăng ký:', error);
+      }
+    };
+    fetchSubscriptions();
+  }, [access_token]);
 
   return (
     <Box
@@ -56,6 +87,81 @@ function SideBar({ is_sidebar_mini, is_sidebar_modal, changeSidebarMini, isLogge
                 <div className={clsx(style.sections)}>
                   {sidebarItems &&
                     sidebarItems.map((item, index) => {
+                      if (index === 2 && isLoggedIn && subChannel) {
+                        return (
+                          <div className={clsx(style.section_renderer)} key={index}>
+                            <ListItem disablePadding sx={{ width: 'calc(100% - 12px)' }}>
+                              <ListItemButton sx={{ height: '40px', borderRadius: '10px' }}>
+                                <ListItemText>
+                                  <Box
+                                    sx={{ color: 'text.primary' }}
+                                    className={clsx('text-one-line flex-align-center text-nomal-5')}
+                                  >
+                                    Kênh đăng ký
+                                  </Box>
+                                </ListItemText>
+                              </ListItemButton>
+                            </ListItem>
+                            {subChannel.map((subItem, subIndex) => {
+                              return (
+                                <div className={clsx(style.items)} key={subIndex}>
+                                  <ListItem
+                                    disablePadding
+                                    className={clsx(style.entry_renderer)}
+                                    sx={{
+                                      borderRadius: '10px',
+                                      width: 'calc(100% - 12px)',
+                                      bgcolor: channelId === subItem.snippet.resourceId.channelId ? '#f2f2f2' : '#fff',
+                                    }}
+                                  >
+                                    <NavLink
+                                      to={path.CHANNEL + '?id=' + subItem.snippet.resourceId.channelId}
+                                      // activeClassName={clsx(style.active)}
+                                      onClick={(e) => {
+                                        if (channelId === subItem.snippet.resourceId.channelId) {
+                                          e.preventDefault();
+                                        }
+                                      }}
+                                      className={clsx('flex-align-center simple-endpoint text-nomal-4', style.link)}
+                                    >
+                                      <ListItemIcon sx={{ minWidth: '48px' }}>
+                                        <Box
+                                          sx={{
+                                            width: '24px',
+                                            height: '24px',
+                                            color:
+                                              channelId === subItem.snippet.resourceId.channelId
+                                                ? '#CC0100'
+                                                : 'text.primary',
+                                          }}
+                                        >
+                                          <img
+                                            className={'img-24-round'}
+                                            src={subItem.snippet.thumbnails.default.url}
+                                            alt=""
+                                          />
+                                        </Box>
+                                      </ListItemIcon>
+                                      <ListItemText
+                                        sx={{
+                                          color:
+                                            channelId === subItem.snippet.resourceId.channelId
+                                              ? '#CC0100'
+                                              : 'text.primary',
+                                          '>.MuiTypography-root': { fontSize: '1.4rem' },
+                                        }}
+                                        className={clsx('text-one-line', style.text)}
+                                      >
+                                        {subItem.snippet.title}
+                                      </ListItemText>
+                                    </NavLink>
+                                  </ListItem>
+                                </div>
+                              );
+                            })}
+                          </div>
+                        );
+                      }
                       if (item.auth && isLoggedIn === false) {
                         return <React.Fragment key={index}></React.Fragment>;
                       } else {
@@ -111,8 +217,10 @@ function SideBar({ is_sidebar_mini, is_sidebar_modal, changeSidebarMini, isLogge
                                               exact={item.exact || true}
                                               to={item.path}
                                               activeClassName={clsx(style.active)}
-                                              onClick={() => {
-                                                handleItemClick(item.path);
+                                              onClick={(e) => {
+                                                if (pathname === item.path) {
+                                                  e.preventDefault();
+                                                }
                                               }}
                                               className={clsx(
                                                 'flex-align-center simple-endpoint text-nomal-4',
@@ -125,7 +233,7 @@ function SideBar({ is_sidebar_mini, is_sidebar_modal, changeSidebarMini, isLogge
                                                   sx={{
                                                     width: '24px',
                                                     height: '24px',
-                                                    color: 'icon.primary',
+                                                    color: pathname === item.path ? '#CC0100' : 'text.primary',
                                                   }}
                                                 >
                                                   {item.icon ? (
@@ -141,7 +249,7 @@ function SideBar({ is_sidebar_mini, is_sidebar_modal, changeSidebarMini, isLogge
                                               </ListItemIcon>
                                               <ListItemText
                                                 sx={{
-                                                  color: 'text.primary',
+                                                  color: pathname === item.path ? '#CC0100' : 'text.primary',
                                                   '>.MuiTypography-root': { fontSize: '1.4rem' },
                                                 }}
                                                 className={clsx('text-one-line', style.text)}
@@ -161,9 +269,11 @@ function SideBar({ is_sidebar_mini, is_sidebar_modal, changeSidebarMini, isLogge
                       }
                     })}
                 </div>
-                <div className={clsx(style.footer)}>
-                  <Footer />
-                </div>
+                {footer && (
+                  <div className={clsx(style.footer)}>
+                    <Footer />
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -178,6 +288,7 @@ const mapStateToProps = (state) => {
   return {
     language: state.app.language,
     isLoggedIn: state.user.isLoggedIn,
+    access_token: state.user.access_token,
     is_sidebar_mini: state.app.is_sidebar_mini,
     is_sidebar_modal: state.app.is_sidebar_modal,
   };

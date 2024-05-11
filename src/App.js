@@ -9,14 +9,29 @@ import { userIsAuthenticated, userIsNotAuthenticated } from './hoc/authenticatio
 import { path } from './utils';
 import AppRoutes from './routes/AppRoutes';
 import Container from './pages';
+import ContainerManager from './layout/managerLayout/ContainerManager';
 import Layout from './layout/defaultLayout';
+import ManagerLayout from './layout/managerLayout';
 import * as actions from '~/store/actions';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import getTheme from './utils/getTheme';
 import Login from './Auth/Login';
 import Logout from './Auth/Logout';
+import { Snackbar } from '@mui/material';
 
-const App = ({ persistor, onBeforeLift, isHidenSibarMini, changeSideBarModal, mode }) => {
+const App = ({
+  persistor,
+  onBeforeLift,
+  isHidenSibarMini,
+  changeSideBarModal,
+  mode,
+  message,
+  resetMessage,
+  setChannelInfo,
+  userInfo,
+  googleUserInfo,
+}) => {
+  const [open, setOpen] = useState(false);
   const defaultTheme = createTheme(getTheme(mode));
 
   const handlePersistorState = () => {
@@ -38,7 +53,29 @@ const App = ({ persistor, onBeforeLift, isHidenSibarMini, changeSideBarModal, mo
       changeSideBarModal(false);
     }
   };
+
+  const initChannelInfo = () => {
+    if (userInfo && userInfo?.items && userInfo?.items?.length > 0) {
+      setChannelInfo({
+        id: userInfo.items[0].id,
+        thumbnails: userInfo.items[0]?.snippet?.thumbnails?.medium?.url,
+        title: userInfo.items[0]?.snippet?.title,
+        customUrl: userInfo.items[0]?.snippet?.customUrl,
+        subscriberCount: userInfo.items[0]?.statistics?.subscriberCount,
+      });
+    } else if (!userInfo && !userInfo?.items && googleUserInfo) {
+      setChannelInfo({
+        id: '',
+        thumbnails: googleUserInfo.photoUrl,
+        title: googleUserInfo.displayName,
+        customUrl: googleUserInfo.email,
+        subscriberCount: '',
+      });
+    }
+  };
+
   useEffect(() => {
+    initChannelInfo();
     handlePersistorState();
     window.addEventListener('resize', handleResize);
 
@@ -51,6 +88,16 @@ const App = ({ persistor, onBeforeLift, isHidenSibarMini, changeSideBarModal, mo
     handleResize();
   }, [isHidenSibarMini]);
 
+  useEffect(() => {
+    if (message) {
+      setOpen(true);
+    }
+  }, [message]);
+
+  const handleClose = () => {
+    setOpen(false);
+    resetMessage();
+  };
   return (
     <Fragment>
       <ThemeProvider theme={defaultTheme}>
@@ -60,6 +107,14 @@ const App = ({ persistor, onBeforeLift, isHidenSibarMini, changeSideBarModal, mo
               <Switch>
                 <Route path={path.LOGIN} component={userIsNotAuthenticated(Login)} />
                 <Route path={path.LOGOUT} component={Logout} />
+                <Route
+                  path={path.MANAGER}
+                  component={userIsAuthenticated((props) => (
+                    <ManagerLayout {...props}>
+                      <ContainerManager {...props} />
+                    </ManagerLayout>
+                  ))}
+                />
                 <Route
                   path={path.HOMEPAGE}
                   render={(props) => (
@@ -82,6 +137,13 @@ const App = ({ persistor, onBeforeLift, isHidenSibarMini, changeSideBarModal, mo
               pauseOnHover
               theme="light"
             />
+            <Snackbar
+              sx={{ color: 'text.primary', fontSize: '16px', zIndex: 9999 }}
+              open={open}
+              autoHideDuration={3000}
+              onClose={handleClose}
+              message={message}
+            />
           </div>
         </Router>
       </ThemeProvider>
@@ -95,12 +157,18 @@ const mapStateToProps = (state) => {
     isLoggedIn: state.user.isLoggedIn,
     isHidenSibarMini: state.app.isHidenSibarMini,
     mode: state.app.mode,
+    message: state.video.message,
+    userInfo: state.user.userInfo,
+    googleUserInfo: state.user.googleUserInfo,
   };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
     changeSideBarModal: (isShow) => dispatch(actions.changeSideBarModal(isShow)),
+    resetMessage: () => dispatch(actions.resetMessage()),
+    setChannelInfo: (data) => dispatch(actions.setChannelInfo(data)),
+    setIsLoadingBar: (value) => dispatch(actions.setIsLoadingBar(value)),
   };
 };
 

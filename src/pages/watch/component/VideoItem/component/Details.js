@@ -7,13 +7,13 @@ import { Tooltip } from 'react-tooltip';
 import { Tick } from '~/public/assets/icons';
 import style from './Details.module.scss';
 import * as actions from '~/store/actions';
-import { convertViewCount, calculateTimeDifference } from '~/utils';
+import { convertViewCount, calculateTimeDifference, path } from '~/utils';
 
 function Details({ item, currentPage }) {
   const history = useHistory();
 
-  const handleClickItem = (item) => {
-    history.push('/watch?v=' + item.id);
+  const handleRedirect = (path) => {
+    history.push(path);
   };
 
   return (
@@ -27,7 +27,10 @@ function Details({ item, currentPage }) {
         <div className={clsx('d-flex flex-column mw-100', style.metadata)}>
           <div className={clsx('d-flex', style.byline_container)}>
             {currentPage === '/' && (
-              <div className={clsx('simple-endpoint', style.avatar_link)}>
+              <div
+                className={clsx('simple-endpoint', style.avatar_link)}
+                onClick={() => handleRedirect(path.CHANNEL + '?id=' + item?.snippet.channelId)}
+              >
                 <div className={clsx('img-36-round', style.avatar)}>
                   <img className={clsx(style.avatar_img)} alt="channelImg" src={item.avatar} />
                 </div>

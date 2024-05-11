@@ -34,7 +34,7 @@ function Action({ isLoggedIn, item, rate, postRate, access_token, getRate }) {
 
   useEffect(() => {
     if (access_token) {
-      getRate(item.id, access_token);
+      getRate(item?.id, access_token);
     }
   }, []);
 
@@ -146,7 +146,7 @@ function Action({ isLoggedIn, item, rate, postRate, access_token, getRate }) {
         </div>
         <ShareModal isOpen={openModalShare} handleClose={handleCloseModalShare} />
       </div>
-      <div className={clsx('flex-center', style.dowload_btn, style.actions_btn)}>
+      {/* <div className={clsx('flex-center', style.dowload_btn, style.actions_btn)}>
         <div className={clsx('flex-center cursor-pointer', style.btn_shape)}>
           <div
             className={clsx('flex-center simple-endpoint', style.icon_shape)}
@@ -155,22 +155,22 @@ function Action({ isLoggedIn, item, rate, postRate, access_token, getRate }) {
           >
             <div className={clsx(style.icon)}>
               <Download />
-              {/* <ShareBold /> */}
+              <ShareBold />
             </div>
           </div>
           <div className={clsx('text-one-line text-md-6', style.text)}>Tải xuống</div>
         </div>
-      </div>
-      <div className={clsx('flex-center', style.menu_btn, style.actions_btn)}>
+      </div> */}
+      {/* <div className={clsx('flex-center', style.menu_btn, style.actions_btn)}>
         <div className={clsx('flex-center cursor-pointer', style.btn_shape, style.menu)}>
           <div className={clsx('flex-center simple-endpoint', style.icon_shape)}>
             <div className={clsx(style.icon)}>
               <MenuHorizontal />
-              {/* <Menu/> */}
+              <Menu/>
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       {/* <div className={clsx(style.pivot_btn)} data-tooltip-id="short-action-icon" data-tooltip-content="Âm thanh gốc">
         <div className={clsx(style.img)}>
           <img src={item?.avatar} alt="channel" />
